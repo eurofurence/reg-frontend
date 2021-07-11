@@ -20,6 +20,7 @@
     "gatsby-plugin-sharp": "^3.3.1",
     "gatsby-source-filesystem": "^3.3.0",
     "gatsby-transformer-sharp": "^3.3.0",
+    "langmap": "0.0.16",
     "luxon": "^1.26.0",
     "observable-hooks": "^4.0.3",
     "partial.lenses": "^14.17.0",
@@ -35,6 +36,7 @@
     "rxjs": "^6.6.7"
   },
   "devDependencies": {
+    "@types/langmap": "0.0.1",
     "@types/luxon": "^1.26.4",
     "@types/ramda": "^0.27.40",
     "@types/react-helmet": "^6.1.1",

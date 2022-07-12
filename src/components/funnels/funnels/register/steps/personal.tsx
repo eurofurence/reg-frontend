@@ -58,19 +58,19 @@ const Personal = (_: RouteComponentProps) => {
 					/>
 				</Localized>
 			}/>
-			<Localized id="register-form-gender" attrs={{ legend: true }}>
-				<RadioSet name="gender" legend="Gender">
-					<Localized id="register-form-gender-male" attrs={{ label: true }}>
-						<RadioItem label="Male" value="male" {...register('gender')}/>
+			<Localized id="register-form-pronoun" attrs={{ legend: true }}>
+				<RadioSet name="pronoun" legend="pronoun">
+					<Localized id="register-form-pronoun-male" attrs={{ label: true }}>
+						<RadioItem label="He/Him" value="male" {...register('pronoun')}/>
 					</Localized>
-					<Localized id="register-form-gender-female" attrs={{ label: true }}>
-						<RadioItem label="Female" value="female" {...register('gender')}/>
+					<Localized id="register-form-pronoun-female" attrs={{ label: true }}>
+						<RadioItem label="She/Her" value="female" {...register('pronoun')}/>
 					</Localized>
-					<Localized id="register-form-gender-non-binary" attrs={{ label: true }}>
-						<RadioItem label="Non-binary" value="non-binary" {...register('gender')}/>
+					<Localized id="register-form-pronoun-non-binary" attrs={{ label: true }}>
+						<RadioItem label="They/Them" value="non-binary" {...register('pronoun')}/>
 					</Localized>
-					<Localized id="register-form-gender-prefer-not-to-say" attrs={{ label: true }}>
-						<RadioItem label="I prefer not to say" value="prefer-not-to-say" defaultChecked {...register('gender')}/>
+					<Localized id="register-form-pronoun-prefer-not-to-say" attrs={{ label: true }}>
+						<RadioItem label="I prefer not to say" value="prefer-not-to-say" defaultChecked {...register('pronoun')}/>
 					</Localized>
 				</RadioSet>
 			</Localized>

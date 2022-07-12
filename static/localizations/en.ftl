@@ -84,19 +84,19 @@ register-form-name-on-badge-nickname =
 register-form-name-on-badge-real-name-and-nickname =
   .label = Real name + nickname
 
-register-form-gender =
-  .legend = Gender
+register-form-pronoun =
+  .legend = Pronoun
 
-register-form-gender-male =
-  .label = Male
+register-form-pronoun-male =
+  .label = He/Him
 
-register-form-gender-female =
-  .label = Female
+register-form-pronoun-female =
+  .label = She/Her
 
-register-form-gender-non-binary =
-  .label = Non-binary
+register-form-pronoun-non-binary =
+  .label = They/Them
 
-register-form-gender-prefer-not-to-say =
+register-form-pronoun-prefer-not-to-say =
   .label = I prefer not to say
 
 register-form-accessibility =

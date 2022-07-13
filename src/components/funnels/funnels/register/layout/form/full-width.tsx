@@ -2,14 +2,14 @@
  * Layout for registration funnel pages that spans the full width of the page.
  */
 
-import { ReactNode } from 'react'
 import FullWidthFunnelLayout from '~/components/funnels/layout/full-width'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 import RegisterHeader from '../header'
 
 export interface FullWidthRegisterFunnelLayoutProps {
-	children: ReactNode
-	currentStep: number
-	onNext: () => void
+	readonly children: ReadonlyReactNode
+	readonly currentStep: number
+	readonly onNext: () => void
 }
 
 const FullWidthRegisterFunnelLayout = ({ children, currentStep, onNext }: FullWidthRegisterFunnelLayoutProps) =>

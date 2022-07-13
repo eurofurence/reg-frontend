@@ -34,6 +34,7 @@ const BreakfastAndTaxesNotice = styled.aside`
 	color: var(--color-grays-400);
 `
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const RoomCard = forwardRef(({ id, price, children, ...rest }: RoomCardProps, ref: ForwardedRef<HTMLInputElement>) =>
 	<RadioCard layout="side-by-side" value={id} ref={ref} {...rest}>
 		<Description><ReactMarkdown>{children}</ReactMarkdown></Description>
@@ -48,7 +49,7 @@ const RoomCard = forwardRef(({ id, price, children, ...rest }: RoomCardProps, re
 			</PriceLabelContainer>
 			<Price price={price}/>
 		</Footer>
-	</RadioCard>
+	</RadioCard>,
 )
 
 export default RoomCard

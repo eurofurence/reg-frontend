@@ -7,10 +7,11 @@ import { DateTime, Duration } from 'luxon'
 import brandImg from '~/images/brand.svg'
 import { NavBar, Display, Dropdown } from '@eurofurence/reg-component-library'
 import { useSiteMetadata } from '~/hooks/queries/site-metadata'
+import type { DeepReadonly } from 'ts-essentials'
 
 const CLOCK_UPDATE_DELAY = 1000
 
-const Clock = ({ timeRemaining }: { timeRemaining: Duration }) => <section id="clock" css={css`
+const Clock = ({ timeRemaining }: { readonly timeRemaining: DeepReadonly<Duration> }) => <section id="clock" css={css`
 	display: flex;
 
 	& > section:not(:first-of-type) {

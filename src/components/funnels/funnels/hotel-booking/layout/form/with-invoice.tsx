@@ -1,12 +1,12 @@
 import { Localized } from '@fluent/react'
-import { ReactNode } from 'react'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 import WithInvoiceFunnelLayout from '~/components/funnels/layout/with-invoice'
 import HotelBookingHeader from '../header'
 
 export interface WithInvoiceHotelBookingFunnelLayoutProps {
-	children: ReactNode
-	isFirstPage?: boolean
-	onNext: () => void
+	readonly children: ReadonlyReactNode
+	readonly isFirstPage?: boolean
+	readonly onNext: () => void
 }
 
 const WithInvoiceHotelBookingFunnelLayout = ({ children, isFirstPage, onNext }: WithInvoiceHotelBookingFunnelLayoutProps) => {
@@ -19,7 +19,7 @@ const WithInvoiceHotelBookingFunnelLayout = ({ children, isFirstPage, onNext }: 
 			onNext={onNext}
 			invoiceTitle="Your hotel room"
 			invoiceItems={[
-				{ amount: 5, name: 'Standard', unitPrice: 140, extra: 'August 11 - 15'},
+				{ amount: 5, name: 'Standard', unitPrice: 140, extra: 'August 11 - 15' },
 			]}
 		>
 			{children}

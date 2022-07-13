@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { TextArea, Form } from '@eurofurence/reg-component-library'
 import WithInvoiceHotelBookingFunnelLayout from '~/components/funnels/funnels/hotel-booking/layout/form/with-invoice'
 import { ChangeAdditionalInfo, SubmitAdditionalInfo } from '~/state/actions/hotel-booking'
 import { AdditionalInfo as AdditionalInfoModel } from '~/state/models/hotel-booking'
 import { useFunnelForm } from '~/hooks/funnels/form'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
-const AdditionalInfo = (_: RouteComponentProps) => {
+const AdditionalInfo = (_: ReadonlyRouteComponentProps) => {
 	const { register, handleSubmit } = useFunnelForm<AdditionalInfoModel>(ChangeAdditionalInfo, SubmitAdditionalInfo)
 
 	return <WithInvoiceHotelBookingFunnelLayout onNext={handleSubmit}>

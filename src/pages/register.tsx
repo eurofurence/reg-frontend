@@ -1,9 +1,9 @@
-import { RouteComponentProps } from '@reach/router'
 import { RegisterRouter } from '~/navigation/router'
 import Layout from '~/components/layout'
 import SEO from '~/components/seo'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
-const RegisterPage = (_: Readonly<RouteComponentProps>) => <Layout>
+const RegisterPage = (_: ReadonlyRouteComponentProps) => <Layout>
 	<SEO title="Register" />
 	{RegisterRouter()}
 </Layout>

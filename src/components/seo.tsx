@@ -1,24 +1,23 @@
 import { Helmet } from 'react-helmet'
-import { useStaticQuery, graphql } from 'gatsby'
 import { LanguageKey } from '~/localization'
+import { useSiteMetadata } from '~/hooks/queries/site-metadata'
 
-const SEO = ({ description = '', lang = 'en', meta = [], title }: { description?: string, lang?: LanguageKey, meta?: JSX.IntrinsicElements['meta'][], title: string }) => {
-	const { site } = useStaticQuery(
-		graphql`
-			query {
-				site {
-					siteMetadata {
-						title
-						description
-						author
-					}
-				}
-			}
-		`,
-	)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+const SEO = ({
+	description = '',
+	lang = 'en',
+	meta = [],
+	title,
+}: {
+	readonly description?: string
+	readonly lang?: LanguageKey
+	readonly meta?: JSX.IntrinsicElements['meta'][]
+	readonly title: string
+}) => {
+	const siteMetadata = useSiteMetadata()
 
-	const metaDescription = description || site.siteMetadata.description
-	const defaultTitle = site.siteMetadata?.title
+	const metaDescription = description || siteMetadata.description
+	const defaultTitle = siteMetadata.title
 
 	return (
 		<Helmet
@@ -50,7 +49,7 @@ const SEO = ({ description = '', lang = 'en', meta = [], title }: { description?
 				},
 				{
 					name: `twitter:creator`,
-					content: site.siteMetadata?.author || ``,
+					content: siteMetadata.author || ``,
 				},
 				{
 					name: `twitter:title`,

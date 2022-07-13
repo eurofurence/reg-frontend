@@ -3,16 +3,16 @@
  */
 
 import styled from '@emotion/styled'
-import { ReactNode } from 'react'
 import Invoice, { InvoiceItem } from '~/components/funnels/invoice/invoice'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 import CommonFunnelLayout from './common'
 
 export interface WithInvoiceFunnelLayoutProps {
-	readonly header?: ReactNode
-	readonly children: ReactNode
+	readonly header?: ReadonlyReactNode
+	readonly children: ReadonlyReactNode
 	readonly isFirstPage?: boolean
 	readonly invoiceTitle: string
-	readonly invoiceItems: InvoiceItem[]
+	readonly invoiceItems: readonly InvoiceItem[]
 	readonly onNext: () => void
 }
 

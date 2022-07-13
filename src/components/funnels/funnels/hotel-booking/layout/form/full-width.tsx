@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
 import FullWidthFunnelLayout from '~/components/funnels/layout/full-width'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 import HotelBookingHeader from '../header'
 
 export interface FullWidthHotelBookingFunnelLayoutProps {
-	children: ReactNode
-	isFirstPage?: boolean
-	onNext: () => void
+	readonly children: ReadonlyReactNode
+	readonly isFirstPage?: boolean
+	readonly onNext: () => void
 }
 
 const FullWidthHotelBookingFunnelLayout = ({ children, isFirstPage, onNext }: FullWidthHotelBookingFunnelLayoutProps) =>

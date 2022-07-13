@@ -5,12 +5,13 @@ import { RadioCard, RadioCardProps } from '@eurofurence/reg-component-library'
 import { DateTime } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import Price from '~/components/funnels/price'
+import type { DeepReadonly } from 'ts-essentials'
 
 export interface TicketLevelCardProps extends Omit<RadioCardProps, 'value'> {
 	readonly id: string
 	readonly price: number
 	readonly priceLabel: string
-	readonly expirationDate: DateTime
+	readonly expirationDate: DeepReadonly<DateTime>
 	readonly children: string
 }
 
@@ -32,6 +33,7 @@ const ExpirationNotice = styled.aside`
 	color: var(--color-grays-400);
 `
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const TicketLevelCard = forwardRef(({ id, price, priceLabel, expirationDate, children, ...rest }: TicketLevelCardProps, ref: ForwardedRef<HTMLInputElement>) =>
 	<RadioCard value={id} ref={ref} {...rest}>
 		<div><ReactMarkdown>{children}</ReactMarkdown></div>
@@ -44,7 +46,7 @@ const TicketLevelCard = forwardRef(({ id, price, priceLabel, expirationDate, chi
 			</PriceLabelContainer>
 			<Price price={price}/>
 		</Footer>
-	</RadioCard>
+	</RadioCard>,
 )
 
 export default TicketLevelCard

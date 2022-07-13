@@ -1,11 +1,11 @@
 import styled from '@emotion/styled'
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { RadioGroup, RadioCard } from '@eurofurence/reg-component-library'
 import FullWidthRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/full-width'
 import { TicketType as TicketTypeModel } from '~/state/models/register'
 import { ChangeTicketType, SubmitTicketType } from '~/state/actions/register'
 import { useFunnelForm } from '~/hooks/funnels/form'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
 const TicketTypeGrid = styled.div`
 	display: flex;
@@ -16,7 +16,7 @@ const TicketTypeGrid = styled.div`
 	}
 `
 
-const TicketType = (_: RouteComponentProps) => {
+const TicketType = (_: ReadonlyRouteComponentProps) => {
 	const { register, handleSubmit } = useFunnelForm<{ type: TicketTypeModel['type'] }>(ChangeTicketType, SubmitTicketType)
 
 	return <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={0}>

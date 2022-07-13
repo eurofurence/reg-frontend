@@ -2,12 +2,11 @@
 
 import styled from '@emotion/styled'
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { Card } from '@eurofurence/reg-component-library'
-import { useSiteMetadata } from '~/hooks/queries/site-metadata'
 import FullWidthHotelBookingFunnelLayout from '~/components/funnels/funnels/hotel-booking/layout/form/full-width'
 import { GuestInfo, GuestsInfo } from '~/state/models/hotel-booking'
 import { useAppSelector } from '~/hooks/redux'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
 const EmailContent = styled.dl`
 	display: grid;
@@ -64,8 +63,7 @@ Thank you in advance.
 Kind regards,
 ${guests[0].firstName} ${guests[0].lastName}`
 
-const Email = (_: RouteComponentProps) => {
-	const { } = useSiteMetadata()
+const Email = (_: ReadonlyRouteComponentProps) => {
 	const { guests } = useAppSelector(({ hotelBooking: { guestsInfo } }) => guestsInfo as GuestsInfo)
 
 	return <FullWidthHotelBookingFunnelLayout onNext={() => {}}>

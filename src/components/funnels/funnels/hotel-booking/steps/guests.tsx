@@ -2,15 +2,15 @@
 
 import { Fragment } from 'react'
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { TextField, Form } from '@eurofurence/reg-component-library'
 import WithInvoiceHotelBookingFunnelLayout from '~/components/funnels/funnels/hotel-booking/layout/form/with-invoice'
 import { ChangeGuestsInfo, SubmitGuestsInfo } from '~/state/actions/hotel-booking'
 import { GuestsInfo } from '~/state/models/hotel-booking'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import { range } from 'ramda'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
-const Guests = (_: RouteComponentProps) => {
+const Guests = (_: ReadonlyRouteComponentProps) => {
 	const { register, handleSubmit } = useFunnelForm<GuestsInfo>(ChangeGuestsInfo, SubmitGuestsInfo)
 
 	return <WithInvoiceHotelBookingFunnelLayout onNext={handleSubmit}>

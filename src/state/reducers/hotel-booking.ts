@@ -19,7 +19,7 @@ export default (state: HotelBookingState = {}, action: GetAction<AnyAppAction>):
 		case ChangeAdditionalInfo.type:
 			return { ...state, additionalInfo: action.payload }
 		case LoadAutosaveData.type:
-			return action.payload.hotelBooking ?? state
+			return action.payload.hotelBooking
 		default:
 			return state
 	}

@@ -5,7 +5,7 @@ import reducer from './reducers'
 import epic from './epics'
 
 export const configureStore = () => {
-	// eslint-disable-next-line no-underscore-dangle
+	// eslint-disable-next-line
 	const composeEnhancers = global.window && ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ as typeof compose) || compose
 
 	const epicMiddleware = createEpicMiddleware<GetAction<AnyAppAction>, GetAction<AnyAppAction>, AppState>()

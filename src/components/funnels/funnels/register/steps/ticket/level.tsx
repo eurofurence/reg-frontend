@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import { useMemo } from 'react'
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { Controller } from 'react-hook-form'
 import { DateTime } from 'luxon'
 import { RadioGroup, Select } from '@eurofurence/reg-component-library'
@@ -12,6 +11,7 @@ import FullWidthRegisterFunnelLayout from '~/components/funnels/funnels/register
 import { ChangeTicketLevel, SubmitTicketLevel } from '~/state/actions/register'
 import { TicketLevel as TicketLevelModel } from '~/state/models/register'
 import { useFunnelForm } from '~/hooks/funnels/form'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
 const TicketLevelSection = styled.section`
 	margin-top: 1.5em;
@@ -32,7 +32,7 @@ const AddonsContainer = styled.section`
 	margin-top: 4.5em;
 `
 
-const TicketLevel = (_: RouteComponentProps) => {
+const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 	const { register, control, handleSubmit } = useFunnelForm<TicketLevelModel>(ChangeTicketLevel, SubmitTicketLevel)
 	const { ticketLevels, tshirtSizes, registrationExpirationDate } = useSiteMetadata()
 
@@ -52,8 +52,10 @@ const TicketLevel = (_: RouteComponentProps) => {
 					<RadioGroup name="level">
 						{ticketLevels.map(({ id, price }) =>
 							<Localized key={id} id={`register-ticket-level-card-${id}`} attrs={{ label: true, priceLabel: true }}>
-								<TicketLevelCard id={id} price={price} expirationDate={expirationDate} label="Ticket level" priceLabel="A ticket" {...register('level')}>A ticket level</TicketLevelCard>
-							</Localized>
+								<TicketLevelCard id={id} price={price} expirationDate={expirationDate} label="Ticket level" priceLabel="A ticket" {...register('level')}>
+									A ticket level
+								</TicketLevelCard>
+							</Localized>,
 						)}
 					</RadioGroup>
 				</TicketLevelGrid>
@@ -66,7 +68,7 @@ const TicketLevel = (_: RouteComponentProps) => {
 					</Localized>
 					<Localized id="register-ticket-level-addons-item-tshirt" attrs={{ label: true, description: true, price: true }}>
 						<TicketLevelAddon label="T-Shirt" description="A t-shirt" price={20} {...register('addons.tshirt.selected')}>
-							<Controller name="addons.tshirt.size" control={control} render={({ field: { onChange, value, ref, ...field }}) =>
+							<Controller name="addons.tshirt.size" control={control} render={({ field: { onChange, value, ref, ...field } }) =>
 								<Localized id="register-ticket-level-addons-item-tshirt-option-size" attrs={{ label: true }}>
 									<Select
 										label="T-shirt size"

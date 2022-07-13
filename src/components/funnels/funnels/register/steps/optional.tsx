@@ -1,12 +1,12 @@
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { Checkbox, FieldSet, Form, TextArea } from '@eurofurence/reg-component-library'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
 import { OptionalInfo } from '~/state/models/register'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import { ChangeOptionalInfo, SubmitOptionalInfo } from '~/state/actions/register'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
-const Optional = (_: RouteComponentProps) => {
+const Optional = (_: ReadonlyRouteComponentProps) => {
 	const { register, handleSubmit } = useFunnelForm<OptionalInfo>(ChangeOptionalInfo, SubmitOptionalInfo)
 
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={4}>

@@ -15,15 +15,15 @@ const InvoiceCard = styled(Card)`
 `
 
 export interface InvoiceItem {
-	name: string
-	amount: number
-	unitPrice: number
-	extra?: string
+	readonly name: string
+	readonly amount: number
+	readonly unitPrice: number
+	readonly extra?: string
 }
 
 export interface InvoiceProps {
-	title: string
-	items: InvoiceItem[]
+	readonly title: string
+	readonly items: readonly InvoiceItem[]
 }
 
 const Invoice = ({ title, items }: InvoiceProps) =>
@@ -34,7 +34,7 @@ const Invoice = ({ title, items }: InvoiceProps) =>
 		<div>
 			<ul>
 				{items.map(({ amount, unitPrice, name, extra }) =>
-					<InvoiceItemComponent key={`${name}__${String(extra)}`} label={`${amount} x ${name}`} price={amount * unitPrice} extra={extra}/>
+					<InvoiceItemComponent key={`${name}__${String(extra)}`} label={`${amount} x ${name}`} price={amount * unitPrice} extra={extra}/>,
 				)}
 			</ul>
 		</div>

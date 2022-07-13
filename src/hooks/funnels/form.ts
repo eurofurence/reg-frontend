@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { UnpackNestedValue, DeepPartial, useForm, FieldValues } from 'react-hook-form'
+import { DeepPartial, useForm, FieldValues } from 'react-hook-form'
 import { useAppDispatch } from '~/hooks/redux'
 import { AnyAppAction } from '~/state/actions'
 import { AppActionBundle } from '~/state/actions/create-action'
@@ -11,19 +11,20 @@ import { AppActionBundle } from '~/state/actions/create-action'
  */
 export const useFunnelForm = <
 	T extends FieldValues,
->(ChangeAction: Extract<AnyAppAction, AppActionBundle<any, UnpackNestedValue<DeepPartial<T>>>>, SubmitAction: Extract<AnyAppAction, AppActionBundle<any, UnpackNestedValue<T>>>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+>(ChangeAction: Extract<AnyAppAction, AppActionBundle<any, DeepPartial<T>>>, SubmitAction: Extract<AnyAppAction, AppActionBundle<any, T>>) => {
 	const { watch, handleSubmit, ...methods } = useForm<T>()
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		const subscription = watch(data => dispatch(ChangeAction.create(data)))
+		const subscription = watch(formData => dispatch(ChangeAction.create(formData)))
 
 		return () => subscription.unsubscribe()
 	})
 
 	return {
-		handleSubmit: handleSubmit(data => dispatch(SubmitAction.create(data))),
+		handleSubmit: handleSubmit(formData => dispatch(SubmitAction.create(formData))),
 		watch,
-		...methods
+		...methods,
 	}
 }

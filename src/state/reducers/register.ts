@@ -27,7 +27,7 @@ export default (state: RegisterState = {}, action: GetAction<AnyAppAction>): Reg
 		case ChangePersonalInfo.type:
 			return { ...state, personalInfo: action.payload }
 		case LoadAutosaveData.type:
-			return action.payload.register ?? state
+			return action.payload.register
 		default:
 			return state
 	}

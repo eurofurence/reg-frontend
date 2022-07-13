@@ -1,13 +1,14 @@
 import styled from '@emotion/styled'
-import { forwardRef, ForwardedRef, ReactNode } from 'react'
+import { forwardRef, ForwardedRef } from 'react'
 import { Checkbox, CheckboxProps } from '@eurofurence/reg-component-library'
 import ReactMarkdown from 'react-markdown'
 import Price from '~/components/funnels/price'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 
 export interface TicketLevelAddonProps extends CheckboxProps {
 	readonly label: string
 	readonly description: string
-	readonly children?: ReactNode
+	readonly children?: ReadonlyReactNode
 	readonly price: number
 }
 
@@ -48,7 +49,7 @@ const OptionsContainer = styled.div`
 
 	font-family: Manrope;
 `
-
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const TicketLevelAddon = forwardRef(({ children, price, description, ...rest }: TicketLevelAddonProps, ref: ForwardedRef<HTMLInputElement>) =>
 	<Container>
 		<DescriptionContainer>
@@ -61,7 +62,7 @@ const TicketLevelAddon = forwardRef(({ children, price, description, ...rest }: 
 				{children}
 			</OptionsContainer>
 		</PriceContainer>
-	</Container>
+	</Container>,
 )
 
 export default TicketLevelAddon

@@ -7,11 +7,9 @@ import axios from 'axios'
 export type LanguageKey = 'en' | 'de'
 
 export const loadLanguage = async (langKey: LanguageKey): Promise<ReactLocalization> => {
-	const { data: ftl } = await axios.get(`/localizations/${langKey}.ftl`)
+	const { data: ftl } = await axios.get<string>(`/localizations/${langKey}.ftl`)
 
 	const resource = new FluentResource(ftl)
-
-	console.log('loading lang', langKey, 'resource', resource)
 
 	const bundle = new FluentBundle([langKey])
 

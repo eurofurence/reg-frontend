@@ -8,8 +8,9 @@ import '@eurofurence/reg-component-library/dist/index.css'
 import { loadLanguage, useCurrentLangKey } from '~/localization'
 import { from } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
+import type { DeepReadonly } from 'ts-essentials'
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { readonly children: DeepReadonly<React.ReactNode> }) => {
 	const langKey = useCurrentLangKey()
 	const localization$ = useObservable(langKey$ => langKey$.pipe(concatMap(([l]) => from(loadLanguage(l)))), [langKey])
 	const localization = useObservableState(localization$, new ReactLocalization([]))

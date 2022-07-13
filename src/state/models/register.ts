@@ -1,6 +1,6 @@
 export type TicketType
 	= { readonly type: 'full' }
-	| { readonly type: 'day'; readonly day: string }
+	| { readonly type: 'day', readonly day: string }
 
 export type TicketLevel = {
 	readonly level: 'standard' | 'sponsor' | 'super-sponsor'

@@ -4,12 +4,12 @@
  * of which the "back" button will be invisible if `isFirstPage` is true.
  */
 
-import { ReactNode } from 'react'
+import type { ReadonlyReactNode } from '~/util/readonly-types'
 import Footer from './footer'
 
 export interface CommonFunnelLayoutProps {
-	readonly children: ReactNode
-	readonly header?: ReactNode
+	readonly children: ReadonlyReactNode
+	readonly header?: ReadonlyReactNode
 	readonly isFirstPage?: boolean
 	readonly onNext: () => void
 }

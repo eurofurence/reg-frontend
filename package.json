@@ -7,6 +7,7 @@
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
+    "@eurofurence/reg-component-library": "^0.0.1",
     "@fluent/bundle": "^0.17.0",
     "@fluent/react": "^0.14.0",
     "axios": "^0.24.0",
@@ -44,7 +45,8 @@
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "babel-preset-gatsby": "^2.2.0",
-    "eslint": "^8.16.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-promise": "^6.0.0",
     "ts-essentials": "^9.0.0",
     "typescript": "^4.5.2"
   },
@@ -58,7 +60,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "lint": "eslint ./src/**/*.{ts,tsx}",
+    "lint": "eslint ./src",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {

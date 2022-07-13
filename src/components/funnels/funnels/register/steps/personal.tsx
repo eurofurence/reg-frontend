@@ -1,5 +1,4 @@
 import { Localized } from '@fluent/react'
-import { RouteComponentProps } from '@reach/router'
 import { Controller } from 'react-hook-form'
 import { Checkbox, FieldSet, TextField, RadioSet, RadioItem, Select, Form } from '@eurofurence/reg-component-library'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
@@ -8,6 +7,7 @@ import langMap from 'langmap'
 import { ChangePersonalInfo, SubmitPersonalInfo } from '~/state/actions/register'
 import { pluck } from 'ramda'
 import { useFunnelForm } from '~/hooks/funnels/form'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
 const languageOptions = [...Object.entries(langMap)]
 	.filter(([key]) => !key.includes('-'))
@@ -16,7 +16,7 @@ const languageOptions = [...Object.entries(langMap)]
 // Don't understand why react-select makes me do this manually but ok
 const languageOptionsByValue = new Map(languageOptions.map(l => [l.value, l]))
 
-const Personal = (_: RouteComponentProps) => {
+const Personal = (_: ReadonlyRouteComponentProps) => {
 	const { register, handleSubmit, control } = useFunnelForm<PersonalInfo>(ChangePersonalInfo, SubmitPersonalInfo)
 
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={2}>
@@ -46,14 +46,14 @@ const Personal = (_: RouteComponentProps) => {
 					</Localized>
 				</RadioSet>
 			</Localized>
-			<Controller control={control} name="spokenLanguages" render={({ field: { onChange, value, ref, ...field } }) =>
+			<Controller control={control} name="spokenLanguages" defaultValue={[]} render={({ field: { onChange, value, ref, ...field } }) =>
 				<Localized id="register-form-spoken-languages" attrs={{ label: true }}>
 					<Select
 						label="Spoken languages"
 						isMulti={true}
 						options={languageOptions}
 						onChange={langs => onChange(pluck('value', langs))}
-						value={value === undefined ? [] : value.map(lang => languageOptionsByValue.get(lang)!)}
+						value={value.map(lang => languageOptionsByValue.get(lang)!)}
 						{...field}
 					/>
 				</Localized>

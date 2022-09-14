@@ -122,26 +122,26 @@ hotel-booking-room-card-standard =
   The 27 sqm standard rooms offer luxurious living comfort.
   The rooms are additionally equipped with modern furnishings and spacious working & storage areas so as to best meet guests' needs.
 
-  .title = Standard room
+  .label = Standard room
 
 hotel-booking-room-card-deluxe =
   The deluxe rooms at the Estrel Hotel feature an impressive 34 sqm of modern living space.
   The contemporary furnishings and generous work spaces are specially designed to meet the needs of business travellers.
 
-  .title = Deluxe room
+  .label = Deluxe room
 
 hotel-booking-room-card-junior-suite =
   The spacious junior suites (49 to 55 sqm) offer separate living and sleeping areas and feature distinctive styles thanks
   to selected contemporary furnishings, colour accents and works of art.
 
-  .title = Junior suite
+  .label = Junior suite
 
 hotel-booking-room-card-deluxe-suite =
   Elegantly liveable and fully equipped, the executive suites with their 90 sqm of living space leave nothing to be desired.
   A separate living area with sofas and armchairs, a small bar area and a second TV screen in the bathroom create an upscale,
   welcoming atmosphere almost like home.
 
-  .title = Deluxe suite
+  .label = Deluxe suite
 
 footer-links-privacy-policy = Privacy policy
 

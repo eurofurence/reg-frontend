@@ -1,6 +1,7 @@
 const path = require('path')
 
 module.exports = {
+  pathPrefix: `/some-secret-path-must-replace/app`, // need to build with PREFIX_PATHS=true npm run build for this to have effect, also currently loads the bundles from /localizations
   siteMetadata: {
     title: `Eurofurence Registration`,
     description: `Eurofurence registration site.`,

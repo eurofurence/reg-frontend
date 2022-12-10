@@ -50,35 +50,7 @@ export const submitRegistration = (registrationInfo: RegistrationInfo) => ajax({
 	method: 'POST',
 	crossDomain: true,
 	withCredentials: true,
-	body: {
-		nickname: registrationInfo.personalInfo.nickname,
-		first_name: registrationInfo.personalInfo.firstName,
-		last_name: registrationInfo.personalInfo.lastName,
-		street: registrationInfo.contactInfo.street,
-		zip: registrationInfo.contactInfo.postalCode,
-		city: registrationInfo.contactInfo.city,
-		country: registrationInfo.contactInfo.country.toUpperCase(),
-		country_badge: registrationInfo.personalInfo.spokenLanguages[0].toUpperCase(),
-		email: registrationInfo.contactInfo.email,
-		phone: registrationInfo.contactInfo.phoneNumber,
-		// telegram: "string",
-		birthday: '1995-02-15',
-		gender: 'notprovided',
-		pronouns: registrationInfo.personalInfo.pronouns,
-		tshirt_size: registrationInfo.ticketLevel.addons.tshirt.size,
-		options: Object
-			.entries(registrationInfo.optionalInfo.notifications)
-			.filter(([, enabled]) => enabled)
-			.map(([id]) => ({
-				animation: 'anim',
-				art: 'art',
-				music: 'music',
-				fursuiting: 'suit',
-			}[id]))
-			.join(','),
-		packages: 'room-none,attendance,stage',
-		user_comments: registrationInfo.optionalInfo.comments,
-	},
+	body: attendeeDtoFromRegistrationInfo(registrationInfo),
 })
 
 /*
@@ -115,3 +87,59 @@ export const loadRegistration = (id: bigint) => ajax({
 	crossDomain: true,
 	withCredentials: true,
 })
+
+/*
+ * PUT /attendees/{id} overwrites the data for an attendee. Used during edit mode.
+ *
+ * id should come from the list returned by findMyRegistration. Then a 403, 404 should not occur.
+ *
+ * 400: This indicates a bug in this app because any validation errors should have been caught during field validation.
+ * The ErrorDto's details field will contain english language messages that describe the error in detail.
+ * It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ *
+ * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
+ *
+ * 409: this update would lead to a duplicate registration (same nickname + email + zip code). This error
+ * should be communicated to the user.
+ *
+ * 500: It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ */
+export const updateRegistration = (id: bigint, registrationInfo: RegistrationInfo) => ajax({
+	url: `${config.apis.attsrv.url}/attendees/${id}`,
+	method: 'PUT',
+	crossDomain: true,
+	withCredentials: true,
+	body: attendeeDtoFromRegistrationInfo(registrationInfo),
+})
+
+const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo) => {
+	return {
+		nickname: registrationInfo.personalInfo.nickname,
+		first_name: registrationInfo.personalInfo.firstName,
+		last_name: registrationInfo.personalInfo.lastName,
+		street: registrationInfo.contactInfo.street,
+		zip: registrationInfo.contactInfo.postalCode,
+		city: registrationInfo.contactInfo.city,
+		country: registrationInfo.contactInfo.country.toUpperCase(),
+		country_badge: registrationInfo.personalInfo.spokenLanguages[0].toUpperCase(),
+		email: registrationInfo.contactInfo.email,
+		phone: registrationInfo.contactInfo.phoneNumber,
+		// telegram: "string",
+		birthday: '1995-02-15',
+		gender: 'notprovided',
+		pronouns: registrationInfo.personalInfo.pronouns,
+		tshirt_size: registrationInfo.ticketLevel.addons.tshirt.size,
+		options: Object
+			.entries(registrationInfo.optionalInfo.notifications)
+			.filter(([, enabled]) => enabled)
+			.map(([id]) => ({
+				animation: 'anim',
+				art: 'art',
+				music: 'music',
+				fursuiting: 'suit',
+			}[id]))
+			.join(','),
+		packages: 'room-none,attendance,stage',
+		user_comments: registrationInfo.optionalInfo.comments,
+	}
+}

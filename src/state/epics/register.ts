@@ -31,7 +31,7 @@ export default combineEpics<GetAction<AnyAppAction>, GetAction<AnyAppAction>, Ap
 			catchError(err => {
 				if (err instanceof AjaxError) {
 					if (err.status === StatusCodes.UNAUTHORIZED) {
-						location.href = `${config.apis.authsrv.url}/auth?app_name=room-service`//&dropoff_url=${location.href}`
+						location.href = `${config.apis.authsrv.url}/auth?app_name=${config.apis.authsrv.appName}`//&dropoff_url=${location.href}`
 					}
 				}
 

@@ -3,6 +3,7 @@ import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/regist
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import styled from '@emotion/styled'
 import { useAppSelector } from '~/hooks/redux'
+import type { RegistrationStatus } from '~/state/models/register'
 import { getContactInfo, getOptionalInfo, getPersonalInfo, getStatus, isEditMode } from '~/state/selectors/register'
 import langmap from 'langmap'
 import { Link } from 'gatsby'
@@ -11,7 +12,6 @@ import { useCurrentLocale } from '~/localization'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import { Checkbox, ErrorMessage, Form } from '@eurofurence/reg-component-library'
 import config from '~/config'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 
 interface PropertyDefinition {
 	readonly id: string
@@ -85,6 +85,10 @@ const TermsForm = styled(Form)`
 	margin-top: 5em;
 `
 
+const StatusText = styled.p<{ readonly status: RegistrationStatus }>`
+	color: ${({ status }) => status === 'cancelled' ? 'var(--color-semantic-error)' : 'unset'};
+`
+
 const Section = ({ id: sectionId, editLink, properties }: SectionProps) => <SectionContainer>
 	<Localized id={`register-summary-section-${sectionId}-title`}><SectionTitle>{sectionId}</SectionTitle></Localized>
 	<Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>Edit information</Link></Localized>
@@ -116,10 +120,7 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 		<Localized id={`register-summary-title-${isEdit ? 'edit' : 'initial'}`}><h3>Your registration</h3></Localized>
 
 		<Localized id="register-summary-registration-status" vars={{ status }}>
-			<ReactMarkdown>
-				We have received your registration request and it is currently in review.
-				Keep an eye on your mailbox, we will notify you when your registration has been confirmed!
-			</ReactMarkdown>
+			<StatusText status={status}>We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!</StatusText>
 		</Localized>
 
 		<Section id="personal" editLink="/register/personal-info" properties={[

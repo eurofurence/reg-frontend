@@ -13,6 +13,7 @@ type ParseAddonOption<T> =
 /* eslint-enable @typescript-eslint/indent */
 
 export type RegistrationStatus =
+	| 'unsubmitted'
 	| 'new'
 	| 'approved'
 	| 'partially-paid'

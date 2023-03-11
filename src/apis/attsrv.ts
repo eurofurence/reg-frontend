@@ -122,8 +122,10 @@ const tshirtToApi = (frontendValue: string | null) => {
 	}
 }
 
+const nonEmpty = (v: string) => v !== ''
+
 const optionsToFlags = (options: Readonly<Record<string, boolean>>) => Object.entries(options).filter(last).map(head).join(',')
-const flagsToOptions = (flags: string) => Object.fromEntries(flags.split(',').filter(s => !(s === '')).map(k => [k, true] as const))
+const flagsToOptions = (flags: string) => Object.fromEntries(flags.split(',').filter(nonEmpty).map(k => [k, true] as const))
 
 // eslint-disable-next-line complexity
 const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): AttendeeDto => ({

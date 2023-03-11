@@ -31,7 +31,7 @@ const Grid = styled.div`
 	}
 
 	@media ${MediaQueries.laptop}, ${MediaQueries.desktop} {
-		grid-template-columns: auto max-content;
+		grid-template-columns: auto 254px;
 		gap: 111px;
 	}
 `

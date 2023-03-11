@@ -13,7 +13,6 @@ import { Link } from 'gatsby'
 
 const InvoiceCard = styled(Card)<{ readonly showOnMobile?: boolean }>`
 	@media ${MediaQueries.laptop}, ${MediaQueries.desktop} {
-		width: 254px;
 		align-self: start;
 	}
 

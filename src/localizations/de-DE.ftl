@@ -371,7 +371,7 @@ register-summary-section-personal-property-full-name-name = Vollständiger Name
 register-summary-section-personal-property-pronouns-name = Pronomen
 register-summary-section-personal-property-date-of-birth-name = Geburtstag
 register-summary-section-personal-property-spoken-languages-name = Beherrschte Sprachen
-register-summary-section-personal-property-wheelchair-accomodation-name = Rollstuhlunterbringung
+register-summary-section-personal-property-wheelchair-accomodation-name = Rollstuhl
 register-summary-section-contact-property-email-name = Email-Adresse
 register-summary-section-contact-property-phone-number-name = Telefonnummer
 register-summary-section-contact-property-street-name = Straße
@@ -571,7 +571,7 @@ funnel-error-report-message = {$category ->
 
 # General utility messages
 price = {$value ->
-   [0]     Free
+   [0]     Inkl.
   *[other] {NUMBER($value, minimumFractionDigits: 0)}
 }
 

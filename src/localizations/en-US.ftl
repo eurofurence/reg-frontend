@@ -358,6 +358,7 @@ register-summary-registration-status = { $status ->
   [paid] You're all set. See you at the convention!
   [checked-in] What are you doing looking at the registration system? Go have fun at the convention!
   [cancelled] Uh oh, your registration has been cancelled. You should have received an email explaining why. If you believe this is an error on our part, reply to that email.
+  [waiting] You are on the waiting list. Let's hope a place opens up for you!
 }
 
 register-summary-section-personal-title = Personal information

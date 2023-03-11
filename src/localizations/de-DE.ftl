@@ -358,6 +358,7 @@ register-summary-registration-status = { $status ->
   [paid] Du hast bezahlt. Wir sehen uns auf der Convention!
   [checked-in] Du bist auf der Convention angekommen. Wir wünschen Dir viel Spaß!
   [cancelled] Oh nein, deine Anmeldung wurde storniert. Du solltest eine Mail erhalten haben, warum das so ist. Wenn Du denkst, dass es sich um einen Fehler handelt, dann antworte einfach auf die Mail.
+  [waiting] Du bist auf der Warteliste. Hoffentlich wird noch ein Platz für Dich frei!
 }
 
 register-summary-section-personal-title = Deine Daten

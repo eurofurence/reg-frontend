@@ -25,22 +25,31 @@ interface SectionProps {
 	readonly properties: readonly PropertyDefinition[]
 }
 
-const SectionContainer = styled.section`
+const SectionContainer = styled.section<{ readonly status: RegistrationStatus }>`
 	display: grid;
 
-	@media not all and (min-width: 1050px) {
-		grid: "title" auto
-		      "edit" auto
-		      "spacer" 2em
-		      "props" auto
-		      / 1fr;
-	}
+	${({ status }) => status === 'cancelled'
+		? css`
+			grid: "title" auto
+			      "spacer" 2em
+			      "props" auto
+			      / 1fr;
+		`
+		: css`
+			@media not all and (min-width: 1050px) {
+				grid: "title" auto
+				      "edit" auto
+				      "spacer" 2em
+				      "props" auto
+				      / 1fr;
+			}
 
-	@media (min-width: 1050px) {
-		grid: "title title" auto
-		      "edit  props" auto
-		      / 273px auto;
-	}
+			@media (min-width: 1050px) {
+				grid: "title title" auto
+				      "edit  props" auto
+				      / 273px auto;
+			}
+		`}
 
 	&:not(:last-of-type) {
 		border-bottom: 1px solid var(--color-grays-200);
@@ -89,16 +98,20 @@ const StatusText = styled.p<{ readonly status: RegistrationStatus }>`
 	color: ${({ status }) => status === 'cancelled' ? 'var(--color-semantic-error)' : 'unset'};
 `
 
-const Section = ({ id: sectionId, editLink, properties }: SectionProps) => <SectionContainer>
-	<Localized id={`register-summary-section-${sectionId}-title`}><SectionTitle>{sectionId}</SectionTitle></Localized>
-	<Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>Edit information</Link></Localized>
-	<PropertyList>
-		{properties.map(({ id, value, wide = false }) => <Property key={id} wide={wide}>
-			<Localized id={`register-summary-section-${sectionId}-property-${id}-name`}><PropertyName>{id}</PropertyName></Localized>
-			<PropertyDescription>{value}</PropertyDescription>
-		</Property>)}
-	</PropertyList>
-</SectionContainer>
+const Section = ({ id: sectionId, editLink, properties }: SectionProps) => {
+	const status = useAppSelector(getStatus())!
+
+	return <SectionContainer status={status}>
+		<Localized id={`register-summary-section-${sectionId}-title`}><SectionTitle>{sectionId}</SectionTitle></Localized>
+		{status === 'cancelled' ? undefined : <Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>Edit information</Link></Localized>}
+		<PropertyList>
+			{properties.map(({ id, value, wide = false }) => <Property key={id} wide={wide}>
+				<Localized id={`register-summary-section-${sectionId}-property-${id}-name`}><PropertyName>{id}</PropertyName></Localized>
+				<PropertyDescription>{value}</PropertyDescription>
+			</Property>)}
+		</PropertyList>
+	</SectionContainer>
+}
 
 const Summary = (_: ReadonlyRouteComponentProps) => {
 	const personalInfo = useAppSelector(getPersonalInfo())!

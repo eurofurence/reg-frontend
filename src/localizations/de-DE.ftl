@@ -57,7 +57,7 @@ invoice-item-definition-register-ticket-addons-tshirt =
   .extra = {$size}
 
 invoice-item-definition-other =
-  .name = Other fees
+  .name = Sonstige
 
 invoice-total =
   .name = Summe
@@ -71,7 +71,7 @@ invoice-due =
 
 invoice-pay-button-credit-card = 💳 Mit KK zahlen
 
-invoice-unprocessed-payments = Your payment is being processed.
+invoice-unprocessed-payments = Deine Zahlung ist in Bearbeitung.
 
 
 # Common register messages
@@ -358,6 +358,7 @@ register-summary-registration-status = { $status ->
   [paid] Du hast bezahlt. Wir sehen uns auf der Convention!
   [checked-in] Du bist auf der Convention angekommen. Wir wünschen Dir viel Spaß!
   [cancelled] Oh nein, deine Anmeldung wurde storniert. Du solltest eine Mail erhalten haben, warum das so ist. Wenn Du denkst, dass es sich um einen Fehler handelt, dann antworte einfach auf die Mail.
+  [waiting] Du bist auf der Warteliste. Hoffentlich wird noch ein Platz für Dich frei!
 }
 
 register-summary-section-personal-title = Deine Daten
@@ -371,7 +372,7 @@ register-summary-section-personal-property-full-name-name = Vollständiger Name
 register-summary-section-personal-property-pronouns-name = Pronomen
 register-summary-section-personal-property-date-of-birth-name = Geburtstag
 register-summary-section-personal-property-spoken-languages-name = Beherrschte Sprachen
-register-summary-section-personal-property-wheelchair-accomodation-name = Rollstuhlunterbringung
+register-summary-section-personal-property-wheelchair-accomodation-name = Rollstuhl
 register-summary-section-contact-property-email-name = Email-Adresse
 register-summary-section-contact-property-phone-number-name = Telefonnummer
 register-summary-section-contact-property-street-name = Straße
@@ -571,7 +572,7 @@ funnel-error-report-message = {$category ->
 
 # General utility messages
 price = {$value ->
-   [0]     Free
+   [0]     Inkl.
   *[other] {NUMBER($value, minimumFractionDigits: 0)}
 }
 

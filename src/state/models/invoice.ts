@@ -34,7 +34,7 @@ export const buildInvoice = (items: readonly UncalculatedInvoiceItem[], { paid, 
 		const other = (paid ?? 0) + (due ?? 0) - totalPrice
 
 		return {
-			items: [...augmentedItems, { id: 'other', amount: 1, unitPrice: other, totalPrice: other }],
+			items: other === 0 ? augmentedItems : [...augmentedItems, { id: 'other', amount: 1, unitPrice: other, totalPrice: other }],
 			totalPrice: totalPrice + other,
 			paid,
 			due,

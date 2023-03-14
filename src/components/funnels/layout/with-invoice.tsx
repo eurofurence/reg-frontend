@@ -14,6 +14,7 @@ export interface WithInvoiceFunnelLayoutProps {
 	readonly children: ReadonlyReactNode
 	readonly isFirstPage?: boolean
 	readonly isLastPage?: boolean
+	readonly hideInvoice?: boolean
 	readonly invoiceTitle: string
 	readonly invoiceEditLink?: string
 	readonly invoice: Invoice
@@ -31,18 +32,36 @@ const Grid = styled.div`
 	}
 
 	@media ${MediaQueries.laptop}, ${MediaQueries.desktop} {
-		grid-template-columns: auto max-content;
+		grid-template-columns: auto 254px;
 		gap: 111px;
 	}
 `
 
-const WithInvoiceFunnelLayout = ({ children, onNext, invoiceTitle, invoiceEditLink, invoice, onPay, unprocessedPayments, isLastPage, ...passthroughProps }: WithInvoiceFunnelLayoutProps) =>
+const WithInvoiceFunnelLayout = ({
+	children,
+	isLastPage,
+	hideInvoice = false,
+	invoiceTitle,
+	invoiceEditLink,
+	invoice,
+	unprocessedPayments,
+	onNext,
+	onPay,
+	...passthroughProps
+}: WithInvoiceFunnelLayoutProps) =>
 	<StepFunnelLayout {...passthroughProps} onNext={onNext} isLastPage={isLastPage}>
 		<Grid>
 			<div>
 				{children}
 			</div>
-			<InvoiceComponent title={invoiceTitle} editLink={invoiceEditLink} invoice={invoice} showOnMobile={isLastPage} onPay={onPay} unprocessedPayments={unprocessedPayments}/>
+			{hideInvoice ? undefined : <InvoiceComponent
+				title={invoiceTitle}
+				editLink={invoiceEditLink}
+				invoice={invoice}
+				showOnMobile={isLastPage}
+				onPay={onPay}
+				unprocessedPayments={unprocessedPayments}
+			/>}
 		</Grid>
 	</StepFunnelLayout>
 

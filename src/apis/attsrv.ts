@@ -122,8 +122,10 @@ const tshirtToApi = (frontendValue: string | null) => {
 	}
 }
 
+const nonEmpty = (v: string) => v !== ''
+
 const optionsToFlags = (options: Readonly<Record<string, boolean>>) => Object.entries(options).filter(last).map(head).join(',')
-const flagsToOptions = (flags: string) => Object.fromEntries(flags.split(',').map(k => [k, true] as const))
+const flagsToOptions = (flags: string) => Object.fromEntries(flags.split(',').filter(nonEmpty).map(k => [k, true] as const))
 
 // eslint-disable-next-line complexity
 const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): AttendeeDto => ({
@@ -147,7 +149,7 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 	pronouns: registrationInfo.personalInfo.pronouns,
 	tshirt_size: tshirtToApi(registrationInfo.ticketLevel.addons.tshirt.options.size),
 	flags: optionsToFlags({
-		...flagsToOptions(registrationInfo.unknownFlags ?? ''),
+		...flagsToOptions(registrationInfo.originalFlags ?? ''),
 		hc: registrationInfo.personalInfo.wheelchair,
 		anon: !registrationInfo.personalInfo.fullNamePermission,
 		'digi-book': registrationInfo.optionalInfo.digitalConbook,
@@ -160,7 +162,7 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 		suit: registrationInfo.optionalInfo.notifications.fursuiting,
 	}),
 	packages: optionsToFlags({
-		...flagsToOptions(registrationInfo.unknownPackages ?? ''),
+		...flagsToOptions(registrationInfo.originalPackages ?? ''),
 		'room-none': true,
 		'attendance': registrationInfo.ticketType.type === 'full',
 		'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 7,
@@ -245,8 +247,8 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 				music: options.has('music'),
 			},
 		},
-		unknownFlags: attendeeDto.flags,
-		unknownPackages: attendeeDto.packages,
+		originalFlags: attendeeDto.flags,
+		originalPackages: attendeeDto.packages,
 	}
 }
 

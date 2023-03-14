@@ -4,16 +4,16 @@
  */
 
 import styled from '@emotion/styled'
-import { Button, Card, MediaQueries } from '@eurofurence/reg-component-library'
+import { Button, Card, MediaQueries, Spinner } from '@eurofurence/reg-component-library'
 import InvoiceItem from './item'
 import InvoiceTotalItem from './total-item'
 import { Localized } from '@fluent/react'
 import { Invoice as InvoiceModel } from '~/state/models/invoice'
 import { Link } from 'gatsby'
+import { useState } from 'react'
 
 const InvoiceCard = styled(Card)<{ readonly showOnMobile?: boolean }>`
 	@media ${MediaQueries.laptop}, ${MediaQueries.desktop} {
-		width: 254px;
 		align-self: start;
 	}
 
@@ -31,9 +31,11 @@ const EditLink = styled.p`
 	}
 `
 
-const PayButton = styled(Button)`
+const PayButton = styled(Button)<{ readonly paymentStarted: boolean }>`
 	margin-top: 1.5em;
 	width: 100%;
+	gap: 0.5em;
+	cursor: ${({ paymentStarted }) => paymentStarted ? 'wait' : 'pointer'};
 `
 
 const UnprocessedPayments = styled.p`
@@ -50,8 +52,15 @@ export interface InvoiceProps {
 }
 
 // eslint-disable-next-line complexity
-const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, unprocessedPayments = false }: InvoiceProps) =>
-	<InvoiceCard inverted={true} showOnMobile={showOnMobile}>
+const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, unprocessedPayments = false }: InvoiceProps) => {
+	const [paymentStarted, setPaymentStarted] = useState(false)
+
+	const pay = () => {
+		setPaymentStarted(true)
+		onPay!()
+	}
+
+	return <InvoiceCard inverted={true} showOnMobile={showOnMobile}>
 		<header>
 			<h1>{title}</h1>
 			{editLink === undefined ? undefined : <EditLink>
@@ -85,10 +94,16 @@ const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, unprocessedPay
 				? <Localized id="invoice-unprocessed-payments">
 					<UnprocessedPayments>Your payment is being processed.</UnprocessedPayments>
 				</Localized>
-				: <Localized id="invoice-pay-button-credit-card">
-					<PayButton variant="inverted-card" onClick={onPay}>Pay with CC</PayButton>
-				</Localized>}
+				: <PayButton variant="inverted-card" paymentStarted={paymentStarted} onClick={paymentStarted || onPay === undefined ? undefined : pay}>
+					{paymentStarted
+						? <>
+							<Spinner variant="inverted-card-button"/>
+							<Localized id="invoice-pay-button-loading">Laden...</Localized>
+						</>
+						: <Localized id="invoice-pay-button-credit-card">Pay with CC</Localized>}
+				</PayButton>}
 		</section>
 	</InvoiceCard>
+}
 
 export default Invoice

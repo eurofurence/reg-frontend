@@ -5,7 +5,7 @@ import { always } from 'ramda'
 import { AppState } from '~/state'
 import { nextPage } from './generators/next-page'
 import { SubmitForm } from '~/state/actions/forms'
-import { CheckCountdown, InitiatePayment, LoadRegistrationState, SetLocale } from '~/state/actions/register'
+import { CheckCountdown, InitiatePayment, LoadRegistrationState, SetLocale, ReloadRegistrationState } from '~/state/actions/register'
 import { findExistingRegistration, registrationCountdownCheck, submitRegistration, updateRegistration } from '~/apis/attsrv'
 import { navigate } from 'gatsby'
 import { getRegistrationId, getRegistrationInfo, isEditMode } from '~/state/selectors/register'
@@ -105,6 +105,36 @@ export default combineEpics<GetAction<AnyAppAction>, GetAction<AnyAppAction>, Ap
 				}
 			}),
 			catchAppError('registration-open-check'),
+		)),
+	),
+
+	// Reload registration and payment info because it may have changed
+	action$ => action$.pipe(
+		ofType(ReloadRegistrationState.type),
+		concatMap(() => findExistingRegistration().pipe(
+			concatMap(reg => {
+				if (reg === undefined) {
+					return EMPTY
+				} else if (includes(['new', 'waiting'] as const, reg.status)) {
+					return EMPTY
+				} else {
+					return findTransactionsForBadgeNumber(reg.id).pipe(
+						map(transactions => LoadRegistrationState.create({
+							isOpen: true,
+							registration: {
+								id: reg.id,
+								status: reg.status,
+								registrationInfo: reg.registrationInfo,
+								paymentInfo: {
+									paid: calculateTotalPaid(transactions) / 100,
+									due: calculateOutstandingDues(transactions) / 100, // TODO: Use big.js
+									unprocessedPayments: hasUnprocessedPayments(transactions),
+								},
+							},
+						})),
+					)
+				}
+			}),
 		)),
 	),
 

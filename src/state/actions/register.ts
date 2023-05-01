@@ -1,4 +1,3 @@
-
 import { Locale } from '~/localization'
 import { createAction } from './create-action'
 import { RegisterState } from '~/state/reducers/register'

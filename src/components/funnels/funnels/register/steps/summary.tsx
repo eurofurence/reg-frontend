@@ -2,7 +2,7 @@ import { Localized, useLocalization } from '@fluent/react'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import styled from '@emotion/styled'
-import { useAppDispatch, useAppSelector } from '~/hooks/redux'
+import { useAppSelector } from '~/hooks/redux'
 import type { RegistrationStatus } from '~/state/models/register'
 import { getContactInfo, getOptionalInfo, getPersonalInfo, getStatus, isEditMode } from '~/state/selectors/register'
 import langmap from 'langmap'
@@ -12,8 +12,6 @@ import { useCurrentLocale } from '~/localization'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import { Checkbox, ErrorMessage, Form } from '@eurofurence/reg-component-library'
 import config from '~/config'
-import { useEffect } from 'react'
-import { ReloadRegistrationState } from '~/state/actions/register'
 
 interface PropertyDefinition {
 	readonly id: string
@@ -124,13 +122,6 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	const locale = useCurrentLocale()
 	const { l10n } = useLocalization()
 	const { handleSubmit, register, formState: { errors } } = useFunnelForm('register-summary')
-	const dispatch = useAppDispatch()
-
-	useEffect(() => {
-		if (isEdit) {
-			dispatch(ReloadRegistrationState.create(undefined))
-		}
-	}, [])
 
 	const notificationNames = Object
 		.entries(optionalInfo.notifications)

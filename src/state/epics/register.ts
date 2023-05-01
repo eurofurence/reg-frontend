@@ -5,13 +5,13 @@ import { always } from 'ramda'
 import { AppState } from '~/state'
 import { nextPage } from './generators/next-page'
 import { SubmitForm } from '~/state/actions/forms'
-import { CheckCountdown, InitiatePayment, LoadRegistrationState, SetLocale, ReloadRegistrationState } from '~/state/actions/register'
+import { CheckCountdown, InitiatePayment, LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import { findExistingRegistration, registrationCountdownCheck, submitRegistration, updateRegistration } from '~/apis/attsrv'
 import { navigate } from 'gatsby'
 import { getRegistrationId, getRegistrationInfo, isEditMode } from '~/state/selectors/register'
 import { RegistrationInfo } from '~/state/models/register'
 import { justDo } from '~/state/epics/operators/just-do'
-import { EMPTY, of } from 'rxjs'
+import { EMPTY, of, concat } from 'rxjs'
 import { addHours, isBefore } from 'date-fns'
 import config from '~/config'
 import { calculateOutstandingDues, calculateTotalPaid, findTransactionsForBadgeNumber, hasUnprocessedPayments, initiateCreditCardPaymentOrUseExisting } from '~/apis/paysrv'
@@ -19,6 +19,49 @@ import { catchAppError } from './operators/catch-app-error'
 import { includes } from '~/util/includes'
 import { loadAutosave } from '../models/autosave'
 import { getDefaultLocale } from '~/localization'
+import { Navigate } from '../actions/navigation'
+
+const loadUnsubmittedRegistration = () =>
+	of(LoadRegistrationState.create({ isOpen: true, registration: { status: 'unsubmitted', registrationInfo: loadAutosave()?.registrationInfo ?? { } } }))
+
+const loadRegistration = () => findExistingRegistration().pipe(
+	concatMap(reg => {
+		if (reg === undefined) {
+			return loadUnsubmittedRegistration()
+		} else if (includes(['new', 'waiting'] as const, reg.status)) {
+			return of(LoadRegistrationState.create({ isOpen: true, registration: { id: reg.id, status: reg.status, registrationInfo: reg.registrationInfo } }))
+		} else {
+			return findTransactionsForBadgeNumber(reg.id).pipe(
+				map(transactions => LoadRegistrationState.create({
+					isOpen: true,
+					registration: {
+						id: reg.id,
+						status: reg.status,
+						registrationInfo: reg.registrationInfo,
+						paymentInfo: {
+							paid: calculateTotalPaid(transactions) / 100,
+							due: calculateOutstandingDues(transactions) / 100, // TODO: Use big.js
+							unprocessedPayments: hasUnprocessedPayments(transactions),
+						},
+					},
+				})),
+			)
+		}
+	}),
+)
+
+const loadRegistrationIfSafe = () => registrationCountdownCheck().pipe(
+	concatMap(result => {
+		if (result.response.countdown > 0) {
+			return of(LoadRegistrationState.create({ isOpen: false }))
+		} else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
+			return loadUnsubmittedRegistration()
+		} else {
+			return loadRegistration()
+		}
+	}),
+	catchAppError('registration-open-check'),
+)
 
 const nextPageOrSave = <T extends AnyAppAction>(actionBundle: T, pathProvider: (action: GetAction<T>) => string): Epic<GetAction<AnyAppAction>, GetAction<AnyAppAction>, AppState> =>
 	(action$, state$) => action$.pipe(
@@ -27,7 +70,7 @@ const nextPageOrSave = <T extends AnyAppAction>(actionBundle: T, pathProvider: (
 		concatMap(([action, state]) => {
 			if (isEditMode()(state)) {
 				return updateRegistration(getRegistrationId()(state)!, getRegistrationInfo()(state)! as RegistrationInfo).pipe(
-					justDo(() => navigate('/register/summary')),
+					concatMap(() => concat(loadRegistrationIfSafe(), of(Navigate.create('/register/summary')))),
 					catchAppError('registration-update'),
 				)
 			} else {
@@ -59,83 +102,16 @@ export default combineEpics<GetAction<AnyAppAction>, GetAction<AnyAppAction>, Ap
 			// then I can't selectively enable/disable browser negotiation for SSR...
 			// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 			return submitRegistration({ ...registrationInfo, preferredLocale: registrationInfo.preferredLocale ?? getDefaultLocale() } as RegistrationInfo).pipe(
-				justDo(() => navigate('/register/thank-you')),
+				map(() => Navigate.create('/register/thank-you')), // FIXME: Not sure if we should `loadRegistrationIfSafe` here too
 				catchAppError('registration-submission'),
 			)
 		}),
 	),
 
-	// Check if registrations are open and if and existing registration exists
+	// Check if registrations are open and if an existing registration exists
 	action$ => action$.pipe(
 		ofType(CheckCountdown.type),
-		concatMap(() => registrationCountdownCheck().pipe(
-			concatMap(result => {
-				const saveData = loadAutosave()
-
-				if (result.response.countdown > 0) {
-					return of(LoadRegistrationState.create({ isOpen: false }))
-				} else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
-					return of(LoadRegistrationState.create({ isOpen: true, registration: { status: 'unsubmitted', registrationInfo: saveData?.registrationInfo ?? { } } }))
-				} else {
-					return findExistingRegistration().pipe(
-						concatMap(reg => {
-							if (reg === undefined) {
-								return of(LoadRegistrationState.create({ isOpen: true, registration: { status: 'unsubmitted', registrationInfo: saveData?.registrationInfo ?? { } } }))
-							} else if (includes(['new', 'waiting'] as const, reg.status)) {
-								return of(LoadRegistrationState.create({ isOpen: true, registration: { id: reg.id, status: reg.status, registrationInfo: reg.registrationInfo } }))
-							} else {
-								return findTransactionsForBadgeNumber(reg.id).pipe(
-									map(transactions => LoadRegistrationState.create({
-										isOpen: true,
-										registration: {
-											id: reg.id,
-											status: reg.status,
-											registrationInfo: reg.registrationInfo,
-											paymentInfo: {
-												paid: calculateTotalPaid(transactions) / 100,
-												due: calculateOutstandingDues(transactions) / 100, // TODO: Use big.js
-												unprocessedPayments: hasUnprocessedPayments(transactions),
-											},
-										},
-									})),
-								)
-							}
-						}),
-					)
-				}
-			}),
-			catchAppError('registration-open-check'),
-		)),
-	),
-
-	// Reload registration and payment info because it may have changed
-	action$ => action$.pipe(
-		ofType(ReloadRegistrationState.type),
-		concatMap(() => findExistingRegistration().pipe(
-			concatMap(reg => {
-				if (reg === undefined) {
-					return EMPTY
-				} else if (includes(['new', 'waiting'] as const, reg.status)) {
-					return EMPTY
-				} else {
-					return findTransactionsForBadgeNumber(reg.id).pipe(
-						map(transactions => LoadRegistrationState.create({
-							isOpen: true,
-							registration: {
-								id: reg.id,
-								status: reg.status,
-								registrationInfo: reg.registrationInfo,
-								paymentInfo: {
-									paid: calculateTotalPaid(transactions) / 100,
-									due: calculateOutstandingDues(transactions) / 100, // TODO: Use big.js
-									unprocessedPayments: hasUnprocessedPayments(transactions),
-								},
-							},
-						})),
-					)
-				}
-			}),
-		)),
+		concatMap(() => loadRegistrationIfSafe()),
 	),
 
 	(action$, state$) => action$.pipe(

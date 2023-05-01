@@ -3,6 +3,7 @@ import { AutosaveAction } from './autosave'
 import { ErrorAction } from './errors'
 import { FormAction } from './forms'
 import { RegisterAction } from './register'
+import { NavigationAction } from './navigation'
 
 export type { GetAction } from './create-action'
 
@@ -12,3 +13,4 @@ export type AnyAppAction =
 	| ErrorAction
 	| FormAction
 	| RegisterAction
+	| NavigationAction

@@ -2,7 +2,7 @@ import { Registration, RegistrationInfo, TicketLevel, TicketType } from '~/state
 import { AnyAppAction, GetAction } from '~/state/actions'
 import type { DeepNonNullable } from 'ts-essentials'
 import { SubmitForm, SubmitFormActionBundle } from '~/state/actions/forms'
-import { LoadRegistrationState, ReloadRegistrationState, SetLocale } from '~/state/actions/register'
+import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
 
@@ -81,8 +81,6 @@ export default (state: RegisterState = defaultState, action: GetAction<AnyAppAct
 	switch (action.type) {
 		case LoadRegistrationState.type:
 			return { ...state, ...action.payload }
-		case ReloadRegistrationState.type:
-			return { ...state }
 		default:
 			return isOpen(state) ? { ...state, registration: registrationReducer(state.registration, action) } : state
 	}

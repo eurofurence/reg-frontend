@@ -1,4 +1,3 @@
-
 import { Locale } from '~/localization'
 import { createAction } from './create-action'
 import { RegisterState } from '~/state/reducers/register'
@@ -14,4 +13,4 @@ export type RegisterAction
 	| typeof LoadRegistrationState
 	| typeof InitiatePayment
 	| typeof SetLocale
-    | typeof ReloadRegistrationState
+	| typeof ReloadRegistrationState

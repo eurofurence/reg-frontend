@@ -361,6 +361,8 @@ register-summary-registration-status = { $status ->
   [waiting] Du bist auf der Warteliste. Hoffentlich wird noch ein Platz für Dich frei!
 }
 
+register-summary-registration-id = Badgenummer: {$registrationId}
+
 register-summary-section-personal-title = Deine Daten
 register-summary-section-contact-title = Kontaktdaten
 register-summary-section-optional-title = Optionale Informationen

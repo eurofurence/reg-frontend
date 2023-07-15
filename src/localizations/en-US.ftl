@@ -361,6 +361,8 @@ register-summary-registration-status = { $status ->
   [waiting] You are on the waiting list. Let's hope a place opens up for you!
 }
 
+register-summary-registration-id = Badge number: {$registrationId}
+
 register-summary-section-personal-title = Personal information
 register-summary-section-contact-title = Contact information
 register-summary-section-optional-title = Optional information

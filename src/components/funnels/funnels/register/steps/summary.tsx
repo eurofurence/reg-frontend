@@ -4,7 +4,7 @@ import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import styled from '@emotion/styled'
 import { useAppSelector } from '~/hooks/redux'
 import type { RegistrationStatus } from '~/state/models/register'
-import { getContactInfo, getOptionalInfo, getPersonalInfo, getStatus, isEditMode } from '~/state/selectors/register'
+import { getContactInfo, getOptionalInfo, getPersonalInfo, getRegistrationId, getStatus, isEditMode } from '~/state/selectors/register'
 import langmap from 'langmap'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
@@ -90,6 +90,19 @@ const PropertyName = styled.dt`
 const PropertyDescription = styled.dd`
 `
 
+const RegistrationId = styled.p`
+	font-family: Inter;
+	font-weight: 400;
+	font-size: 12px;
+
+	color: var(--color-grays-400);
+
+	&:not(:first-child) {
+		margin-top: 2em;
+	}
+}
+`
+
 const TermsForm = styled(Form)`
 	margin-top: 5em;
 `
@@ -113,7 +126,9 @@ const Section = ({ id: sectionId, editLink, properties }: SectionProps) => {
 	</SectionContainer>
 }
 
+// eslint-disable-next-line max-statements
 const Summary = (_: ReadonlyRouteComponentProps) => {
+	const registrationId = useAppSelector(getRegistrationId())!
 	const personalInfo = useAppSelector(getPersonalInfo())!
 	const contactInfo = useAppSelector(getContactInfo())!
 	const optionalInfo = useAppSelector(getOptionalInfo())!
@@ -134,6 +149,10 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 
 		<Localized id="register-summary-registration-status" vars={{ status }}>
 			<StatusText status={status}>We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!</StatusText>
+		</Localized>
+
+		<Localized id="register-summary-registration-id" vars={{ registrationId }}>
+			<RegistrationId>Badge number: {registrationId}</RegistrationId>
 		</Localized>
 
 		<Section id="personal" editLink="/register/personal-info" properties={[

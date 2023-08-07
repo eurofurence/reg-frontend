@@ -1,0 +1,58 @@
+name: Create and publish Docker image
+
+on:
+  push:
+    branches:
+      - 'issue-213-docker-build'
+
+jobs:
+  build-and-push-image:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@eurofurence'
+
+      - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: npm run build -- --no-uglify
+        shell: bash
+        env:
+          PATH_PREFIX: '/aN3nNFwFoi5QkyPaVJ54dDTDc6HrrCYGAL6U6GUuyV2uvvekgOxqYe6K2hur/app'
+          GATSBY_API_BASE_URL: '/aN3nNFwFoi5QkyPaVJ54dDTDc6HrrCYGAL6U6GUuyV2uvvekgOxqYe6K2hur'
+          PREFIX_PATHS: 'true'
+
+      - name: Log in to the Container registry
+        run: 'echo "$REGISTRY_PASS" | docker login "$REGISTRY" -u "$REGISTRY_USER" --password-stdin'
+        shell: bash
+        env:
+          REGISTRY: 'ghcr.io'
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker build and push image
+        run: >
+          TAG_ARGS=$(echo -n "$IMAGE_TAGS" | sed -r "s_([^ :/]+)_ --tag $REGISTRY/$IMAGE_NAME:\1 _g") &&
+          docker build
+          --label org.opencontainers.image.url="$FULL_REPO_URL"
+          --label org.opencontainers.image.revision="$COMMIT_HASH"
+          $TAG_ARGS
+          --pull
+          . &&
+          docker push -a "$REGISTRY/$IMAGE_NAME"
+        shell: bash
+        env:
+          REGISTRY: 'ghcr.io'
+          IMAGE_NAME: ${{ github.repository }}
+          IMAGE_TAGS: latest
+          FULL_REPO_URL: "https://github.com/${{ github.repository }}"
+          COMMIT_HASH: ${{ github.sha }}

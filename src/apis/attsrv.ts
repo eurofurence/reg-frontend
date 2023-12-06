@@ -165,10 +165,13 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 		...flagsToOptions(registrationInfo.originalPackages ?? ''),
 		'room-none': true,
 		'attendance': registrationInfo.ticketType.type === 'full',
-		'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 7,
-		'day-mon': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 1,
-		'day-tue': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 2,
+		// 'day-mon': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 1,
+		// 'day-tue': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 2,
 		'day-wed': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 3,
+		'day-thu': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 4,
+		'day-fri': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 5,
+		'day-sat': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 6,
+		// 'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 7,
 		'sponsor': registrationInfo.ticketLevel.level === 'sponsor',
 		'sponsor2': registrationInfo.ticketLevel.level === 'super-sponsor',
 		'stage': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
@@ -199,6 +202,9 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 					: packages.has('day-mon') ? days.find(d => d.weekday === 1)!
 					: packages.has('day-tue') ? days.find(d => d.weekday === 2)!
 					: packages.has('day-wed') ? days.find(d => d.weekday === 3)!
+					: packages.has('day-thu') ? days.find(d => d.weekday === 4)!
+					: packages.has('day-fri') ? days.find(d => d.weekday === 5)!
+					: packages.has('day-sat') ? days.find(d => d.weekday === 6)!
 					: days.find(d => d.weekday === 3)!, // FIXME: Cough
 			},
 		/* eslint-enable @typescript-eslint/indent */

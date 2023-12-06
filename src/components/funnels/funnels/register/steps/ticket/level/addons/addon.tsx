@@ -20,6 +20,7 @@ export interface TicketLevelAddonProps {
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 	const isIncluded = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].includes?.includes(addon.id) ?? false)
+	const isRequired = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].requires?.includes(addon.id) ?? false)
 
 	const { watch, register, setValue } = formContext
 	const level = watch('level')
@@ -39,7 +40,7 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 			label={addon.id}
 			description={addon.id}
 			price={isIncluded(level) ? 0 : addon.price}
-			disabled={isIncluded(level)}
+			disabled={isIncluded(level) || isRequired(level)}
 			{...register(`addons.${addon.id}.selected`)}
 		>
 			{Object.entries(addon.options).map(([id, option]) =>

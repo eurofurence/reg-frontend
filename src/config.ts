@@ -31,12 +31,14 @@ const config = checkConfig({
 				full: 120,
 				day: 70,
 			},
+			requires: ['stage-pass'],
 		},
 		'sponsor': {
 			prices: {
 				full: 200,
 				day: 150,
 			},
+			requires: ['stage-pass'],
 			includes: ['tshirt'],
 		},
 		'super-sponsor': {
@@ -44,6 +46,7 @@ const config = checkConfig({
 				full: 310,
 				day: 260,
 			},
+			requires: ['stage-pass'],
 			includes: ['tshirt'],
 		},
 	},

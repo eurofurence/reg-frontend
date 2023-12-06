@@ -38,6 +38,12 @@ const PayButton = styled(Button)<{ readonly paymentStarted: boolean }>`
 	cursor: ${({ paymentStarted }) => paymentStarted ? 'wait' : 'pointer'};
 `
 
+const SepaButton = styled(Button)`
+	margin-top: 1.5em;
+	width: 100%;
+	gap: 0.5em;
+`
+
 const UnprocessedPayments = styled.p`
 	text-align: center;
 `
@@ -48,16 +54,21 @@ export interface InvoiceProps {
 	readonly showOnMobile?: boolean
 	readonly editLink?: string
 	readonly onPay?: () => void
+	readonly onSepa?: () => void
 	readonly unprocessedPayments?: boolean
 }
 
 // eslint-disable-next-line complexity
-const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, unprocessedPayments = false }: InvoiceProps) => {
+const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, onSepa, unprocessedPayments = false }: InvoiceProps) => {
 	const [paymentStarted, setPaymentStarted] = useState(false)
 
 	const pay = () => {
 		setPaymentStarted(true)
 		onPay!()
+	}
+
+	const sepa = () => {
+		onSepa!()
 	}
 
 	return <InvoiceCard inverted={true} showOnMobile={showOnMobile}>
@@ -102,6 +113,11 @@ const Invoice = ({ title, invoice, showOnMobile, editLink, onPay, unprocessedPay
 						</>
 						: <Localized id="invoice-pay-button-credit-card">Pay with CC</Localized>}
 				</PayButton>}
+			{invoice.due === undefined || invoice.due === 0 ? undefined : unprocessedPayments
+				? undefined
+				: <SepaButton variant="inverted-card" onClick={onSepa === undefined ? undefined : sepa}>
+					<Localized id="invoice-pay-button-sepa">Pay with SEPA</Localized>
+				</SepaButton>}
 		</section>
 	</InvoiceCard>
 }

@@ -73,6 +73,8 @@ invoice-pay-button-credit-card = 💳 Pay with CC
 
 invoice-unprocessed-payments = Your payment is being processed.
 
+invoice-pay-button-sepa = SEPA Transfer
+
 
 # Common register messages
 register-header-title = Welcome to Eurofurence 2023!

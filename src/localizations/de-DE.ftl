@@ -73,6 +73,8 @@ invoice-pay-button-credit-card = 💳 Mit KK zahlen
 
 invoice-unprocessed-payments = Deine Zahlung ist in Bearbeitung.
 
+invoice-pay-button-sepa = SEPA Überweisung
+
 
 # Common register messages
 register-header-title = Willkommen zur Eurofurence 2023!

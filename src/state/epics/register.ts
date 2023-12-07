@@ -5,7 +5,7 @@ import { always } from 'ramda'
 import { AppState } from '~/state'
 import { nextPage } from './generators/next-page'
 import { SubmitForm } from '~/state/actions/forms'
-import { CheckCountdown, InitiatePayment, LoadRegistrationState, SetLocale } from '~/state/actions/register'
+import { CheckCountdown, InitiatePayment, InitiateSepaPayment, LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import { findExistingRegistration, registrationCountdownCheck, submitRegistration, updateRegistration } from '~/apis/attsrv'
 import { navigate } from 'gatsby'
 import { getRegistrationId, getRegistrationInfo, isEditMode } from '~/state/selectors/register'
@@ -14,7 +14,7 @@ import { justDo } from '~/state/epics/operators/just-do'
 import { EMPTY, of, concat } from 'rxjs'
 import { addHours, isBefore } from 'date-fns'
 import config from '~/config'
-import { calculateOutstandingDues, calculateTotalPaid, findTransactionsForBadgeNumber, hasUnprocessedPayments, initiateCreditCardPaymentOrUseExisting } from '~/apis/paysrv'
+import { calculateOutstandingDues, calculateTotalPaid, findTransactionsForBadgeNumber, hasUnprocessedPayments, initiateCreditCardPaymentOrUseExisting, initiateSepaPaymentOrUseExisting } from '~/apis/paysrv'
 import { catchAppError } from './operators/catch-app-error'
 import { includes } from '~/util/includes'
 import { loadAutosave } from '../models/autosave'
@@ -118,6 +118,17 @@ export default combineEpics<GetAction<AnyAppAction>, GetAction<AnyAppAction>, Ap
 		ofType(InitiatePayment.type),
 		withLatestFrom(state$),
 		concatMap(([, state]) => initiateCreditCardPaymentOrUseExisting(getRegistrationId()(state)!).pipe(
+			justDo(transaction => {
+				location.href = transaction.payment_start_url
+			}),
+			catchAppError('registration-initiate-payment'),
+		)),
+	),
+
+	(action$, state$) => action$.pipe(
+		ofType(InitiateSepaPayment.type),
+		withLatestFrom(state$),
+		concatMap(([, state]) => initiateSepaPaymentOrUseExisting(getRegistrationId()(state)!).pipe(
 			justDo(transaction => {
 				location.href = transaction.payment_start_url
 			}),

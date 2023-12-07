@@ -5,7 +5,7 @@
 import { Localized } from '@fluent/react'
 import WithInvoiceFunnelLayout from '~/components/funnels/layout/with-invoice'
 import { useAppDispatch, useAppSelector } from '~/hooks/redux'
-import { InitiatePayment } from '~/state/actions/register'
+import { InitiatePayment, InitiateSepaPayment } from '~/state/actions/register'
 import { buildInvoice } from '~/state/models/invoice'
 import { getInvoice, getStatus, hasUnprocessedPayments, isEditMode } from '~/state/selectors/register'
 import type { ReadonlyReactNode } from '~/util/readonly-types'
@@ -37,6 +37,7 @@ const WithInvoiceRegisterFunnelLayout = ({ children, currentStep, onNext }: With
 			hideInvoice={status === 'cancelled'}
 			unprocessedPayments={unprocessedPayments}
 			onPay={() => dispatch(InitiatePayment.create(undefined))}
+			onSepa={() => dispatch(InitiateSepaPayment.create(undefined))}
 		>
 			{children}
 		</WithInvoiceFunnelLayout>

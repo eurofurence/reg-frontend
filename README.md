@@ -26,6 +26,9 @@ gatsby telemetry --disable
 npm install
 ```
 
+_Note: running node/npm from snaps may not work. Some problem with user detection when installing sharp, where it tries
+to install as the wrong user and then runs into permission errors._
+
 #### set up a local dotenv
 
 ```

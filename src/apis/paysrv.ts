@@ -176,3 +176,25 @@ export const initiateCreditCardPaymentOrUseExisting = (badgeNumber: number) =>
 				: initiateCreditCardPayment(badgeNumber)
 		}),
 	)
+
+export const initiateSepaPayment = (badgeNumber: number) => apiCall<InitiatePaymentResponseDto>({
+	path: '/transactions/initiate-payment',
+	method: 'POST',
+	body: {
+		debitor_id: badgeNumber,
+		method: 'transfer',
+	},
+}).pipe(
+	map(result => result.response.transaction),
+)
+
+export const initiateSepaPaymentOrUseExisting = (badgeNumber: number) =>
+	findTransactionsForBadgeNumber(badgeNumber).pipe(
+		concatMap(transactions => {
+			const tentativeTransaction = transactions.find(t => t.transaction_type === 'payment' && t.method === 'transfer' && t.status === 'tentative')
+
+			return tentativeTransaction !== undefined
+				? of(tentativeTransaction)
+				: initiateSepaPayment(badgeNumber)
+		}),
+	)

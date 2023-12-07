@@ -21,6 +21,7 @@ export interface WithInvoiceFunnelLayoutProps {
 	readonly unprocessedPayments?: boolean
 	readonly onNext: () => void
 	readonly onPay?: () => void
+	readonly onSepa?: () => void
 }
 
 const Grid = styled.div`
@@ -47,6 +48,7 @@ const WithInvoiceFunnelLayout = ({
 	unprocessedPayments,
 	onNext,
 	onPay,
+	onSepa,
 	...passthroughProps
 }: WithInvoiceFunnelLayoutProps) =>
 	<StepFunnelLayout {...passthroughProps} onNext={onNext} isLastPage={isLastPage}>
@@ -60,6 +62,7 @@ const WithInvoiceFunnelLayout = ({
 				invoice={invoice}
 				showOnMobile={isLastPage}
 				onPay={onPay}
+				onSepa={onSepa}
 				unprocessedPayments={unprocessedPayments}
 			/>}
 		</Grid>

@@ -7,6 +7,7 @@ type TicketLevelConfig<Addon extends string> = {
 		readonly day: number
 	}
 	readonly includes?: readonly Addon[]
+	readonly requires?: readonly Addon[]
 }
 
 type AddonOptionsConfig<Item extends string> = {

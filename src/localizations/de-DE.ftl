@@ -73,9 +73,11 @@ invoice-pay-button-credit-card = 💳 Mit KK zahlen
 
 invoice-unprocessed-payments = Deine Zahlung ist in Bearbeitung.
 
+invoice-pay-button-sepa = SEPA Überweisung
+
 
 # Common register messages
-register-header-title = Willkommen zur Eurofurence 2023!
+register-header-title = Willkommen zur Eurofurence 2024!
 register-header-description =
   Wir freuen uns auf Dich!
   Mach Dich bereit für eine tolle Zeit mit Gleichgesinnten, und genieße das reiche Angebot an Attraktionen und Events.
@@ -419,7 +421,7 @@ register-not-open-yet-content =
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Willkommen zur Eurofurence 2023!
+hotel-booking-header-title = Willkommen zur Eurofurence 2024!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,

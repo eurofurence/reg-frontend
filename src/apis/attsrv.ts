@@ -102,6 +102,18 @@ export interface AttendeeStatusDto {
 	readonly status: RegistrationStatus
 }
 
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+enum Weekdays {
+	Monday = 1,
+	Tuesday = 2,
+	Wednesday = 3,
+	Thursday = 4,
+	Friday = 5,
+	Saturday = 6,
+	Sunday = 7,
+}
+/* eslint-enable @typescript-eslint/no-magic-numbers */
+
 const tshirtFromApi = (apiValue: string | null) => {
 	if (apiValue === '3XL') {
 		return 'm3XL'
@@ -165,10 +177,13 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 		...flagsToOptions(registrationInfo.originalPackages ?? ''),
 		'room-none': true,
 		'attendance': registrationInfo.ticketType.type === 'full',
-		'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 7,
-		'day-mon': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 1,
-		'day-tue': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 2,
-		'day-wed': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === 3,
+		// 'day-mon': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Monday,
+		// 'day-tue': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Tuesday,
+		'day-wed': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Wednesday,
+		'day-thu': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Thursday,
+		'day-fri': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Friday,
+		'day-sat': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Saturday,
+		// 'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Sunday,
 		'sponsor': registrationInfo.ticketLevel.level === 'sponsor',
 		'sponsor2': registrationInfo.ticketLevel.level === 'super-sponsor',
 		'stage': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
@@ -195,11 +210,14 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 			? { type: 'full' }
 			: {
 				type: 'day',
-				day: packages.has('day-sun') ? days.find(d => d.weekday === 7)!
-					: packages.has('day-mon') ? days.find(d => d.weekday === 1)!
-					: packages.has('day-tue') ? days.find(d => d.weekday === 2)!
-					: packages.has('day-wed') ? days.find(d => d.weekday === 3)!
-					: days.find(d => d.weekday === 3)!, // FIXME: Cough
+				day: packages.has('day-sun') ? days.find(d => d.weekday === Weekdays.Sunday)!
+					: packages.has('day-mon') ? days.find(d => d.weekday === Weekdays.Monday)!
+					: packages.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
+					: packages.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
+					: packages.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
+					: packages.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
+					: packages.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
+					: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
 			},
 		/* eslint-enable @typescript-eslint/indent */
 		ticketLevel: {

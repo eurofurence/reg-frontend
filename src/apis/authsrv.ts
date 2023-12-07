@@ -12,7 +12,7 @@ export interface UserInfoDto {
 	readonly subject: string
 	readonly name: string
 	readonly email: string
-	readonly email_verified: boolean // TODO show message "you need to verify your email address before you can register with it"
+	readonly email_verified: boolean
 	readonly groups: readonly string[]
 }
 

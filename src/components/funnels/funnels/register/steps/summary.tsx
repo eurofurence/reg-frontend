@@ -151,9 +151,9 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 			<StatusText status={status}>We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!</StatusText>
 		</Localized>
 
-		{ registrationId === undefined ? undefined : <Localized id="register-summary-registration-id" vars={{ registrationId }}>
+		{ registrationId ? <Localized id="register-summary-registration-id" vars={{ registrationId }}>
 			<RegistrationId>Badge number: {registrationId}</RegistrationId>
-		</Localized> }
+		</Localized> : undefined }
 
 		<Section id="personal" editLink="/register/personal-info" properties={[
 			{ id: 'nickname', value: personalInfo.nickname },

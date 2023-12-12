@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { load, remove, save } from '~/util/local-storage'
 import { UserInfo } from './auth'
 import { RegistrationInfo } from './register'
+import config from '~/config'
 
 /* eslint-disable @typescript-eslint/indent */
 type DeepDateToString<T> =
@@ -17,6 +18,7 @@ type DeepDateToString<T> =
 export interface SaveData {
 	readonly userInfo?: UserInfo
 	readonly registrationInfo?: Partial<RegistrationInfo>
+	readonly version?: number
 }
 
 type SerializedSaveData = DeepDateToString<SaveData>
@@ -36,6 +38,7 @@ const serialize = (saveData: SaveData): SerializedSaveData => ({
 			dateOfBirth: saveData.registrationInfo.personalInfo.dateOfBirth.toISODate(),
 		},
 	},
+	version: config.version,
 })
 
 const deserialize = (saveData: SerializedSaveData): SaveData => ({
@@ -58,7 +61,14 @@ const deserialize = (saveData: SerializedSaveData): SaveData => ({
 export const loadAutosave = (): SaveData | null => {
 	const saveData = load<SerializedSaveData>('redux-state')
 
-	return saveData === null ? null : deserialize(saveData)
+	if (saveData === null) {
+		return null
+	} else if (saveData.version !== config.version) {
+		// do not load old registration infos (previous year, configuration changes, ...)
+		return null
+	} else {
+		return deserialize(saveData)
+	}
 }
 
 export const saveAutosave = (saveData: SaveData) => {

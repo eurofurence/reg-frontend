@@ -56,6 +56,57 @@ invoice-item-definition-register-ticket-addons-tshirt =
   .name = T-shirt
   .extra = {$size}
 
+invoice-item-definition-register-ticket-addons-early =
+  .name = Early Bird
+
+invoice-item-definition-register-ticket-addons-door =
+  .name = At the door
+
+invoice-item-definition-register-ticket-addons-dealer-half =
+  .name = Dealer (Half a Table)
+
+invoice-item-definition-register-ticket-addons-dealer-full =
+  .name = Dealer (1 Table)
+
+invoice-item-definition-register-ticket-addons-dealer-double =
+  .name = Dealer (2 Tables)
+
+invoice-item-definition-register-ticket-addons-dealer-quad =
+  .name = Dealer (4 Tables)
+
+invoice-item-definition-register-ticket-addons-boat-trip =
+  .name = Boat Trip
+
+invoice-item-definition-register-ticket-addons-boat-vip =
+  .name = Boat VIP
+
+invoice-item-definition-register-ticket-addons-boat-benefactor =
+  .name = Boat Sponsor
+
+invoice-item-definition-register-ticket-addons-artshow-table-half =
+  .name = Artshow (Half a Table)
+
+invoice-item-definition-register-ticket-addons-artshow-table-full =
+  .name = Artshow (1 Table)
+
+invoice-item-definition-register-ticket-addons-artshow-table-double =
+  .name = Artshow (2 Tables)
+
+invoice-item-definition-register-ticket-addons-artshow-table-quad =
+  .name = Artshow (4 Tables)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-half =
+  .name = Artshow (Half a Panel)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-full =
+  .name = Artshow (1 Panel)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-double =
+  .name = Artshow (2 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-quad =
+  .name = Artshow (4 Panels)
+
 invoice-item-definition-other =
   .name = Other fees
 

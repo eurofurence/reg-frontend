@@ -190,6 +190,8 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 			&& registrationInfo.ticketLevel.addons['stage-pass'].selected,
 		'tshirt': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
 			&& registrationInfo.ticketLevel.addons.tshirt.selected,
+		'early': registrationInfo.ticketLevel.addons.early.selected,
+		'door': registrationInfo.ticketLevel.addons.door.selected,
 	}),
 	user_comments: registrationInfo.optionalInfo.comments,
 })
@@ -202,6 +204,28 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 
 	const days = eachDayOfInterval(Interval.fromDateTimes(config.dayTicketStartDate, config.dayTicketEndDate))
 	const level = packages.has('sponsor2') ? 'super-sponsor' : packages.has('sponsor') ? 'sponsor' : 'standard'
+
+	// parse all hidden addons, so they show up in the invoice box
+	const hiddenAddons = Object.fromEntries(
+		Object.entries(config.addons)
+			.filter(([,addon]) => addon.hidden)
+			.map(([id, _addon]) => {
+				return [id, { selected: packages.has(id), options: {} }]
+			}),
+	)
+	const addons = {
+		...hiddenAddons,
+		'stage-pass': {
+			selected: (config.ticketLevels[level].includes?.includes('stage-pass') ?? false) || packages.has('stage'),
+			options: {},
+		},
+		tshirt: {
+			selected: (config.ticketLevels[level].includes?.includes('tshirt') ?? false) || packages.has('tshirt'),
+			options: {
+				size: tshirtFromApi(attendeeDto.tshirt_size) as RegistrationInfo['ticketLevel']['addons']['tshirt']['options']['size'],
+			},
+		},
+	}
 
 	return {
 		preferredLocale: attendeeDto.registration_language,
@@ -222,18 +246,7 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 		/* eslint-enable @typescript-eslint/indent */
 		ticketLevel: {
 			level,
-			addons: {
-				'stage-pass': {
-					selected: (config.ticketLevels[level].includes?.includes('stage-pass') ?? false) || packages.has('stage'),
-					options: {},
-				},
-				tshirt: {
-					selected: (config.ticketLevels[level].includes?.includes('tshirt') ?? false) || packages.has('tshirt'),
-					options: {
-						size: tshirtFromApi(attendeeDto.tshirt_size) as RegistrationInfo['ticketLevel']['addons']['tshirt']['options']['size'],
-					},
-				},
-			},
+			addons,
 		},
 		personalInfo: {
 			nickname: attendeeDto.nickname,

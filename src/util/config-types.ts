@@ -23,6 +23,7 @@ type AddonConfig<OptionsConfigItems> = {
 	readonly unavailableFor?: {
 		readonly type?: readonly ('day' | 'full')[]
 	}
+	readonly hidden: boolean
 }
 
 type RoomConfig = {
@@ -32,6 +33,7 @@ type RoomConfig = {
 }
 
 type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<string, unknown>>> = {
+	readonly version: number
 	readonly eventName: string
 	readonly registrationLaunch: DateTime
 	readonly registrationExpirationDate: DateTime

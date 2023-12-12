@@ -74,10 +74,13 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 			<AddonsSection>
 				<Localized id="register-ticket-level-addons-title"><h3>Select add-ons</h3></Localized>
 				<AddonsContainer>
-					{Object.entries(config.addons).filter(([, addon]) => !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false)).map(([id, addon]) =>
-						// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-						<TicketLevelAddon key={id} addon={{ id, ...addon } as AugmentedAddon} formContext={formContext}/>,
-					)}
+					{Object.entries(config.addons)
+						.filter(([, addon]) => !addon.hidden)
+						.filter(([, addon]) => !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false))
+						.map(([id, addon]) =>
+							// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+							<TicketLevelAddon key={id} addon={{ id, ...addon } as AugmentedAddon} formContext={formContext}/>,
+						)}
 				</AddonsContainer>
 			</AddonsSection>
 		</form>

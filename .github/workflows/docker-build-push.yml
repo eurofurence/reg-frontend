@@ -3,7 +3,7 @@ name: Create and publish Docker image
 on:
   push:
     branches:
-      - 'main'
+      - 'issue-213-ef-2024-part2'
 
 jobs:
   build-and-push-image:

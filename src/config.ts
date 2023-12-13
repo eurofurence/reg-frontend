@@ -13,6 +13,7 @@ import { DateTime } from 'luxon'
 const apiPath = (path: string) => process.env.GATSBY_API_BASE_URL === undefined ? withPrefix(path) : `${process.env.GATSBY_API_BASE_URL}${path}`
 
 const config = checkConfig({
+	version: 1, // increment to prevent loading from local storage (new year, pricing changes, default packages)
 	eventName: 'Eurofurence',
 	registrationLaunch: DateTime.fromISO('2023-01-21T12:30:23+02:00'),
 	registrationExpirationDate: DateTime.fromISO('2024-09-22', { zone: 'Europe/Berlin' }),
@@ -58,6 +59,7 @@ const config = checkConfig({
 			unavailableFor: {
 				type: ['day'],
 			},
+			hidden: false,
 		},
 		'tshirt': {
 			price: 20,
@@ -68,6 +70,157 @@ const config = checkConfig({
 					items: ['XS', 'wXS', 'S', 'wS', 'M', 'wM', 'L', 'wL', 'XL', 'wXL', 'XXL', 'wXXL', 'm3XL', 'w3XL', 'm4XL', 'w4XL'],
 				},
 			},
+			hidden: false,
+		},
+		'early': {
+			price: -5,
+			default: true, // don't forget to increment version when changing this
+			options: {},
+			hidden: true,
+		},
+		'door': {
+			price: 10,
+			default: false, // don't forget to increment version when changing this
+			options: {},
+			hidden: true,
+		},
+		'dealer-half': {
+			price: 50,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'dealer-full': {
+			price: 100,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'dealer-double': {
+			price: 200,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'dealer-quad': {
+			price: 400,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'boat-trip': {
+			price: 35,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'boat-vip': {
+			price: 15,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'boat-benefactor': {
+			price: 100,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-half': {
+			price: 5,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-one': {
+			price: 10,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-oneandhalf': {
+			price: 15,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-two': {
+			price: 20,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-twoandhalf': {
+			price: 25,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-three': {
+			price: 30,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-threeandhalf': {
+			price: 35,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-four': {
+			price: 40,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-half': {
+			price: 10,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-one': {
+			price: 20,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-oneandhalf': {
+			price: 30,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-two': {
+			price: 40,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-twoandhalf': {
+			price: 50,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-three': {
+			price: 60,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-threeandhalf': {
+			price: 70,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-four': {
+			price: 80,
+			default: false,
+			options: {},
+			hidden: true,
 		},
 	},
 	rooms: [

@@ -56,6 +56,81 @@ invoice-item-definition-register-ticket-addons-tshirt =
   .name = T-Shirt
   .extra = {$size}
 
+invoice-item-definition-register-ticket-addons-early =
+  .name = Frühbucher
+
+invoice-item-definition-register-ticket-addons-door =
+  .name = Walk-in Zuschlag
+
+invoice-item-definition-register-ticket-addons-dealer-half =
+  .name = Dealer (halber Tisch)
+
+invoice-item-definition-register-ticket-addons-dealer-full =
+  .name = Dealer (1 Tisch)
+
+invoice-item-definition-register-ticket-addons-dealer-double =
+  .name = Dealer (2 Tische)
+
+invoice-item-definition-register-ticket-addons-dealer-quad =
+  .name = Dealer (4 Tische)
+
+invoice-item-definition-register-ticket-addons-boat-trip =
+  .name = Bootsfahrt
+
+invoice-item-definition-register-ticket-addons-boat-vip =
+  .name = Boot VIP
+
+invoice-item-definition-register-ticket-addons-boat-benefactor =
+  .name = Bootssponsor
+
+invoice-item-definition-register-ticket-addons-artshow-table-half =
+  .name = Artshow (halber Tisch)
+
+invoice-item-definition-register-ticket-addons-artshow-table-one =
+  .name = Artshow (1 Tisch)
+
+invoice-item-definition-register-ticket-addons-artshow-table-oneandhalf =
+  .name = Artshow (1,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-two =
+  .name = Artshow (2 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-twoandhalf =
+  .name = Artshow (2,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-three =
+  .name = Artshow (3 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-threeandhalf =
+  .name = Artshow (3,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-four =
+  .name = Artshow (4 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-half =
+  .name = Artshow (halbes Panel)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-one =
+  .name = Artshow (1 Panel)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-oneandhalf =
+  .name = Artshow (1,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-two =
+  .name = Artshow (2 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-twoandhalf =
+  .name = Artshow (2,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-three =
+  .name = Artshow (3 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
+  .name = Artshow (3,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-four =
+  .name = Artshow (4 Panels)
+
 invoice-item-definition-other =
   .name = Sonstige
 

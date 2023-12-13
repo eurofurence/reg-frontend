@@ -12,7 +12,7 @@ COPY ./public /static-html/reg-frontend/app
 
 RUN chmod -R go=rX /static-html /etc/apache2/regsys.conf
 
-RUN find /static-html
+RUN mkdir -p /run/apache2 && chmod 777 /run/apache2
 
 EXPOSE 8080
 

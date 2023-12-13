@@ -16,4 +16,4 @@ EXPOSE 8080
 
 USER 8877
 
-CMD ["/usr/sbin/httpd", "-f", "/etc/apache2/regsys.conf"]
+CMD ["/usr/sbin/httpd", "-f", "/etc/apache2/regsys.conf", "-DNO_DETACH", "-DFOREGROUND"]

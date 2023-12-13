@@ -5,7 +5,7 @@ RUN apk add --no-cache apache2 apache2-http2 apache2-proxy \
     && mkdir -p /static-html/htdocs
 
 COPY ./httpd-container.conf /etc/apache2/regsys.conf
-COPY ./public /static-html/regsys/app
+COPY ./public /static-html/reg-frontend/app
 
 # TODO set up minimal base website under /static-html/
 # (favicon, 404.html, blank white page index.html, ...)

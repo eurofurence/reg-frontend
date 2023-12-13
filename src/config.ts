@@ -132,19 +132,43 @@ const config = checkConfig({
 			options: {},
 			hidden: true,
 		},
-		'artshow-table-full': {
+		'artshow-table-one': {
 			price: 10,
 			default: false,
 			options: {},
 			hidden: true,
 		},
-		'artshow-table-double': {
+		'artshow-table-oneandhalf': {
+			price: 15,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-two': {
 			price: 20,
 			default: false,
 			options: {},
 			hidden: true,
 		},
-		'artshow-table-quad': {
+		'artshow-table-twoandhalf': {
+			price: 25,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-three': {
+			price: 30,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-threeandhalf': {
+			price: 35,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-table-four': {
 			price: 40,
 			default: false,
 			options: {},
@@ -156,19 +180,43 @@ const config = checkConfig({
 			options: {},
 			hidden: true,
 		},
-		'artshow-panel-full': {
+		'artshow-panel-one': {
 			price: 20,
 			default: false,
 			options: {},
 			hidden: true,
 		},
-		'artshow-panel-double': {
+		'artshow-panel-oneandhalf': {
+			price: 30,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-two': {
 			price: 40,
 			default: false,
 			options: {},
 			hidden: true,
 		},
-		'artshow-panel-quad': {
+		'artshow-panel-twoandhalf': {
+			price: 50,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-three': {
+			price: 60,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-threeandhalf': {
+			price: 70,
+			default: false,
+			options: {},
+			hidden: true,
+		},
+		'artshow-panel-four': {
 			price: 80,
 			default: false,
 			options: {},

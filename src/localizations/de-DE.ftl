@@ -86,25 +86,49 @@ invoice-item-definition-register-ticket-addons-boat-benefactor =
 invoice-item-definition-register-ticket-addons-artshow-table-half =
   .name = Artshow (halber Tisch)
 
-invoice-item-definition-register-ticket-addons-artshow-table-full =
+invoice-item-definition-register-ticket-addons-artshow-table-one =
   .name = Artshow (1 Tisch)
 
-invoice-item-definition-register-ticket-addons-artshow-table-double =
+invoice-item-definition-register-ticket-addons-artshow-table-oneandhalf =
+  .name = Artshow (1,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-two =
   .name = Artshow (2 Tische)
 
-invoice-item-definition-register-ticket-addons-artshow-table-quad =
+invoice-item-definition-register-ticket-addons-artshow-table-twoandhalf =
+  .name = Artshow (2,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-three =
+  .name = Artshow (3 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-threeandhalf =
+  .name = Artshow (3,5 Tische)
+
+invoice-item-definition-register-ticket-addons-artshow-table-four =
   .name = Artshow (4 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-half =
   .name = Artshow (halbes Panel)
 
-invoice-item-definition-register-ticket-addons-artshow-panel-full =
+invoice-item-definition-register-ticket-addons-artshow-panel-one =
   .name = Artshow (1 Panel)
 
-invoice-item-definition-register-ticket-addons-artshow-panel-double =
+invoice-item-definition-register-ticket-addons-artshow-panel-oneandhalf =
+  .name = Artshow (1,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-two =
   .name = Artshow (2 Panels)
 
-invoice-item-definition-register-ticket-addons-artshow-panel-quad =
+invoice-item-definition-register-ticket-addons-artshow-panel-twoandhalf =
+  .name = Artshow (2,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-three =
+  .name = Artshow (3 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
+  .name = Artshow (3,5 Panels)
+
+invoice-item-definition-register-ticket-addons-artshow-panel-four =
   .name = Artshow (4 Panels)
 
 invoice-item-definition-other =

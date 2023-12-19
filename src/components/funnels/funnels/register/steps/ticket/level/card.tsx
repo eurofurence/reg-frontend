@@ -58,7 +58,7 @@ const TicketLevelCard = forwardRef(({ id, price, priceLabel, children, ...rest }
 			<PriceLabelContainer>
 				<PriceLabel>{priceLabel}</PriceLabel>
 			</PriceLabelContainer>
-			<Price price={price}/>
+			<Price price={price}/>*
 		</Footer>
 	</RadioCard>,
 )

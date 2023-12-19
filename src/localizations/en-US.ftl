@@ -242,6 +242,14 @@ register-ticket-level-card-super-sponsor =
                     [day]  Super sponsor day ticket
                 }
 
+register-ticket-level-modifiers-early-bird =
+  .label = Early Bird Discount (if paid before March 1st)
+  .price = - €5
+
+register-ticket-level-modifiers-at-door =
+  .label = At the Door
+  .price = + €10
+
 register-ticket-level-expiration-notice = Register before {DATETIME($expirationDate, day: "numeric", month: "long")}
 
 register-ticket-level-addons-title = Select add-ons

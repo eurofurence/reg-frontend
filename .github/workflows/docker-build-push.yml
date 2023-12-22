@@ -3,7 +3,7 @@ name: Create and publish Docker image
 on:
   push:
     branches:
-      - 'main'
+      - 'issue-213-log-config'
 
 jobs:
   build-and-push-image:

@@ -10,6 +10,7 @@ import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import { useAppSelector } from '~/hooks/redux'
 import { getTicketType } from '~/state/selectors/register'
 import { createLuxonFluentDateTime } from '~/util/fluent-values'
+import TicketLevelFootnote from '~/components/funnels/funnels/register/steps/ticket/level/footnote'
 
 const TicketLevelGrid = styled.section`
 	display: grid;
@@ -23,6 +24,10 @@ const TicketLevelGrid = styled.section`
 	@media (min-width: 950px) {
 		grid: auto-flow 1fr / repeat(3, 1fr);
 	}
+`
+
+const ModifiersSection = styled.section`
+	margin-top: 1em;
 `
 
 const AddonsSection = styled.section`
@@ -71,6 +76,20 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 					</RadioGroup>
 				</TicketLevelGrid>
 			</section>
+			<ModifiersSection>
+				<Localized id="register-ticket-level-modifiers-early-bird" attrs={{ label: true, description: true, price: true }}>
+					<TicketLevelFootnote
+						marker="*"
+						label="Early Bird Discount"
+						price="-5" ></TicketLevelFootnote>
+				</Localized>
+				<Localized id="register-ticket-level-modifiers-at-door" attrs={{ label: true, description: true, price: true }}>
+					<TicketLevelFootnote
+						marker=""
+						label="At the Door"
+						price="+10" ></TicketLevelFootnote>
+				</Localized>
+			</ModifiersSection>
 			<AddonsSection>
 				<Localized id="register-ticket-level-addons-title"><h3>Select add-ons</h3></Localized>
 				<AddonsContainer>

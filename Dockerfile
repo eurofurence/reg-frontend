@@ -5,17 +5,15 @@ RUN apk add --no-cache apache2 apache2-http2 apache2-proxy \
     && mkdir -p /static-html/htdocs
 
 COPY ./httpd-container.conf /etc/apache2/regsys.conf
-COPY ./public /static-html/regsys/app
-
-# TODO set up minimal base website under /static-html/
-# (favicon, 404.html, blank white page index.html, ...)
+COPY ./public /static-html/reg-frontend/app
+COPY ./html /static-html/reg-frontend
 
 RUN chmod -R go=rX /static-html /etc/apache2/regsys.conf
 
-RUN find /static-html
+RUN mkdir -p /run/apache2 && chmod 777 /run/apache2
 
 EXPOSE 8080
 
 USER 8877
 
-CMD ["/usr/sbin/httpd", "-f", "/etc/apache2/regsys.conf"]
+CMD ["/usr/sbin/httpd", "-f", "/etc/apache2/regsys.conf", "-DNO_DETACH", "-DFOREGROUND"]

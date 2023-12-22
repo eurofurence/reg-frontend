@@ -242,6 +242,14 @@ register-ticket-level-card-super-sponsor =
                     [day]  Super-Sponsor-Tagesticket
                 }
 
+register-ticket-level-modifiers-early-bird =
+  .label = Frühbucherrabatt (bei Zahlung vor 1. März)
+  .price = -5 €
+
+register-ticket-level-modifiers-at-door =
+  .label = Abendkasse vor Ort
+  .price = +10 €
+
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}
 
 register-ticket-level-addons-title = Zusatzoptionen auswählen

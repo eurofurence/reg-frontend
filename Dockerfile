@@ -8,6 +8,8 @@ COPY ./httpd-container.conf /etc/apache2/regsys.conf
 COPY ./public /static-html/reg-frontend/app
 COPY ./html /static-html/reg-frontend
 
+COPY ./html /static-html/reg-frontend-disabled
+
 RUN chmod -R go=rX /static-html /etc/apache2/regsys.conf
 
 RUN mkdir -p /run/apache2 && chmod 777 /run/apache2

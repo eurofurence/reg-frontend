@@ -50,33 +50,30 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 	}
 }
 
+const resetAddonsInState = (state: Partial<RegistrationInfo>, ticketType: 'day' | 'full'): Partial<RegistrationInfo> => {
+	if (state.ticketLevel?.level) {
+		return { ...state,
+			ticketLevel: {
+				level: state.ticketLevel.level,
+				addons: determineDefaultAddons(ticketType),
+			} }
+	} else {
+		return state
+	}
+}
+
 const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
 	switch (action.type) {
 		case SubmitForm('register-ticket-type').type: {
 			// here we can force reset ticket addons to defaults (different hidden packages, different defaults)
 			if (action.payload.type === 'day') {
 				// not setting ticketType - it is set when choosing a day
-				if (state.ticketLevel?.level) {
-					return { ...state,
-						ticketLevel: {
-							level: state.ticketLevel.level,
-							addons: determineDefaultAddons('day'),
-						} }
-				} else {
-					return state
-				}
+				return resetAddonsInState(state, 'day')
 			}
 
-			if (state.ticketLevel?.level) {
-				return { ...state,
-					ticketLevel: {
-						level: state.ticketLevel.level,
-						addons: determineDefaultAddons('full'),
-					},
-					ticketType: { type: action.payload.type! } }
-			} else {
-				return { ...state, ticketType: { type: action.payload.type! } }
-			}
+			const stateWithAddonsReset = resetAddonsInState(state, 'full')
+
+			return { ...stateWithAddonsReset, ticketType: { type: action.payload.type! } }
 		}
 
 		case SubmitForm('register-ticket-day').type:

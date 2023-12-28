@@ -250,10 +250,6 @@ register-ticket-level-modifiers-late-fee =
   .label = Spätbucheraufschlag (bei Zahlung nach 1. Juli)
   .price = +15 €
 
-register-ticket-level-modifiers-at-door =
-  .label = Abendkasse vor Ort
-  .price = +10 €
-
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}
 
 register-ticket-level-addons-title = Zusatzoptionen auswählen

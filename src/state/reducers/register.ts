@@ -5,7 +5,7 @@ import { SubmitForm, SubmitFormActionBundle } from '~/state/actions/forms'
 import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
-import { map } from 'ramda'
+import { determineDefaultAddons } from '~/state/selectors/forms'
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null
@@ -53,18 +53,14 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
 	switch (action.type) {
 		case SubmitForm('register-ticket-type').type: {
-			// here we can force reset ticket level to defaults (different hidden packages, different defaults)
+			// here we can force reset ticket addons to defaults (different hidden packages, different defaults)
 			if (action.payload.type === 'day') {
 				// not setting ticketType - it is set when choosing a day
 				if (state.ticketLevel?.level) {
 					return { ...state,
 						ticketLevel: {
 							level: state.ticketLevel.level,
-							// reset addons
-							addons: map(addon => ({
-								selected: addon.default && !(addon.unavailableFor?.type?.includes('day') ?? false),
-								options: map(option => option.default as never, addon.options),
-							}), config.addons),
+							addons: determineDefaultAddons('day'),
 						} }
 				} else {
 					return state
@@ -75,11 +71,7 @@ const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAc
 				return { ...state,
 					ticketLevel: {
 						level: state.ticketLevel.level,
-						// reset addons
-						addons: map(addon => ({
-							selected: addon.default && !(addon.unavailableFor?.type?.includes('full') ?? false),
-							options: map(option => option.default as never, addon.options),
-						}), config.addons),
+						addons: determineDefaultAddons('full'),
 					},
 					ticketType: { type: action.payload.type! } }
 			} else {

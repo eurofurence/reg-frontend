@@ -26,23 +26,18 @@ export type TicketType
 	= { readonly type: 'full' }
 	| { readonly type: 'day', readonly day: ReadonlyDateTime }
 
+export type TicketLevelAddons = {
+	readonly [K in keyof TicketAddonsConfig]: {
+		readonly selected: boolean
+		readonly options: {
+			[L in keyof TicketAddonsConfig[K]['options']]: ParseAddonOption<TicketAddonsConfig[K]['options'][L]>
+		}
+	}
+}
+
 export type TicketLevel = {
 	readonly level: keyof TicketLevelConfig
-	readonly addons: {
-		readonly [K in keyof TicketAddonsConfig]: {
-			readonly selected: boolean
-			readonly options: {
-				[L in keyof TicketAddonsConfig[K]['options']]: ParseAddonOption<TicketAddonsConfig[K]['options'][L]>
-			}
-		}
-		// readonly stagePass: {
-		// 	readonly selected: boolean
-		// }
-		// readonly tshirt: {
-		// 	readonly selected: boolean
-		// 	readonly size: 'S' | 'M' | 'L' | 'XL' | 'XXL'
-		// }
-	}
+	readonly addons: TicketLevelAddons
 }
 
 export interface ContactInfo {

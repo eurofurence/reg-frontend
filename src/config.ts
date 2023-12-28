@@ -76,12 +76,18 @@ const config = checkConfig({
 			price: -15,
 			default: true, // don't forget to increment version when changing this
 			options: {},
+			unavailableFor: {
+				type: ['day'],
+			},
 			hidden: true,
 		},
 		'late': {
 			price: 15,
 			default: false, // don't forget to increment version when changing this
 			options: {},
+			unavailableFor: {
+				type: ['day'],
+			},
 			hidden: true,
 		},
 		'dealer-half': {

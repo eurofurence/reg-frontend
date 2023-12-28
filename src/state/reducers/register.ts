@@ -5,6 +5,7 @@ import { SubmitForm, SubmitFormActionBundle } from '~/state/actions/forms'
 import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
+import { map } from 'ramda'
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null
@@ -51,8 +52,41 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 
 const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
 	switch (action.type) {
-		case SubmitForm('register-ticket-type').type:
-			return action.payload.type === 'day' ? state : { ...state, ticketType: { type: action.payload.type! } }
+		case SubmitForm('register-ticket-type').type: {
+			// here we can force reset ticket level to defaults (different hidden packages, different defaults)
+			if (action.payload.type === 'day') {
+				// not setting ticketType - it is set when choosing a day
+				if (state.ticketLevel?.level) {
+					return { ...state,
+						ticketLevel: {
+							level: state.ticketLevel.level,
+							// reset addons
+							addons: map(addon => ({
+								selected: addon.default && !(addon.unavailableFor?.type?.includes('day') ?? false),
+								options: map(option => option.default as never, addon.options),
+							}), config.addons),
+						} }
+				} else {
+					return state
+				}
+			}
+
+			if (state.ticketLevel?.level) {
+				return { ...state,
+					ticketLevel: {
+						level: state.ticketLevel.level,
+						// reset addons
+						addons: map(addon => ({
+							selected: addon.default && !(addon.unavailableFor?.type?.includes('full') ?? false),
+							options: map(option => option.default as never, addon.options),
+						}), config.addons),
+					},
+					ticketType: { type: action.payload.type! } }
+			} else {
+				return { ...state, ticketType: { type: action.payload.type! } }
+			}
+		}
+
 		case SubmitForm('register-ticket-day').type:
 			return { ...state, ticketType: { type: 'day', day: DateTime.fromISO(action.payload.day!, { zone: 'Europe/Berlin' }) } }
 		case SubmitForm('register-ticket-level').type:

@@ -18,14 +18,29 @@ export const getDefaultFormValues = ((id: FormIds) => (s: AppState): FormValuesT
 			return {
 				day: null,
 			}
-		case 'register-ticket-level':
+
+		case 'register-ticket-level': {
+			const ticketType = getTicketType()(s)
+
+			if (ticketType === undefined) {
+				return {
+					level: null,
+					addons: map(addon => ({
+						selected: addon.default,
+						options: map(option => option.default as never, addon.options),
+					}), config.addons),
+				}
+			}
+
 			return {
 				level: null,
 				addons: map(addon => ({
-					selected: addon.default,
+					selected: addon.default && !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false),
 					options: map(option => option.default as never, addon.options),
 				}), config.addons),
 			}
+		}
+
 		case 'register-personal-info':
 			return {
 				nickname: null,

@@ -10,6 +10,7 @@ export interface TicketLevelCardProps extends Omit<RadioCardProps, 'value'> {
 	readonly id: string
 	readonly price: number
 	readonly priceLabel: string
+	readonly footnoteMarker: string
 	readonly children: string
 }
 
@@ -49,7 +50,7 @@ const PriceLabel = styled.p`
 `
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelCard = forwardRef(({ id, price, priceLabel, children, ...rest }: TicketLevelCardProps, ref: ForwardedRef<HTMLInputElement>) =>
+const TicketLevelCard = forwardRef(({ id, price, priceLabel, footnoteMarker, children, ...rest }: TicketLevelCardProps, ref: ForwardedRef<HTMLInputElement>) =>
 	<RadioCard value={id} ref={ref} {...rest}>
 		<Description>
 			<ReactMarkdown>{children}</ReactMarkdown>
@@ -58,7 +59,7 @@ const TicketLevelCard = forwardRef(({ id, price, priceLabel, children, ...rest }
 			<PriceLabelContainer>
 				<PriceLabel>{priceLabel}</PriceLabel>
 			</PriceLabelContainer>
-			<Price price={price}/>*
+			<Price price={price}/>{footnoteMarker}
 		</Footer>
 	</RadioCard>,
 )

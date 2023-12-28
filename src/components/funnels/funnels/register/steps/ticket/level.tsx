@@ -81,13 +81,13 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 					<TicketLevelFootnote
 						marker="*"
 						label="Early Bird Discount"
-						price="-5" ></TicketLevelFootnote>
+						price="-15" ></TicketLevelFootnote>
 				</Localized>
-				<Localized id="register-ticket-level-modifiers-at-door" attrs={{ label: true, description: true, price: true }}>
+				<Localized id="register-ticket-level-modifiers-late-fee" attrs={{ label: true, description: true, price: true }}>
 					<TicketLevelFootnote
 						marker=""
-						label="At the Door"
-						price="+10" ></TicketLevelFootnote>
+						label="Late Fee"
+						price="+15" ></TicketLevelFootnote>
 				</Localized>
 			</ModifiersSection>
 			<AddonsSection>

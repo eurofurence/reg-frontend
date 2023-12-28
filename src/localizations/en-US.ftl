@@ -247,7 +247,7 @@ register-ticket-level-modifiers-early-bird =
   .price = - €15
 
 register-ticket-level-modifiers-late-fee =
-  .label = Late Fee (if paid after July 1st)
+  .label = Late Fee (if paid June 1st or later)
   .price = + €15
 
 register-ticket-level-expiration-notice = Register before {DATETIME($expirationDate, day: "numeric", month: "long")}

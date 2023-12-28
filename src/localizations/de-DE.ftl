@@ -247,7 +247,7 @@ register-ticket-level-modifiers-early-bird =
   .price = -15 €
 
 register-ticket-level-modifiers-late-fee =
-  .label = Spätbucheraufschlag (bei Zahlung nach 1. Juli)
+  .label = Spätbucheraufschlag (bei Zahlung ab 1. Juni)
   .price = +15 €
 
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}

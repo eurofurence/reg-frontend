@@ -51,7 +51,7 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 }
 
 const resetAddonsInState = (state: Partial<RegistrationInfo>, ticketType: 'day' | 'full'): Partial<RegistrationInfo> => {
-	if (state.ticketLevel?.level) {
+	if (state.ticketLevel) {
 		return { ...state,
 			ticketLevel: {
 				level: state.ticketLevel.level,

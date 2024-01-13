@@ -6,6 +6,7 @@ import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
 import { determineDefaultAddons } from '~/state/selectors/forms'
+import { clearFormCache } from "~/hooks/funnels/form";
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null
@@ -65,6 +66,9 @@ const resetAddonsInState = (state: Partial<RegistrationInfo>, ticketType: 'day' 
 const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
 	switch (action.type) {
 		case SubmitForm('register-ticket-type').type: {
+			// clear the form cache - not an ideal solution, but it works
+			clearFormCache()
+
 			// here we can force reset ticket addons to defaults (different hidden packages, different defaults)
 			if (action.payload.type === 'day') {
 				// not setting ticketType - it is set when choosing a day

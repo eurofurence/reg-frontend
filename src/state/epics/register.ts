@@ -54,8 +54,8 @@ const loadRegistrationIfSafe = () => registrationCountdownCheck().pipe(
 	concatMap(result => {
 		if (result.response.countdown > 0) {
 			return of(LoadRegistrationState.create({ isOpen: false }))
-		} else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
-			return loadUnsubmittedRegistration()
+		// } else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
+		// 	return loadUnsubmittedRegistration()
 		} else {
 			return loadRegistration()
 		}

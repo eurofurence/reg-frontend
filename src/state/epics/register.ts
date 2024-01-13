@@ -12,8 +12,6 @@ import { getRegistrationId, getRegistrationInfo, isEditMode } from '~/state/sele
 import { RegistrationInfo } from '~/state/models/register'
 import { justDo } from '~/state/epics/operators/just-do'
 import { EMPTY, of, concat } from 'rxjs'
-import { addHours, isBefore } from 'date-fns'
-import config from '~/config'
 import { calculateOutstandingDues, calculateTotalPaid, findTransactionsForBadgeNumber, hasUnprocessedPayments, initiateCreditCardPaymentOrUseExisting, initiateSepaPaymentOrUseExisting } from '~/apis/paysrv'
 import { catchAppError } from './operators/catch-app-error'
 import { includes } from '~/util/includes'
@@ -54,8 +52,8 @@ const loadRegistrationIfSafe = () => registrationCountdownCheck().pipe(
 	concatMap(result => {
 		if (result.response.countdown > 0) {
 			return of(LoadRegistrationState.create({ isOpen: false }))
-		} else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
-			return loadUnsubmittedRegistration()
+		// } else if (isBefore(new Date(result.response.currentTime), addHours(new Date(result.response.targetTime), config.hoursBeforeEditAvailable))) {
+		// 	return loadUnsubmittedRegistration()
 		} else {
 			return loadRegistration()
 		}

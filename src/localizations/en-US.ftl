@@ -59,8 +59,8 @@ invoice-item-definition-register-ticket-addons-tshirt =
 invoice-item-definition-register-ticket-addons-early =
   .name = Early Bird
 
-invoice-item-definition-register-ticket-addons-door =
-  .name = At the door
+invoice-item-definition-register-ticket-addons-late =
+  .name = Late Fee
 
 invoice-item-definition-register-ticket-addons-dealer-half =
   .name = Dealer (Half a Table)
@@ -244,11 +244,11 @@ register-ticket-level-card-super-sponsor =
 
 register-ticket-level-modifiers-early-bird =
   .label = Early Bird Discount (if paid before March 1st)
-  .price = - €5
+  .price = - €15
 
-register-ticket-level-modifiers-at-door =
-  .label = At the Door
-  .price = + €10
+register-ticket-level-modifiers-late-fee =
+  .label = Late Fee (if paid June 1st or later)
+  .price = + €15
 
 register-ticket-level-expiration-notice = Register before {DATETIME($expirationDate, day: "numeric", month: "long")}
 

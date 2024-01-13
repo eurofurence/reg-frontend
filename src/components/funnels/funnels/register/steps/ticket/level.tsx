@@ -67,6 +67,7 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 									price={prices[ticketType.type]}
 									label="Ticket level"
 									priceLabel="A ticket"
+									footnoteMarker={ ticketType.type !== 'day' ? '*' : '' }
 									{...register('level', { required: true })}
 								>
 									A ticket level
@@ -76,20 +77,20 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 					</RadioGroup>
 				</TicketLevelGrid>
 			</section>
-			<ModifiersSection>
+			{ ticketType.type !== 'day' ? <ModifiersSection>
 				<Localized id="register-ticket-level-modifiers-early-bird" attrs={{ label: true, description: true, price: true }}>
 					<TicketLevelFootnote
 						marker="*"
 						label="Early Bird Discount"
-						price="-5" ></TicketLevelFootnote>
+						price="-15" ></TicketLevelFootnote>
 				</Localized>
-				<Localized id="register-ticket-level-modifiers-at-door" attrs={{ label: true, description: true, price: true }}>
+				<Localized id="register-ticket-level-modifiers-late-fee" attrs={{ label: true, description: true, price: true }}>
 					<TicketLevelFootnote
 						marker=""
-						label="At the Door"
-						price="+10" ></TicketLevelFootnote>
+						label="Late Fee"
+						price="+15" ></TicketLevelFootnote>
 				</Localized>
-			</ModifiersSection>
+			</ModifiersSection> : undefined }
 			<AddonsSection>
 				<Localized id="register-ticket-level-addons-title"><h3>Select add-ons</h3></Localized>
 				<AddonsContainer>

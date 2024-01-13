@@ -13,7 +13,7 @@ import { DateTime } from 'luxon'
 const apiPath = (path: string) => process.env.GATSBY_API_BASE_URL === undefined ? withPrefix(path) : `${process.env.GATSBY_API_BASE_URL}${path}`
 
 const config = checkConfig({
-	version: 1, // increment to prevent loading from local storage (new year, pricing changes, default packages)
+	version: 3, // increment to prevent loading from local storage (new year, pricing changes, default packages)
 	eventName: 'Eurofurence',
 	registrationLaunch: DateTime.fromISO('2023-01-21T12:30:23+02:00'),
 	registrationExpirationDate: DateTime.fromISO('2024-09-22', { zone: 'Europe/Berlin' }),
@@ -29,23 +29,23 @@ const config = checkConfig({
 	ticketLevels: {
 		'standard': {
 			prices: {
-				full: 120,
-				day: 70,
+				full: 160,
+				day: 90,
 			},
 			requires: ['stage-pass'],
 		},
 		'sponsor': {
 			prices: {
-				full: 200,
-				day: 150,
+				full: 260,
+				day: 190,
 			},
 			requires: ['stage-pass'],
 			includes: ['tshirt'],
 		},
 		'super-sponsor': {
 			prices: {
-				full: 310,
-				day: 260,
+				full: 360,
+				day: 290,
 			},
 			requires: ['stage-pass'],
 			includes: ['tshirt'],
@@ -73,15 +73,21 @@ const config = checkConfig({
 			hidden: false,
 		},
 		'early': {
-			price: -5,
+			price: -15,
 			default: true, // don't forget to increment version when changing this
 			options: {},
+			unavailableFor: {
+				type: ['day'],
+			},
 			hidden: true,
 		},
-		'door': {
-			price: 10,
+		'late': {
+			price: 15,
 			default: false, // don't forget to increment version when changing this
 			options: {},
+			unavailableFor: {
+				type: ['day'],
+			},
 			hidden: true,
 		},
 		'dealer-half': {

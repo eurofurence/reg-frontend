@@ -59,8 +59,8 @@ invoice-item-definition-register-ticket-addons-tshirt =
 invoice-item-definition-register-ticket-addons-early =
   .name = Frühbucher
 
-invoice-item-definition-register-ticket-addons-door =
-  .name = Walk-in Zuschlag
+invoice-item-definition-register-ticket-addons-late =
+  .name = Spätbucher
 
 invoice-item-definition-register-ticket-addons-dealer-half =
   .name = Dealer (halber Tisch)
@@ -244,11 +244,11 @@ register-ticket-level-card-super-sponsor =
 
 register-ticket-level-modifiers-early-bird =
   .label = Frühbucherrabatt (bei Zahlung vor 1. März)
-  .price = -5 €
+  .price = -15 €
 
-register-ticket-level-modifiers-at-door =
-  .label = Abendkasse vor Ort
-  .price = +10 €
+register-ticket-level-modifiers-late-fee =
+  .label = Spätbucheraufschlag (bei Zahlung ab 1. Juni)
+  .price = +15 €
 
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}
 

@@ -4,8 +4,23 @@ import { FormIds, FormValuesType } from '../forms'
 import config from '~/config'
 import { map } from 'ramda'
 import { getContactInfo, getOptionalInfo, getPersonalInfo, getTicketLevel, getTicketType, isEditMode } from './register'
+import { TicketLevelAddons } from '~/state/models/register'
 
 type GetDefaultFormValuesFn = <F extends FormIds>(id: F) => (s: AppState) => FormValuesType<F>
+
+export const determineDefaultAddons = (ticketType: 'day' | 'full' | undefined): TicketLevelAddons => {
+	if (ticketType === undefined) {
+		return map(addon => ({
+			selected: addon.default,
+			options: map(option => option.default as never, addon.options),
+		}), config.addons)
+	} else {
+		return map(addon => ({
+			selected: addon.default && !(addon.unavailableFor?.type?.includes(ticketType) ?? false),
+			options: map(option => option.default as never, addon.options),
+		}), config.addons)
+	}
+}
 
 // eslint-disable-next-line complexity
 export const getDefaultFormValues = ((id: FormIds) => (s: AppState): FormValuesType<FormIds> => {
@@ -18,14 +33,16 @@ export const getDefaultFormValues = ((id: FormIds) => (s: AppState): FormValuesT
 			return {
 				day: null,
 			}
-		case 'register-ticket-level':
+
+		case 'register-ticket-level': {
+			const ticketType = getTicketType()(s)
+
 			return {
 				level: null,
-				addons: map(addon => ({
-					selected: addon.default,
-					options: map(option => option.default as never, addon.options),
-				}), config.addons),
+				addons: determineDefaultAddons(ticketType?.type),
 			}
+		}
+
 		case 'register-personal-info':
 			return {
 				nickname: null,

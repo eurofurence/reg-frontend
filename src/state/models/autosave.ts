@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { load, remove, save } from '~/util/local-storage'
 import { UserInfo } from './auth'
-import { RegistrationInfo } from './register'
+import { RegistrationInfo, TicketLevelAddons } from './register'
 import config from '~/config'
 
 /* eslint-disable @typescript-eslint/indent */
@@ -58,16 +58,54 @@ const deserialize = (saveData: SerializedSaveData): SaveData => ({
 	},
 })
 
+const isConfiguredAsAddon = (idCandidate: string): boolean => {
+	return Object.entries(config.addons)
+		.some(([id, _ignored]) => idCandidate === id)
+}
+
+const isUnavailableAddonForType = (addonId: string, ticketType: 'full' | 'day'): boolean => {
+	return Object.entries(config.addons)
+		.filter(([id, _ignored]) => id === addonId)
+		.some(([_id, value]) => value.unavailableFor?.type?.includes(ticketType) ?? false)
+}
+
+const hasWrongAddons = (addons: TicketLevelAddons): boolean => {
+	return Object.entries(addons)
+		.some(([id, _ignore]) => !isConfiguredAsAddon(id))
+}
+
+const hasUnavailableSelectedAddons = (addons: TicketLevelAddons, ticketType: 'full' | 'day'): boolean => {
+	return Object.entries(addons)
+		.filter(([_id, { selected, ..._rest }]) => selected)
+		.some(([id, _ignore]) => isUnavailableAddonForType(id, ticketType))
+}
+
+const isValid = (ri: Partial<RegistrationInfo>): boolean => {
+	if (ri.ticketType && ri.ticketLevel) {
+		const ticketType = ri.ticketType.type
+		const addons = ri.ticketLevel.addons
+
+		return !hasWrongAddons(addons) && !hasUnavailableSelectedAddons(addons, ticketType)
+	}
+
+	return false
+}
+
 export const loadAutosave = (): SaveData | null => {
 	const saveData = load<SerializedSaveData>('redux-state')
 
 	if (saveData === null) {
 		return null
 	} else if (saveData.version !== config.version) {
-		// do not load old registration infos (previous year, configuration changes, ...)
 		return null
 	} else {
-		return deserialize(saveData)
+		const withDeserialization = deserialize(saveData)
+
+		if (withDeserialization.registrationInfo === undefined || isValid(withDeserialization.registrationInfo)) {
+			return withDeserialization
+		} else {
+			return null
+		}
 	}
 }
 

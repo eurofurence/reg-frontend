@@ -5,6 +5,8 @@ import { SubmitForm, SubmitFormActionBundle } from '~/state/actions/forms'
 import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
+import { determineDefaultAddons } from '~/state/selectors/forms'
+import { clearFormCache } from '~/hooks/funnels/form'
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null
@@ -49,10 +51,35 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 	}
 }
 
+const resetAddonsInState = (state: Partial<RegistrationInfo>, ticketType: 'day' | 'full'): Partial<RegistrationInfo> => {
+	if (state.ticketLevel) {
+		return { ...state,
+			ticketLevel: {
+				level: state.ticketLevel.level,
+				addons: determineDefaultAddons(ticketType),
+			} }
+	} else {
+		return state
+	}
+}
+
 const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
 	switch (action.type) {
-		case SubmitForm('register-ticket-type').type:
-			return action.payload.type === 'day' ? state : { ...state, ticketType: { type: action.payload.type! } }
+		case SubmitForm('register-ticket-type').type: {
+			// clear the form cache - not an ideal solution, but it works
+			clearFormCache()
+
+			// here we can force reset ticket addons to defaults (different hidden packages, different defaults)
+			if (action.payload.type === 'day') {
+				// not setting ticketType - it is set when choosing a day
+				return resetAddonsInState(state, 'day')
+			}
+
+			const stateWithAddonsReset = resetAddonsInState(state, 'full')
+
+			return { ...stateWithAddonsReset, ticketType: { type: action.payload.type! } }
+		}
+
 		case SubmitForm('register-ticket-day').type:
 			return { ...state, ticketType: { type: 'day', day: DateTime.fromISO(action.payload.day!, { zone: 'Europe/Berlin' }) } }
 		case SubmitForm('register-ticket-level').type:

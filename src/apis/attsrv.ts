@@ -191,7 +191,7 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 		'tshirt': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
 			&& registrationInfo.ticketLevel.addons.tshirt.selected,
 		'early': registrationInfo.ticketLevel.addons.early.selected,
-		'door': registrationInfo.ticketLevel.addons.door.selected,
+		'late': registrationInfo.ticketLevel.addons.late.selected,
 	}),
 	user_comments: registrationInfo.optionalInfo.comments,
 })

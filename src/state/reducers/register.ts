@@ -6,7 +6,7 @@ import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import config from '~/config'
 import { DateTime } from 'luxon'
 import { determineDefaultAddons } from '~/state/selectors/forms'
-import { clearFormCache } from "~/hooks/funnels/form";
+import { clearFormCache } from '~/hooks/funnels/form'
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null

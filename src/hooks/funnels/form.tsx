@@ -70,6 +70,10 @@ const saveCache = <F extends FormIds>(id: F, values: FormValuesType<F>) => {
 	save('funnel-form', { ...cache, [id]: values })
 }
 
+export const sanitizeFormCache = () => {
+	saveCache('register-ticket-level', undefined as unknown as FormValuesType<'register-ticket-level'>)
+}
+
 /*
  * Wrapper around react-hook-form's `useForm` that dispatches page-specific `ChangeAction`s
  * when an input changes and `SubmitAction`s when the form is submitted to, so that this

@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'issue-218-fixes'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 

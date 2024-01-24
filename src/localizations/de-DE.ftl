@@ -214,7 +214,7 @@ register-ticket-level-card-sponsor =
   + Sponsor-Badge
   + Programmheft mit Danksagung
   + Teilnahme an den regulären Events
-  + früher Zugang zum Dealers' Den (Donnerstag)
+  + früher Zugang zu Dealers' Den und Art Show (Donnerstag)
   + Prioritäts-Warteschlange bei bestimmten Events
   + Sponsor-Paket
   + kostenloses T-Shirt
@@ -231,7 +231,7 @@ register-ticket-level-card-super-sponsor =
   + Super-Sponsor-Badge
   + Programmheft mit Danksagung
   + Teilnahme an den regulären Events
-  + Besonders früher Zugang zum Dealers' Den (Donnerstag)
+  + Besonders früher Zugang zu Dealers' Den und Art Show (Donnerstag)
   + Prioritäts-Warteschlange bei bestimmten Events
   + Super-Sponsor-Paket
   + kostenloses T-Shirt

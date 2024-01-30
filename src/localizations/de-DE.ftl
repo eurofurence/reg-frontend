@@ -487,7 +487,7 @@ register-summary-validation-errors-rules-and-conditions-accepted-required = Du m
 register-thank-you-title = Danke für Deine Anmeldung
 register-thank-you-subtitle = Nächste Schritte
 register-thank-you-content =
-  Wir werden Deine Anmeldung prüfen und Dir in wenigen Wochen eine Antwort senden.
+  Wir werden Deine Anmeldung prüfen und Dir in wenigen Tagen eine Antwort senden.
   Du erhältst eine Benachrichtigung per Email nachdem wir Deine Anmeldung bearbeitet haben.
 
 

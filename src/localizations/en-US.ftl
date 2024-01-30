@@ -487,7 +487,7 @@ register-summary-validation-errors-rules-and-conditions-accepted-required = You 
 register-thank-you-title = Thank you for your registration
 register-thank-you-subtitle = Next steps
 register-thank-you-content =
-  We'll review your registration and send you a response within a few weeks.
+  We'll review your registration and send you a response within a few days.
   You'll receive an update by e-mail after we've processed and approved your registration.
 
 

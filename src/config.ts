@@ -20,7 +20,7 @@ const config = checkConfig({
 	hoursBeforeEditAvailable: 4,
 	hotelBookingLaunch: DateTime.fromISO('2023-01-28T12:30:23+02:00'),
 	eventStartDate: DateTime.fromISO('2024-09-18', { zone: 'Europe/Berlin' }),
-	eventEndDate: DateTime.fromISO('2024-09-22', { zone: 'Europe/Berlin' }),
+	eventEndDate: DateTime.fromISO('2024-09-21', { zone: 'Europe/Berlin' }),
 	dayTicketStartDate: DateTime.fromISO('2024-09-18', { zone: 'Europe/Berlin' }),
 	dayTicketEndDate: DateTime.fromISO('2024-09-21', { zone: 'Europe/Berlin' }),
 	earliestBirthDate: DateTime.fromISO('1901-01-01'),
@@ -253,11 +253,10 @@ const config = checkConfig({
 		privacyStatement: 'https://help.eurofurence.org/legal/privacy',
 		imprint: 'https://help.eurofurence.org/legal/imprint',
 		// further links we may need
-		policies: 'https://www.eurofurence.org/EF27/policies',
-		hotelInfo: 'https://www.eurofurence.org/EF27/hotel',
+		policies: 'https://www.eurofurence.org/EF28/policies',
+		hotelInfo: 'https://www.eurofurence.org/EF28/hotels',
 		terms: 'https://help.eurofurence.org/legal/terms',
 		rules: 'https://help.eurofurence.org/legal/roc',
-		waiver: 'https://help.eurofurence.org/legal/liability',
 		contact: 'https://help.eurofurence.org/contact',
 		// TODO do we need to display this in a popup?
 		//

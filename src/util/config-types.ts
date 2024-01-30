@@ -82,7 +82,6 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		readonly hotelInfo: string
 		readonly terms: string
 		readonly rules: string
-		readonly waiver: string
 		readonly contact: string
 	}
 }

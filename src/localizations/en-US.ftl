@@ -68,6 +68,9 @@ invoice-item-definition-register-ticket-addons-dealer-half =
 invoice-item-definition-register-ticket-addons-dealer-full =
   .name = Dealer (1 Table)
 
+invoice-item-definition-register-ticket-addons-dealer-fullplus =
+  .name = Dealer (1.5 Tables)
+
 invoice-item-definition-register-ticket-addons-dealer-double =
   .name = Dealer (2 Tables)
 

@@ -102,6 +102,12 @@ const config = checkConfig({
 			options: {},
 			hidden: true,
 		},
+		'dealer-fullplus': {
+			price: 150,
+			default: false,
+			options: {},
+			hidden: true,
+		},
 		'dealer-double': {
 			price: 200,
 			default: false,

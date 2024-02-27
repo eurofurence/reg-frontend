@@ -13,7 +13,7 @@ import { DateTime } from 'luxon'
 const apiPath = (path: string) => process.env.GATSBY_API_BASE_URL === undefined ? withPrefix(path) : `${process.env.GATSBY_API_BASE_URL}${path}`
 
 const config = checkConfig({
-	version: 3, // increment to prevent loading from local storage (new year, pricing changes, default packages)
+	version: 4, // increment to prevent loading from local storage (new year, pricing changes, default packages)
 	eventName: 'Eurofurence',
 	registrationLaunch: DateTime.fromISO('2023-01-21T12:30:23+02:00'),
 	registrationExpirationDate: DateTime.fromISO('2024-09-22', { zone: 'Europe/Berlin' }),
@@ -74,7 +74,7 @@ const config = checkConfig({
 		},
 		'early': {
 			price: -15,
-			default: true, // don't forget to increment version when changing this
+			default: false, // don't forget to increment version when changing this
 			options: {},
 			unavailableFor: {
 				type: ['day'],

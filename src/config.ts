@@ -121,13 +121,13 @@ const config = checkConfig({
 			hidden: true,
 		},
 		'boat-trip': {
-			price: 35,
+			price: 40,
 			default: false,
 			options: {},
 			hidden: true,
 		},
 		'boat-vip': {
-			price: 15,
+			price: 25,
 			default: false,
 			options: {},
 			hidden: true,

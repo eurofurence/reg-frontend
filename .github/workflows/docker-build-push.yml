@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'release/ef-2024'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -41,7 +42,7 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker build and push 'latest' image
+      - name: Docker build and push 'latest-ef' image
         if: startsWith(github.ref, 'refs/heads/')
         run: >
           TAG_ARGS=$(echo -n "$IMAGE_TAGS" | sed -r "s_([^ :/]+)_ --tag $REGISTRY/$IMAGE_NAME:\1 _g") &&
@@ -56,7 +57,7 @@ jobs:
         env:
           REGISTRY: 'ghcr.io'
           IMAGE_NAME: ${{ github.repository }}
-          IMAGE_TAGS: latest
+          IMAGE_TAGS: latest-ef
           FULL_REPO_URL: "https://github.com/${{ github.repository }}"
           COMMIT_HASH: ${{ github.sha }}
 

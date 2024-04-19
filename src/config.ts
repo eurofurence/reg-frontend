@@ -256,7 +256,7 @@ const config = checkConfig({
 		roomsrv: {
 			url: apiPath('/roomsrv/api/rest/v1'),
 			enable: true,
-		}
+		},
 	},
 	websiteLinks: {
 		// these two links need to be in the footer bar on each page

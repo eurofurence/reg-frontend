@@ -46,17 +46,17 @@ export interface MemberDto {
 
 export type GroupFlag =
 	| 'public' // visible in listing for approved attendees
-    | 'wheelchair' // require handicap accessibility
+	| 'wheelchair' // require handicap accessibility
 
 export interface GroupDto {
 	readonly id: string
 	readonly name: string
-	readonly flags: GroupFlag[]
-	readonly comments: string
+	readonly flags?: GroupFlag[]
+	readonly comments?: string
 	readonly maximum_size: number
 	readonly owner: number // badge number
 	readonly members: MemberDto[]
-	readonly invites: MemberDto[]
+	readonly invites?: MemberDto[]
 }
 
 export interface GroupListDto {
@@ -65,26 +65,27 @@ export interface GroupListDto {
 
 export interface GroupCreateDto {
 	readonly name: string
-	readonly flags: GroupFlag[]
-	readonly comments: string
+	readonly flags?: GroupFlag[]
+	readonly comments?: string
 }
 
 export type RoomFlag =
 	| 'wheelchair' // has handicap accessibility
+	| 'final' // visible to attendees in the room
 
 export interface RoomDto {
 	readonly id: string
 	readonly name: string
-	readonly flags: RoomFlag[]
-	readonly comments: string
+	readonly flags?: RoomFlag[]
+	readonly comments?: string
 	readonly size: number
-	readonly members: MemberDto[]
+	readonly members?: MemberDto[]
 }
 
 export class RoomSrvAppError extends AppError<Replace<RoomErrorMessage, '.', '-', { all: true }>> {
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 	constructor(err: AjaxError) {
-		const errDto : RoomErrorDto = err.response as RoomErrorDto
+		const errDto: RoomErrorDto = err.response as RoomErrorDto
 
 		super('roomsrv', errDto.message.replaceAll('.', '-'), `Room API Error: ${JSON.stringify(errDto, undefined, 2)}`)
 	}
@@ -189,6 +190,8 @@ export const roomCountdownCheck = () => apiCall<RoomCountdownDto>({
  *
  * This endpoint is optimized in the backend for high traffic, so it is safe to call during initial room booking.
  */
+// why is this necessary? How does this differ from the stuff in attsrv.ts?!?
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export const createNewGroup = (group: GroupCreateDto) => apiCall({
 	path: '/groups',
 	method: 'POST',
@@ -254,10 +257,12 @@ export const getGroup = (uuid: string) => apiCall<GroupDto>({
  * 409: Your changes would turn this group into a duplicate (for example same name as existing other group)
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
  */
+// why is this necessary? How does this differ from the stuff in attsrv.ts?!?
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export const updateGroup = (uuid: string, group: GroupDto) => apiCall({
 	path: `/groups/${uuid}`,
 	method: 'PUT',
-	body: group
+	body: group,
 })
 
 /*
@@ -278,7 +283,7 @@ export const updateGroup = (uuid: string, group: GroupDto) => apiCall({
  */
 export const deleteGroup = (uuid: string) => apiCall({
 	path: `/groups/${uuid}`,
-	method: 'DELETE'
+	method: 'DELETE',
 })
 
 /*
@@ -344,7 +349,7 @@ export const deleteGroup = (uuid: string) => apiCall({
  */
 export const joinOrInviteToGroup = (uuid: string, badgenumber: number, nickname?: string, code?: string) => apiCall({
 	path: `/groups/${uuid}/members/${badgenumber}?nickname=${nickname}&code=${code}`,
-	method: 'POST'
+	method: 'POST',
 })
 
 /*
@@ -382,7 +387,7 @@ export const joinOrInviteToGroup = (uuid: string, badgenumber: number, nickname?
  */
 export const kickOrDeclineFromGroup = (uuid: string, badgenumber: number, autodeny?: boolean) => apiCall({
 	path: `/groups/${uuid}/members/${badgenumber}?autodeny=${autodeny}`,
-	method: 'DELETE'
+	method: 'DELETE',
 })
 
 /*

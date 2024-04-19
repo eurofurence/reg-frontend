@@ -74,6 +74,10 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		readonly paysrv: {
 			readonly url: string
 		}
+		readonly roomsrv: {
+			readonly url: string
+			readonly enable: boolean
+		}
 	}
 	readonly websiteLinks: {
 		readonly privacyStatement: string

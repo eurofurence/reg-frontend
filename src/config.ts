@@ -253,6 +253,10 @@ const config = checkConfig({
 		paysrv: {
 			url: apiPath('/paysrv/api/rest/v1'),
 		},
+		roomsrv: {
+			url: apiPath('/roomsrv/api/rest/v1'),
+			enable: true,
+		}
 	},
 	websiteLinks: {
 		// these two links need to be in the footer bar on each page

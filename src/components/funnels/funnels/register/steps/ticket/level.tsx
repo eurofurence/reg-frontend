@@ -90,7 +90,20 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 						label="Late Fee"
 						price="+15" ></TicketLevelFootnote>
 				</Localized>
-			</ModifiersSection> : undefined }
+				<Localized id="register-ticket-level-footnote-late-sponsors" attrs={{ label: true, description: true, price: false }}>
+					<TicketLevelFootnote
+						marker="**"
+						label="Subject to availability if booked less than 1 month before the convention!"
+						price="" ></TicketLevelFootnote>
+				</Localized>
+			</ModifiersSection> : <ModifiersSection>
+				<Localized id="register-ticket-level-footnote-late-sponsors" attrs={{ label: true, description: true, price: false }}>
+					<TicketLevelFootnote
+						marker="**"
+						label="Subject to availability if booked less than 1 month before the convention!"
+						price="" ></TicketLevelFootnote>
+				</Localized>
+			</ModifiersSection> }
 			<AddonsSection>
 				<Localized id="register-ticket-level-addons-title"><h3>Select add-ons</h3></Localized>
 				<AddonsContainer>

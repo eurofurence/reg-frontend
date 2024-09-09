@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'release/ef-2024'
+      - 'issue-244-onsite-uis'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 

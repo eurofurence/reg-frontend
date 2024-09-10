@@ -219,8 +219,8 @@ register-ticket-level-card-sponsor =
   + Teilnahme an den regulären Events
   + früher Zugang zu Dealers' Den und Art Show (Donnerstag)
   + Prioritäts-Warteschlange bei bestimmten Events
-  + Sponsor-Paket
-  + kostenloses T-Shirt
+  + Sponsor-Paket**
+  + kostenloses T-Shirt**
 
   .label = Sponsor
   .priceLabel = {$type ->
@@ -236,8 +236,8 @@ register-ticket-level-card-super-sponsor =
   + Teilnahme an den regulären Events
   + Besonders früher Zugang zu Dealers' Den und Art Show (Donnerstag)
   + Prioritäts-Warteschlange bei bestimmten Events
-  + Super-Sponsor-Paket
-  + kostenloses T-Shirt
+  + Super-Sponsor-Paket**
+  + kostenloses T-Shirt**
 
   .label = Supersponsor
   .priceLabel = {$type ->
@@ -253,6 +253,10 @@ register-ticket-level-modifiers-late-fee =
   .label = Spätbucheraufschlag (bei Zahlung ab 1. Juni)
   .price = +15 €
 
+register-ticket-level-footnote-late-sponsors =
+  .label = Nach Verfügbarkeit bei Buchung weniger als 1 Monat vor der Convention!
+  .price = .
+
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}
 
 register-ticket-level-addons-title = Zusatzoptionen auswählen
@@ -263,7 +267,7 @@ register-ticket-level-addons-item-stage-pass =
 
 register-ticket-level-addons-item-tshirt =
   .label = Eurofurence T-shirt
-  .description = Hochwertiges T-Shirt aus 100% Baumwolle. Du kannst es auch vor Ort kaufen, aber hier kannst Du es in Deiner Größe vorbestellen.
+  .description = Hochwertiges T-Shirt aus 100% Baumwolle. Du kannst es auch vor Ort kaufen, aber wenn Du es mindestens einen Monat vor der Convention vorbestellst, bekommst Du auch sicher eines.
 
 register-ticket-level-addons-item-tshirt-option-size =
   .label = T-Shirt-Größe

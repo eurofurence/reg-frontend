@@ -16,10 +16,10 @@ export interface ErrorReport {
 	readonly error: unknown
 }
 
-export class AppError<ErrorCode extends string | number = string | number> extends Error {
+export class AppError<ErrorCodeEnum extends string | number = string | number> extends Error {
 	constructor(
 		public category: string,
-		public code: ErrorCode,
+		public code: ErrorCodeEnum,
 		public detailedMessage: string,
 	) {
 		super(`${code} - ${detailedMessage}`)

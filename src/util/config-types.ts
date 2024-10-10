@@ -45,6 +45,7 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 	readonly dayTicketEndDate: DateTime
 	readonly earliestBirthDate: DateTime
 	readonly minimumAge: number
+	readonly enableRoomshare: boolean
 	readonly allowedCountries: readonly (
 		| 'AF' | 'AX' | 'AL' | 'DZ' | 'AS' | 'AD' | 'AO' | 'AI' | 'AQ' | 'AG' | 'AR' | 'AM' | 'AW' | 'AC' | 'AU' | 'AT' | 'AZ' | 'BS' | 'BH' | 'BD'
 		| 'BB' | 'BY' | 'BE' | 'BZ' | 'BJ' | 'BM' | 'BT' | 'BO' | 'BQ' | 'BA' | 'BW' | 'BV' | 'BR' | 'IO' | 'BN' | 'BG' | 'BF' | 'BI' | 'CV' | 'KH'
@@ -73,6 +74,10 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		}
 		readonly paysrv: {
 			readonly url: string
+		}
+		readonly roomsrv: {
+			readonly url: string
+			readonly enable: boolean
 		}
 	}
 	readonly websiteLinks: {

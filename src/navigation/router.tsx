@@ -10,23 +10,30 @@ import Room from '~/components/funnels/funnels/hotel-booking/steps/room'
 import Guests from '~/components/funnels/funnels/hotel-booking/steps/guests'
 import AdditionalInfo from '~/components/funnels/funnels/hotel-booking/steps/additional-info'
 import Email from '~/components/funnels/funnels/hotel-booking/steps/email'
+import RoomShare from '~/components/funnels/funnels/register/steps/roomshare'
 
 import * as ROUTES from './routes'
 import { withPrefix } from 'gatsby'
 import { useAppSelector } from '~/hooks/redux'
 import { isEditMode } from '~/state/selectors/register'
+import config from '~/config'
 
 export const EFRouter = () =>
 	<IndexPage />
 
+const RoomShareRoutes = () =>
+	<RoomShare path={`/${ROUTES.REGISTER_ROOM_SHARE}`} />
+
 export const RegisterRouter = () => {
 	const isEdit = useAppSelector(isEditMode())
+	const enableRoomShare = config.enableRoomshare
 
 	return <Router basepath={withPrefix('/register')}>
 		<Ticket default={!isEdit} path={`/${ROUTES.REGISTER_TICKET}/*`} />
 		<Personal path={`/${ROUTES.REGISTER_PERSONAL}`} />
 		<Contact path={`/${ROUTES.REGISTER_CONTACT}`} />
 		<Optional path={`/${ROUTES.REGISTER_OPTIONAL}`} />
+		{enableRoomShare && <RoomShareRoutes />}
 		<Summary default={isEdit} path={`/${ROUTES.REGISTER_SUMMARY}`} />
 		<ThankYou path={`/${ROUTES.REGISTER_THANK_YOU}`} />
 	</Router>

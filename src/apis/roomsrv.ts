@@ -7,22 +7,30 @@ import { AppError } from '~/state/models/errors'
 import type { Replace } from 'type-fest'
 
 export type RoomErrorMessage =
+	| 'attendee.validation.error' // attendee service downstream failure (mostly during permission check)
+	| 'attendee.notfound'
+	| 'attendee.status.not.attending'
 	| 'auth.forbidden'
 	| 'auth.unauthorized'
+	| 'group.ban.duplicate'
+	| 'group.ban.notfound'
 	| 'group.data.duplicate'
 	| 'group.data.invalid'
 	| 'group.id.invalid'
 	| 'group.id.notfound'
 	| 'group.invite.mismatch'
 	| 'group.mail.error'
+	| 'group.member.conflict'
 	| 'group.member.duplicate'
 	| 'group.member.notfound'
-	| 'group.owner.notfound'
+	| 'group.owner.notingroup'
 	| 'group.owner.cannot.remove'
 	| 'group.parse.error'
 	| 'group.read.error'
+	| 'group.size.full'
 	| 'group.write.error'
-	| 'room.group.notfound'
+	| 'http.error.internal'
+	| 'request.parse.failed'
 	| 'room.id.invalid'
 	| 'room.id.notfound'
 	| 'room.read.error'
@@ -38,10 +46,10 @@ export interface RoomCountdownDto {
 }
 
 export interface MemberDto {
-	readonly id: number // badge number
-	readonly nickname: string
+	readonly id: number // badge number, may be 0 if masked entry
+	readonly nickname: string // may be empty if masked entry
 	readonly avatar: string // url to avatar, may be empty
-	readonly hasKey: boolean
+	readonly flags: string[] // currently unused
 }
 
 export type GroupFlag =
@@ -49,13 +57,13 @@ export type GroupFlag =
 	| 'wheelchair' // require handicap accessibility
 
 export interface GroupDto {
-	readonly id: string
-	readonly name: string
+	readonly id: string // uuid of the group
+	readonly name: string // name of the group, up to 80 characters
 	readonly flags?: GroupFlag[]
 	readonly comments?: string
 	readonly maximum_size: number
 	readonly owner: number // badge number
-	readonly members: MemberDto[]
+	readonly members: MemberDto[] // a group will always contain at least its owner
 	readonly invites?: MemberDto[]
 }
 
@@ -67,6 +75,8 @@ export interface GroupCreateDto {
 	readonly name: string
 	readonly flags?: GroupFlag[]
 	readonly comments?: string
+	// maximum size defaults to configuration value
+	// for non-admins, owner will always be the user making the creation request
 }
 
 export type RoomFlag =
@@ -74,12 +84,12 @@ export type RoomFlag =
 	| 'final' // visible to attendees in the room
 
 export interface RoomDto {
-	readonly id: string
-	readonly name: string
+	readonly id: string // uuid of the room
+	readonly name: string // up to 80 characters
 	readonly flags?: RoomFlag[]
 	readonly comments?: string
 	readonly size: number
-	readonly members?: MemberDto[]
+	readonly occupants?: MemberDto[]
 }
 
 export class RoomSrvAppError extends AppError<Replace<RoomErrorMessage, '.', '-', { all: true }>> {
@@ -172,21 +182,30 @@ export const roomCountdownCheck = () => apiCall<RoomCountdownDto>({
  *
  * For hotel style conventions, if this succeeds, this means the attendee has just reserved a room,
  * and the room price has been added to their invoice. They may invite others to their room, up to the
- * room capacity, and thus share the cost.
+ * room capacity, and thus share the cost. (Note: hotel style not implemented yet)
  *
  * Each attendee can be a member of at most one group, and they lose it if cancelled, e.g. due to failure to pay.
  *
  * 201: success.
  *
  * 400: This indicates a bug in this app because any validation errors should have been caught during field validation.
- * The RoomErrorDto's details field will contain english language messages that describe the error in detail.
+ * The RoomErrorDto's details field will contain English language messages that describe the error in detail.
  * It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  *
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  *
+ * 403: The user does not have permission to create groups (not a valid registration? not in valid status for creating a group?).
+ * In most cases, this indicates a bug in this app because validation and previous checks should never have let the user
+ * attempt to create a group.
+ * The RoomErrorDto's details field will contain an English language message that describes the error in detail.
+ * It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
+ *
  * 409: Duplicate (same group name), or this user already is in a group (use /groups/my to check).
  *
  * 500: It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
+ *
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ * It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  *
  * This endpoint is optimized in the backend for high traffic, so it is safe to call during initial room booking.
  */
@@ -199,14 +218,24 @@ export const createNewGroup = (group: GroupCreateDto) => apiCall({
 })
 
 /*
- * GET /groups/my obtains the group the current user belongs to.
+ * GET /groups/my obtains the group the current user belongs to or has been invited to.
  *
- * Returns GroupDto and status 200, or RoomErrorDto and 401, 403, 404, 500.
+ * Returns GroupDto and status 200, or RoomErrorDto and 401, 403, 404, 500, 502.
+ *
+ * This endpoint works the same for admins and ordinary users, even for admins it will require them to have a valid registration in attending status.
+ * This allows reg-frontend to be used by admins for managing their own group exactly as an ordinary user would.
+ *
+ * Rules for field visibility (apply even to admin users for this endpoint):
+ * Group owner: can see all fields.
+ * Group members: can see all other members of the group with full information, but no invites.
+ * Invited: can see only their invite record, but no other invites, and no group members. The group comment is hidden.
  *
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
- * 403: This user does not have a valid registration and thus is not eligible for groups.
+ * 403: This user does not have a valid registration or not in attending status and thus is not eligible for groups.
  * 404: This user, while eligible, is not currently in a group.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const findMyGroup = () => apiCall<GroupDto>({
 	path: '/groups/my',
@@ -216,11 +245,24 @@ export const findMyGroup = () => apiCall<GroupDto>({
 /*
  * GET /groups?show=public lists public groups, which may be available to request joining.
  *
- * Returns GroupListDto and status 200, or RoomErrorDto and 401, 403, 500.
+ * Returns GroupListDto and status 200, or RoomErrorDto and 401, 403, 404, 500, 502.
+ *
+ * Because of the show=public parameter, this endpoint works the same for admins and ordinary users,
+ * even for admins it will require them to have a valid registration in attending status.
+ * This allows reg-frontend to be used by admins for managing their own group exactly as an ordinary user would.
+ *
+ * Rules for field visibility (apply even to admin users):
+ * Group owner: can see all fields.
+ * Group members: can see all other members of the group with full information, but no invites.
+ * Invited: can see only their invite record, but no other invites, and no group members. The group comment is hidden.
+ * All others can see neither members nor invites. The group comment is hidden.
  *
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  * 403: This user does not have a valid registration and thus may not list groups (bars e.g. cancelled regs from viewing public groups)
+ * 404: You do not have a valid registration, and so cannot see the list of groups.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const findPublicGroups = () => apiCall<GroupListDto>({
 	path: '/groups?show=public',
@@ -230,13 +272,19 @@ export const findPublicGroups = () => apiCall<GroupListDto>({
 /*
  * GET /groups/{uuid} reads a specific group.
  *
- * Returns GroupDto and status 200, or RoomErrorDto and 400, 401, 403, 404, 500.
+ * Returns GroupDto and status 200, or RoomErrorDto and 400, 401, 403, 404, 500, 502.
+ *
+ * Note that for obtaining the group a user is in or has already been invited to, you should really use the /groups/my endpoint.
+ *
+ * This is mainly useful for reading group information when a user uses an invitation link created by the group owner.
  *
  * 400: the uuid was not valid
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  * 403: This user does not have access to this group.
  * 404: No such group.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const getGroup = (uuid: string) => apiCall<GroupDto>({
 	path: `/groups/${uuid}`,
@@ -248,7 +296,9 @@ export const getGroup = (uuid: string) => apiCall<GroupDto>({
  *
  * Note that you cannot use this to change the group members!
  *
- * Returns status 204, or RoomErrorDto and 400, 401, 403, 404, 409, 500.
+ * Admins or the current group owner can change the group owner to any member of the group.
+ *
+ * Returns status 204, or RoomErrorDto and 400, 401, 403, 404, 409, 500, 502.
  *
  * 400: the uuid or request body was not valid, or you tried to make changes to the group members.
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
@@ -256,6 +306,8 @@ export const getGroup = (uuid: string) => apiCall<GroupDto>({
  * 404: No such group.
  * 409: Your changes would turn this group into a duplicate (for example same name as existing other group)
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 // why is this necessary? How does this differ from the stuff in attsrv.ts?!?
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
@@ -268,18 +320,22 @@ export const updateGroup = (uuid: string, group: GroupDto) => apiCall({
 /*
  * DELETE /groups/{uuid} deletes a group.
  *
- * Note that you cannot use this while there are still any group members other than the owner! You must kick them out first.
+ * Disband (and delete) an existing group by uuid. Only the current owner or an admin can do this.
  *
- * Deleting a group will automatically expire all pending invites.
+ * Deleting a group will first kick everyone from the group! Deleting a group will also automatically expire all pending invites.
  *
- * Returns status 204, or RoomErrorDto and 400, 401, 403, 404, 409, 500.
+ * Note that it may not be the best user experience to allow using this while there are still any group members other than the owner!
+ * You should probably make the owner kick them out first. Or ask confirmation really strongly emphasizing the fact everyone will get kicked.
+ *
+ * Returns status 204, or RoomErrorDto and 400, 401, 403, 404, 409, 500, 502.
  *
  * 400: the uuid was not valid.
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  * 403: This user does not have permission to delete this group (not its owner and not an admin).
  * 404: No such group.
- * 409: There were still other people in the group. Must remove them first so only the owner remains.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const deleteGroup = (uuid: string) => apiCall({
 	path: `/groups/${uuid}`,
@@ -295,18 +351,11 @@ export const deleteGroup = (uuid: string) => apiCall({
  *
  * Only attending attendees can be added to a group or invited to groups.
  *
- * Attendees cannot be in more than one group. Attendees who are members of any group cannot be invited to any group.
- *
- * The moment an attendee becomes a member of any group, any existing invitations for that attendee are discarded.
- *
- * For a single group, there can be only one invitation for each attendee.
+ * Attendees cannot be in or invited to more than one group. Attendees who are members of any group cannot be invited to any group.
  *
  * The total number of invitations plus members of a group cannot exceed its size. Example: If your
  * group has 2 members, and maximum group size is 4, you can invite at most 2 attendees. This is to prevent
  * invitation spam.
- *
- * If an attendee is already in a group, or has already been individually assigned to a room, then they
- * cannot be added to a group any more.
  *
  * **Case 1: Owner invites first**
  *
@@ -344,8 +393,10 @@ export const deleteGroup = (uuid: string) => apiCall({
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  * 403: Permission denied.
  * 404: Attendee or group not found, or wrong nickname, or wrong invitation code, or not a public group.
- * 409: Duplicate assignment, or this attendee is already in another group, or has been individually assigned to a room.
+ * 409: Duplicate assignment, or this attendee is already in another group, or has been invited to another group.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const joinOrInviteToGroup = (uuid: string, badgenumber: number, nickname?: string, code?: string) => apiCall({
 	path: `/groups/${uuid}/members/${badgenumber}?nickname=${nickname}&code=${code}`,
@@ -380,10 +431,12 @@ export const joinOrInviteToGroup = (uuid: string, badgenumber: number, nickname?
  * 204: success
  * 400: invalid group id or badge number supplied
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
- * 403: Permission denied.
+ * 403: Permission denied. Will happen for example if you are neither the group owner nor the user with badgenumber.
  * 404: Attendee or group not found, or not a member.
  * 409: Conflict, this attendee is currently the owner of the group. Either change the owner first, or disband (delete) the group completely after kicking out everyone else.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const kickOrDeclineFromGroup = (uuid: string, badgenumber: number, autodeny?: boolean) => apiCall({
 	path: `/groups/${uuid}/members/${badgenumber}?autodeny=${autodeny}`,
@@ -396,14 +449,18 @@ export const kickOrDeclineFromGroup = (uuid: string, badgenumber: number, autode
  * Visibility of this information depends on the "final" flag that is set on the room, so admins can start planning
  * room assignments without them becoming immediately visible to users.
  *
- * This endpoint works even for admins, giving them the room they are in.
+ * This endpoint works even for admins, giving them the room they are in. It treats admins exactly the same as regular users,
+ * so admins can be shown their assigned room with the same user experience as a regular user.
  *
- * Returns RoomDto and status 200, or RoomErrorDto and 401, 403, 404, 500.
+ * Returns RoomDto and status 200, or RoomErrorDto and 401, 403, 404, 500, 502.
  *
  * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
  * 403: The user does not have permission to see their room (maybe not an active registration?)
- * 404: You are not in any rooms (that are visible to you). Note that this may happen even if the attendee actually is in a room, but the room isn't flagged as "final". This is to prevent showing premature (wrong) room information while the admins are still planning room assignments.
+ * 404: You are not in any rooms (that are visible to you). Note that this may happen even if the attendee actually is in a room,
+ *      but the room isn't flagged as "final". This is to prevent showing premature (wrong) room information while the admins are still planning room assignments.
  * 500: It is important to communicate the RoomErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The attendee service failed to respond when asked for the user's registrations.
+ *      It is important to communicate the requestid field to the user, so they can give it to us, so we can look in the logs.
  */
 export const findMyRoom = () => apiCall<RoomDto>({
 	path: '/rooms/my',

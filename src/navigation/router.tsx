@@ -17,23 +17,21 @@ import { withPrefix } from 'gatsby'
 import { useAppSelector } from '~/hooks/redux'
 import { isEditMode } from '~/state/selectors/register'
 import config from '~/config'
+import RoomShareHome from '~/components/funnels/funnels/register/steps/roomshare/home'
+import RoomShareCreate from '~/components/funnels/funnels/register/steps/roomshare/create'
+import RoomShareJoin from '~/components/funnels/funnels/register/steps/roomshare/join'
 
 export const EFRouter = () =>
 	<IndexPage />
 
-const RoomShareRoutes = () =>
-	<RoomShare path={`/${ROUTES.REGISTER_ROOM_SHARE}`} />
-
 export const RegisterRouter = () => {
 	const isEdit = useAppSelector(isEditMode())
-	const enableRoomShare = config.enableRoomshare
 
 	return <Router basepath={withPrefix('/register')}>
 		<Ticket default={!isEdit} path={`/${ROUTES.REGISTER_TICKET}/*`} />
 		<Personal path={`/${ROUTES.REGISTER_PERSONAL}`} />
 		<Contact path={`/${ROUTES.REGISTER_CONTACT}`} />
 		<Optional path={`/${ROUTES.REGISTER_OPTIONAL}`} />
-		{enableRoomShare && <RoomShareRoutes />}
 		<Summary default={isEdit} path={`/${ROUTES.REGISTER_SUMMARY}`} />
 		<ThankYou path={`/${ROUTES.REGISTER_THANK_YOU}`} />
 	</Router>
@@ -46,3 +44,11 @@ export const HotelBookingRouter = () =>
 		<AdditionalInfo path={ROUTES.HOTEL_BOOKING_ADDITIONAL_INFO} />
 		<Email path={ROUTES.HOTEL_BOOKING_EMAIL} />
 	</Router>
+
+export const RoomShareRouter = () => {
+	return <Router basepath={withPrefix('/room-share')}>
+		<RoomShareHome default path={`/${ROUTES.REGISTER_ROOM_SHARE_HOME}`} />
+		<RoomShareCreate path={`/${ROUTES.REGISTER_ROOM_SHARE_CREATE}`} />`
+		<RoomShareJoin path={`/${ROUTES.REGISTER_ROOM_SHARE_JOIN}`} />
+	</Router>
+}

@@ -8,9 +8,6 @@ import RoomShareCreate from '~/components/funnels/funnels/register/steps/roomsha
 
 const RoomShare = (_: ReadonlyRouteComponentProps) =>
 	<Router basepath={withPrefix('/register/room-share')}>
-		<RoomShareHome path={`/${ROUTES.REGISTER_ROOM_SHARE_HOME}`} />
-		<RoomShareCreate path={`/${ROUTES.REGISTER_ROOM_SHARE_CREATE}`} />`
-		<RoomShareJoin path={`/${ROUTES.REGISTER_ROOM_SHARE_JOIN}`} />
 	</Router>
 
 export default RoomShare

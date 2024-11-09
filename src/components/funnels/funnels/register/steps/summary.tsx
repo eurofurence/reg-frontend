@@ -147,6 +147,8 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={5}>
 		<Localized id={`register-summary-title-${isEdit ? 'edit' : 'initial'}`}><h3>Your registration</h3></Localized>
 
+		{config.enableRoomshare ? <Localized id="register-summary-roomshare"><Link to="/room-share">Room share</Link></Localized> : undefined}
+
 		<Localized id="register-summary-registration-status" vars={{ status }}>
 			<StatusText status={status}>We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!</StatusText>
 		</Localized>

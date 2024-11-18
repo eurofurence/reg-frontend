@@ -10,16 +10,15 @@ import Room from '~/components/funnels/funnels/hotel-booking/steps/room'
 import Guests from '~/components/funnels/funnels/hotel-booking/steps/guests'
 import AdditionalInfo from '~/components/funnels/funnels/hotel-booking/steps/additional-info'
 import Email from '~/components/funnels/funnels/hotel-booking/steps/email'
-import RoomShare from '~/components/funnels/funnels/register/steps/roomshare'
 
 import * as ROUTES from './routes'
 import { withPrefix } from 'gatsby'
 import { useAppSelector } from '~/hooks/redux'
 import { isEditMode } from '~/state/selectors/register'
-import config from '~/config'
-import RoomShareHome from '~/components/funnels/funnels/register/steps/roomshare/home'
-import RoomShareCreate from '~/components/funnels/funnels/register/steps/roomshare/create'
-import RoomShareJoin from '~/components/funnels/funnels/register/steps/roomshare/join'
+import RoomShareHome from '~/components/funnels/funnels/roomshare/home'
+import RoomShareCreate from '~/components/funnels/funnels/roomshare/create'
+import RoomShareJoin from '~/components/funnels/funnels/roomshare/join'
+import { REGISTER_ROOM_SHARE } from './routes'
 
 export const EFRouter = () =>
 	<IndexPage />
@@ -46,9 +45,9 @@ export const HotelBookingRouter = () =>
 	</Router>
 
 export const RoomShareRouter = () => {
-	return <Router basepath={withPrefix('/room-share')}>
-		<RoomShareHome default path={`/${ROUTES.REGISTER_ROOM_SHARE_HOME}`} />
-		<RoomShareCreate path={`/${ROUTES.REGISTER_ROOM_SHARE_CREATE}`} />`
-		<RoomShareJoin path={`/${ROUTES.REGISTER_ROOM_SHARE_JOIN}`} />
+	return <Router basepath={withPrefix(`/${REGISTER_ROOM_SHARE}`)}>
+		<RoomShareHome default path={ROUTES.REGISTER_ROOM_SHARE_HOME} />
+		<RoomShareCreate path={ROUTES.REGISTER_ROOM_SHARE_CREATE} />
+		<RoomShareJoin path={ROUTES.REGISTER_ROOM_SHARE_JOIN} />
 	</Router>
 }

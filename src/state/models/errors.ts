@@ -9,6 +9,7 @@ export type AppErrorOperation =
 	| 'registration-initiate-payment'
 	| 'registration-set-locale'
 	| 'user-info-lookup'
+	| 'room-share-load'
 	| 'unknown'
 
 export interface ErrorReport {

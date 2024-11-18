@@ -12,17 +12,24 @@ import { useCurrentLocale } from '~/localization'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import { Checkbox, ErrorMessage, Form } from '@eurofurence/reg-component-library'
 import config from '~/config'
+import { getRoomGroup } from '~/state/selectors/room-sharing'
+import { GroupDto } from '~/apis/roomsrv'
+import { is } from 'ramda'
+import room from '~/components/funnels/funnels/hotel-booking/steps/room'
 
 interface PropertyDefinition {
 	readonly id: string
 	readonly value: string
 	readonly wide?: boolean
+	readonly subvalue?: string
 }
 
 interface SectionProps {
 	readonly id: string
 	readonly editLink: string
 	readonly properties: readonly PropertyDefinition[]
+	readonly editText?: string
+	readonly showEditLink?: boolean
 }
 
 const SectionContainer = styled.section<{ readonly status: RegistrationStatus }>`
@@ -100,7 +107,6 @@ const RegistrationId = styled.p`
 	&:not(:first-child) {
 		margin-top: 2em;
 	}
-}
 `
 
 const TermsForm = styled(Form)`
@@ -111,19 +117,38 @@ const StatusText = styled.p<{ readonly status: RegistrationStatus }>`
 	color: ${({ status }) => status === 'cancelled' ? 'var(--color-semantic-error)' : 'unset'};
 `
 
-const Section = ({ id: sectionId, editLink, properties }: SectionProps) => {
+const Section = ({ id: sectionId, editLink, properties, editText, showEditLink }: SectionProps) => {
 	const status = useAppSelector(getStatus())!
+	const editTextStr = editText ?? 'Edit information'
 
 	return <SectionContainer status={status}>
 		<Localized id={`register-summary-section-${sectionId}-title`}><SectionTitle>{sectionId}</SectionTitle></Localized>
-		{status === 'cancelled' ? undefined : <Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>Edit information</Link></Localized>}
+		{status === 'cancelled' || showEditLink === false ? undefined : <Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>{editTextStr}</Link></Localized>}
 		<PropertyList>
-			{properties.map(({ id, value, wide = false }) => <Property key={id} wide={wide}>
+			{properties.map(({ id, value, subvalue, wide = false }) => <Property key={id} wide={wide}>
 				<Localized id={`register-summary-section-${sectionId}-property-${id}-name`}><PropertyName>{id}</PropertyName></Localized>
 				<PropertyDescription>{value}</PropertyDescription>
+				<PropertyName>{subvalue}</PropertyName>
 			</Property>)}
 		</PropertyList>
 	</SectionContainer>
+}
+
+const getRoomShareSectionProps = (isAttending: boolean, roomShare: GroupDto | null) => {
+	if (isAttending && roomShare) {
+		return [
+			{ id: 'room-share-group-name', value: roomShare.name },
+			{ id: 'room-share-members', value: roomShare.members.map(member => member.nickname).join('\n') },
+		]
+	}
+
+	if (isAttending && !roomShare) {
+		return [{ id: '', value: 'No group', subvalue: 'You can create or join one on the room sharing page' }]
+	}
+
+	if (!isAttending && !roomShare) {
+	  return [{ id: '', value: 'No group', subvalue: 'Your registration needs to be approved by us first' }]
+	}
 }
 
 // eslint-disable-next-line max-statements
@@ -134,6 +159,10 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	const optionalInfo = useAppSelector(getOptionalInfo())!
 	const isEdit = useAppSelector(isEditMode())
 	const status = useAppSelector(getStatus())!
+	const isAttendingStatus = ['approved', 'partially-paid', 'paid', 'checked-in'].includes(status)
+
+	const roomShare = useAppSelector(getRoomGroup())
+	const roomShareSectionProps = getRoomShareSectionProps(isAttendingStatus, roomShare)
 	const locale = useCurrentLocale()
 	const { l10n } = useLocalization()
 	const { handleSubmit, register, formState: { errors } } = useFunnelForm('register-summary')
@@ -147,8 +176,6 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={5}>
 		<Localized id={`register-summary-title-${isEdit ? 'edit' : 'initial'}`}><h3>Your registration</h3></Localized>
 
-		{config.enableRoomshare ? <Localized id="register-summary-roomshare"><Link to="/room-share">Room share</Link></Localized> : undefined}
-
 		<Localized id="register-summary-registration-status" vars={{ status }}>
 			<StatusText status={status}>We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!</StatusText>
 		</Localized>
@@ -156,6 +183,11 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 		{ registrationId ? <Localized id="register-summary-registration-id" vars={{ registrationId }}>
 			<RegistrationId>Badge number: {registrationId}</RegistrationId>
 		</Localized> : undefined }
+
+		{/*TODO: Localize editText*/}
+		{config.enableRoomshare
+			? <Section id="room sharing" showEditLink={isAttendingStatus} editLink="/room-share" editText="Set up" properties={roomShareSectionProps}/>
+			: undefined}
 
 		<Section id="personal" editLink="/register/personal-info" properties={[
 			{ id: 'nickname', value: personalInfo.nickname },

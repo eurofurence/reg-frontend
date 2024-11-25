@@ -6,6 +6,8 @@ import { combineEpics } from 'redux-observable'
 import { AnyAppAction, GetAction } from '~/state/actions'
 import { AppState } from '~/state'
 import { catchError } from 'rxjs/operators'
+import { nextPage } from '~/state/epics/generators/next-page'
+import { SubmitForm } from '~/state/actions/forms'
 
 const loadNoGroup = () => of(LoadRoomShareState.create(null))
 
@@ -24,4 +26,5 @@ const loadMyGroup = () => findMyGroup().pipe(
 
 export default combineEpics<GetAction<AnyAppAction>, GetAction<AnyAppAction>, AppState>(
 	loadMyGroup,
+	nextPage(SubmitForm('room-sharing-create-join'), ({ payload }) => `/room-share/${payload.type === 'create' ? 'create' : 'join'}`),
 )

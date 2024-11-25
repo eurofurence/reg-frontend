@@ -1,6 +1,5 @@
 import { Localized, useLocalization } from '@fluent/react'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
-import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import styled from '@emotion/styled'
 import { useAppSelector } from '~/hooks/redux'
 import type { RegistrationStatus } from '~/state/models/register'
@@ -14,8 +13,6 @@ import { Checkbox, ErrorMessage, Form } from '@eurofurence/reg-component-library
 import config from '~/config'
 import { getRoomGroup } from '~/state/selectors/room-sharing'
 import { GroupDto } from '~/apis/roomsrv'
-import { is } from 'ramda'
-import room from '~/components/funnels/funnels/hotel-booking/steps/room'
 
 interface PropertyDefinition {
 	readonly id: string
@@ -119,11 +116,13 @@ const StatusText = styled.p<{ readonly status: RegistrationStatus }>`
 
 const Section = ({ id: sectionId, editLink, properties, editText, showEditLink }: SectionProps) => {
 	const status = useAppSelector(getStatus())!
+
 	const editTextStr = editText ?? 'Edit information'
+	const editTextId = editTextStr === 'Edit information' ? 'register-summary-edit' : `register-summary-${sectionId}-edit`
 
 	return <SectionContainer status={status}>
 		<Localized id={`register-summary-section-${sectionId}-title`}><SectionTitle>{sectionId}</SectionTitle></Localized>
-		{status === 'cancelled' || showEditLink === false ? undefined : <Localized id="register-summary-edit"><Link css={editButtonStyle} to={editLink}>{editTextStr}</Link></Localized>}
+		{status === 'cancelled' || showEditLink === false ? undefined : <Localized id={editTextId}><Link css={editButtonStyle} to={editLink}>{editTextStr}</Link></Localized>}
 		<PropertyList>
 			{properties.map(({ id, value, subvalue, wide = false }) => <Property key={id} wide={wide}>
 				<Localized id={`register-summary-section-${sectionId}-property-${id}-name`}><PropertyName>{id}</PropertyName></Localized>
@@ -134,6 +133,7 @@ const Section = ({ id: sectionId, editLink, properties, editText, showEditLink }
 	</SectionContainer>
 }
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 const getRoomShareSectionProps = (isAttending: boolean, roomShare: GroupDto | null) => {
 	if (isAttending && roomShare) {
 		return [

@@ -18,7 +18,6 @@ import { isEditMode } from '~/state/selectors/register'
 import RoomShareHome from '~/components/funnels/funnels/roomshare/home'
 import RoomShareCreate from '~/components/funnels/funnels/roomshare/create'
 import RoomShareJoin from '~/components/funnels/funnels/roomshare/join'
-import { REGISTER_ROOM_SHARE } from './routes'
 
 export const EFRouter = () =>
 	<IndexPage />
@@ -45,9 +44,9 @@ export const HotelBookingRouter = () =>
 	</Router>
 
 export const RoomShareRouter = () => {
-	return <Router basepath={withPrefix(`/${REGISTER_ROOM_SHARE}`)}>
-		<RoomShareHome default path={ROUTES.REGISTER_ROOM_SHARE_HOME} />
-		<RoomShareCreate path={ROUTES.REGISTER_ROOM_SHARE_CREATE} />
-		<RoomShareJoin path={ROUTES.REGISTER_ROOM_SHARE_JOIN} />
+	return <Router basepath={withPrefix('/room-share')}>
+		<RoomShareHome default path={`${ROUTES.REGISTER_ROOM_SHARE_HOME}`} />
+		<RoomShareCreate path={`${ROUTES.REGISTER_ROOM_SHARE_CREATE}`} />
+		<RoomShareJoin path={`${ROUTES.REGISTER_ROOM_SHARE_JOIN}`} />
 	</Router>
 }

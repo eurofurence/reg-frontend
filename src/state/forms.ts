@@ -37,6 +37,7 @@ type FormValuesTypes = {
 	'hotel-booking-room': RoomInfo
 	'hotel-booking-guests': GuestsInfo
 	'hotel-booking-additional-info': AdditionalInfo
+	'room-sharing-create-join': 'create' | 'join'
 }
 
 export type FormIds = keyof FormValuesTypes

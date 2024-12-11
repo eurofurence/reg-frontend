@@ -5,6 +5,7 @@ import autosave from './autosave'
 import register from './register'
 import hotelBooking from './hotel-booking'
 import navigation from './navigation'
+import roomSharing from './room-sharing'
 
 export default combineEpics(
 	auth,
@@ -12,4 +13,5 @@ export default combineEpics(
 	register,
 	hotelBooking,
 	navigation,
+	roomSharing,
 )

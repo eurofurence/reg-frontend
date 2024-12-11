@@ -15,6 +15,9 @@ import * as ROUTES from './routes'
 import { withPrefix } from 'gatsby'
 import { useAppSelector } from '~/hooks/redux'
 import { isEditMode } from '~/state/selectors/register'
+import RoomShareHome from '~/components/funnels/funnels/roomshare/home'
+import RoomShareCreate from '~/components/funnels/funnels/roomshare/create'
+import RoomShareJoin from '~/components/funnels/funnels/roomshare/join'
 
 export const EFRouter = () =>
 	<IndexPage />
@@ -39,3 +42,11 @@ export const HotelBookingRouter = () =>
 		<AdditionalInfo path={ROUTES.HOTEL_BOOKING_ADDITIONAL_INFO} />
 		<Email path={ROUTES.HOTEL_BOOKING_EMAIL} />
 	</Router>
+
+export const RoomShareRouter = () => {
+	return <Router basepath={withPrefix('/room-share')}>
+		<RoomShareHome default path={`${ROUTES.REGISTER_ROOM_SHARE_HOME}`} />
+		<RoomShareCreate path={`${ROUTES.REGISTER_ROOM_SHARE_CREATE}`} />
+		<RoomShareJoin path={`${ROUTES.REGISTER_ROOM_SHARE_JOIN}`} />
+	</Router>
+}

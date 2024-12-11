@@ -78,3 +78,13 @@ scp public.tgz regtest@reg.eurofurence.org:projects/
 ssh regtest@reg.eurofurence.org -t "bash -l -c 'scripts/update-app.sh'"
 rm -f public.tgz
 ```
+
+### other commands
+
+```
+# run the typescript compiler to check for type errors
+npm run tsc
+
+# run the linter to check for warnings and errors
+npm run lint
+```

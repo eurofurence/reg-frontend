@@ -38,10 +38,29 @@ const AddonsContainer = styled.section`
 	margin-top: 3em;
 `
 
+type AddonSelection = {
+	[key: string]: {
+		readonly selected?: boolean
+	}
+}
+
 const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 	const ticketType = useAppSelector(getTicketType())!
 	const formContext = useFunnelForm('register-ticket-level')
 	const { register, handleSubmit } = formContext
+
+	const nonSelectedAddonIds = Object.entries(formContext.getValues('addons') as AddonSelection).filter(([, v]) => v.selected === false).map(([k]) => k as string)
+
+	// how would I do this in a type safe manner?
+	const requirementsMet = (reqs: readonly string[] | undefined) => {
+		if (reqs !== undefined && reqs.length > 0) {
+			const missingRequirements = nonSelectedAddonIds.filter(id => reqs.includes(id))
+
+			return missingRequirements.length === 0
+		} else {
+			return true
+		}
+	}
 
 	return <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={1}>
 		<form onSubmit={handleSubmit}>
@@ -110,6 +129,8 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 					{Object.entries(config.addons)
 						.filter(([, addon]) => !addon.hidden)
 						.filter(([, addon]) => !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false))
+						.filter(([, addon]) => !(addon.unavailableFor?.level?.includes(formContext.getValues('level')) ?? false))
+						.filter(([, addon]) => requirementsMet(addon.requires as string[] | undefined))
 						.map(([id, addon]) =>
 							// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 							<TicketLevelAddon key={id} addon={{ id, ...addon } as AugmentedAddon} formContext={formContext}/>,

@@ -28,9 +28,14 @@ const defaultState: RegisterState = {
 const transformTicketLevel = (ticketType: TicketType, payload: GetAction<SubmitFormActionBundle<'register-ticket-level'>>['payload']): TicketLevel => {
 	const { addons, ...payloadRest } = payload as DeepNonNullable<typeof payload>
 
+	const unselectedAddonIds = Object.entries(addons).filter(([, { selected }]) => !selected).map(([id]) => id)
+
 	return {
 		addons: Object.fromEntries(Object.entries(addons).map(([id, { selected, ...rest }]) => [id, {
-			selected: !(config.addons[id].unavailableFor?.type?.includes(ticketType.type) ?? false) && selected,
+			selected: !(config.addons[id].unavailableFor?.type?.includes(ticketType.type) ?? false)
+				&& !(config.addons[id].unavailableFor?.level?.includes(payload.level) ?? false)
+				&& !(unselectedAddonIds.filter(id => config.addons[id].requires?.includes(id) ?? false).length > 0)
+				&& selected,
 			...rest,
 		}])),
 		...payloadRest,

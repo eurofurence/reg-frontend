@@ -24,12 +24,24 @@ export const getPersonalInfo = () => (s: AppState) => isOpen(s.register) ? s.reg
 export const getContactInfo = () => (s: AppState) => isOpen(s.register) ? s.register.registration.registrationInfo.contactInfo : undefined
 export const getOptionalInfo = () => (s: AppState) => isOpen(s.register) ? s.register.registration.registrationInfo.optionalInfo : undefined
 
+type AddonCountOptions = {
+	readonly count?: string
+}
+
 export const getInvoice = createSelector(getTicketType(), getTicketLevel(), getPaidAmount(), getDueAmount(), (ticketType, ticketLevel, paid, due) => {
 	if (ticketLevel === undefined || ticketType === undefined) {
 		return undefined
 	}
 
 	const ticketLevelConfig = config.ticketLevels[ticketLevel.level]
+
+	const convertCount = (countOptions: AddonCountOptions): number => {
+		const code = countOptions.count ?? '1'
+
+		const withoutPrefix = code.replace(/^c/u, '')
+
+		return parseInt(withoutPrefix, 10)
+	}
 
 	const ticketLine: UncalculatedInvoiceItem = ticketType.type === 'day'
 		? {
@@ -49,7 +61,7 @@ export const getInvoice = createSelector(getTicketType(), getTicketLevel(), getP
 		.filter(([, addon]) => addon.selected)
 		.map(([addonId, addon]) => ({
 			id: `register-ticket-addons-${addonId}`,
-			amount: 1,
+			amount: convertCount(addon.options as AddonCountOptions),
 			unitPrice: config.ticketLevels[ticketLevel.level].includes?.includes(addonId) ?? false ? 0 : config.addons[addonId].price,
 			options: addon.options,
 		}))

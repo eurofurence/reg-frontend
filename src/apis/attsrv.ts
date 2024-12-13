@@ -12,6 +12,11 @@ import { Locale } from '~/localization'
 import { eachDayOfInterval } from '~/util/dates'
 import { DateTime, Interval } from 'luxon'
 
+export type PackageInfo = {
+	readonly name: string
+	readonly count: number
+}
+
 export interface AttendeeDto {
 	readonly id: number | null
 	readonly nickname: string
@@ -34,7 +39,7 @@ export interface AttendeeDto {
 	readonly tshirt_size: string | null
 	readonly flags: string // anon,ev
 	readonly options: string // art,anim,music,suit
-	readonly packages: string // room-none,attendance,sponsor
+	readonly packages_list: PackageInfo[]
 	readonly user_comments: string | null
 }
 
@@ -139,108 +144,160 @@ const nonEmpty = (v: string) => v !== ''
 const optionsToFlags = (options: Readonly<Record<string, boolean>>) => Object.entries(options).filter(last).map(head).join(',')
 const flagsToOptions = (flags: string) => Object.fromEntries(flags.split(',').filter(nonEmpty).map(k => [k, true] as const))
 
+const countAsNumber = (code: number | string): number => {
+	const withoutPrefix = code.toString().replace(/^c/u, '')
+
+	return parseInt(withoutPrefix, 10)
+}
+
 // eslint-disable-next-line complexity
-const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): AttendeeDto => ({
-	id: null, // not used when submitting attendee data, contains badge number when reading them
-	nickname: registrationInfo.personalInfo.nickname,
-	first_name: registrationInfo.personalInfo.firstName,
-	last_name: registrationInfo.personalInfo.lastName,
-	street: registrationInfo.contactInfo.street,
-	zip: registrationInfo.contactInfo.postalCode,
-	city: registrationInfo.contactInfo.city,
-	country: registrationInfo.contactInfo.country,
-	spoken_languages: registrationInfo.personalInfo.spokenLanguages.join(','),
-	registration_language: registrationInfo.preferredLocale,
-	email: registrationInfo.contactInfo.email,
-	phone: registrationInfo.contactInfo.phoneNumber,
-	telegram: registrationInfo.contactInfo.telegramUsername,
-	partner: null, // unused by EF
-	state: registrationInfo.contactInfo.stateOrProvince, // optional, may be null
-	birthday: registrationInfo.personalInfo.dateOfBirth.toISODate(),
-	gender: 'notprovided',
-	pronouns: registrationInfo.personalInfo.pronouns,
-	tshirt_size: tshirtToApi(registrationInfo.ticketLevel.addons.tshirt.options.size),
-	flags: optionsToFlags({
-		...flagsToOptions(registrationInfo.originalFlags ?? ''),
-		hc: registrationInfo.personalInfo.wheelchair,
-		anon: !registrationInfo.personalInfo.fullNamePermission,
-		'digi-book': registrationInfo.optionalInfo.digitalConbook,
-		'terms-accepted': true,
-	}),
-	options: optionsToFlags({
-		anim: registrationInfo.optionalInfo.notifications.animation,
-		art: registrationInfo.optionalInfo.notifications.art,
-		music: registrationInfo.optionalInfo.notifications.music,
-		suit: registrationInfo.optionalInfo.notifications.fursuiting,
-	}),
-	packages: optionsToFlags({
-		...flagsToOptions(registrationInfo.originalPackages ?? ''),
-		'room-none': true,
-		'attendance': registrationInfo.ticketType.type === 'full',
-		// 'day-mon': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Monday,
-		// 'day-tue': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Tuesday,
-		'day-wed': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Wednesday,
-		'day-thu': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Thursday,
-		'day-fri': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Friday,
-		'day-sat': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Saturday,
-		// 'day-sun': registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Sunday,
-		'sponsor': registrationInfo.ticketLevel.level === 'sponsor',
-		'sponsor2': registrationInfo.ticketLevel.level === 'super-sponsor',
-		'stage': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
-			&& registrationInfo.ticketLevel.addons['stage-pass'].selected,
-		'tshirt': !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
-			&& registrationInfo.ticketLevel.addons.tshirt.selected,
-		'early': registrationInfo.ticketLevel.addons.early.selected,
-		'late': registrationInfo.ticketLevel.addons.late.selected,
-	}),
-	user_comments: registrationInfo.optionalInfo.comments,
-})
+const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): AttendeeDto => {
+	const packagesMap = new Map<string, number>()
+
+	// first copy all original packages
+	registrationInfo.originalPackages?.forEach(entry => packagesMap.set(entry.name, entry.count))
+
+	// now apply changes/defaults
+	packagesMap.set('room-none', 1)
+	packagesMap.set('attendance', registrationInfo.ticketType.type === 'full' ? 1 : 0)
+	packagesMap.set('day-mon', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Monday ? 1 : 0)
+	packagesMap.set('day-tue', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Tuesday ? 1 : 0)
+	packagesMap.set('day-wed', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Wednesday ? 1 : 0)
+	packagesMap.set('day-thu', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Thursday ? 1 : 0)
+	packagesMap.set('day-fri', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Friday ? 1 : 0)
+	packagesMap.set('day-sat', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Saturday ? 1 : 0)
+	packagesMap.set('day-sun', registrationInfo.ticketType.type === 'day' && registrationInfo.ticketType.day.weekday === Weekdays.Sunday ? 1 : 0)
+	packagesMap.set('sponsor', registrationInfo.ticketLevel.level === 'sponsor' ? 1 : 0)
+	packagesMap.set('sponsor2', registrationInfo.ticketLevel.level === 'super-sponsor' ? 1 : 0)
+	packagesMap.set('stage',
+		!(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
+		&& registrationInfo.ticketLevel.addons['stage-pass'].selected ? 1 : 0)
+	packagesMap.set('tshirt',
+		!(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
+		&& registrationInfo.ticketLevel.addons.tshirt.selected ? 1 : 0)
+	packagesMap.set('early', registrationInfo.ticketLevel.addons.early.selected ? 1 : 0)
+	packagesMap.set('late', registrationInfo.ticketLevel.addons.late.selected ? 1 : 0)
+	// linter is wrong, undefined can happen if the field has been removed due to a level switch, because then ultrasponsor isn't available
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	packagesMap.set('ultrasponsor', registrationInfo.ticketLevel.addons.ultrasponsor?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.ultrasponsor.options.count) : 0)
+	packagesMap.set('fursuit', registrationInfo.ticketLevel.addons.fursuit.selected ? 1 : 0)
+	// linter is wrong, undefined can happen if the field has been removed due to switching off its dependency, addon 'fursuit'
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	packagesMap.set('addfursuit', registrationInfo.ticketLevel.addons.addfursuit?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.addfursuit.options.count) : 0)
+
+	const packagesList = Array.from(packagesMap.entries())
+		.filter(([,c]) => c > 0)
+		.sort((a, b) => a[0].localeCompare(b[0]))
+		.map(([n, c]) => ({
+			name: n,
+			count: c,
+		}))
+
+	return {
+		id: null, // not used when submitting attendee data, contains badge number when reading them
+		nickname: registrationInfo.personalInfo.nickname,
+		first_name: registrationInfo.personalInfo.firstName,
+		last_name: registrationInfo.personalInfo.lastName,
+		street: registrationInfo.contactInfo.street,
+		zip: registrationInfo.contactInfo.postalCode,
+		city: registrationInfo.contactInfo.city,
+		country: registrationInfo.contactInfo.country,
+		spoken_languages: registrationInfo.personalInfo.spokenLanguages.join(','),
+		registration_language: registrationInfo.preferredLocale,
+		email: registrationInfo.contactInfo.email,
+		phone: registrationInfo.contactInfo.phoneNumber,
+		telegram: registrationInfo.contactInfo.telegramUsername,
+		partner: null, // unused by EF
+		state: registrationInfo.contactInfo.stateOrProvince, // optional, may be null
+		birthday: registrationInfo.personalInfo.dateOfBirth.toISODate(),
+		gender: 'notprovided',
+		pronouns: registrationInfo.personalInfo.pronouns,
+		tshirt_size: tshirtToApi(registrationInfo.ticketLevel.addons.tshirt.options.size),
+		flags: optionsToFlags({
+			...flagsToOptions(registrationInfo.originalFlags ?? ''),
+			hc: registrationInfo.personalInfo.wheelchair,
+			anon: !registrationInfo.personalInfo.fullNamePermission,
+			'digi-book': registrationInfo.optionalInfo.digitalConbook,
+			'terms-accepted': true,
+		}),
+		options: optionsToFlags({
+			anim: registrationInfo.optionalInfo.notifications.animation,
+			art: registrationInfo.optionalInfo.notifications.art,
+			music: registrationInfo.optionalInfo.notifications.music,
+			suit: registrationInfo.optionalInfo.notifications.fursuiting,
+		}),
+		packages_list: packagesList,
+		user_comments: registrationInfo.optionalInfo.comments,
+	}
+}
 
 // eslint-disable-next-line complexity
 const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): RegistrationInfo => {
-	const packages = new Set(attendeeDto.packages.split(','))
+	const packagesMap = new Map(attendeeDto.packages_list.map(entry => [entry.name, entry.count]))
 	const flags = new Set(attendeeDto.flags.split(','))
 	const options = new Set(attendeeDto.options.split(','))
 
 	const days = eachDayOfInterval(Interval.fromDateTimes(config.dayTicketStartDate, config.dayTicketEndDate))
-	const level = packages.has('sponsor2') ? 'super-sponsor' : packages.has('sponsor') ? 'sponsor' : 'standard'
+	const level = packagesMap.has('sponsor2') ? 'super-sponsor' : packagesMap.has('sponsor') ? 'sponsor' : 'standard'
 
 	// parse all hidden addons, so they show up in the invoice box
 	const hiddenAddons = Object.fromEntries(
 		Object.entries(config.addons)
 			.filter(([,addon]) => addon.hidden)
 			.map(([id, _addon]) => {
-				return [id, { selected: packages.has(id), options: {} }]
+				return [id, { selected: packagesMap.has(id), options: {} }]
 			}),
 	)
 	const addons = {
 		...hiddenAddons,
 		'stage-pass': {
-			selected: (config.ticketLevels[level].includes?.includes('stage-pass') ?? false) || packages.has('stage'),
+			selected: (config.ticketLevels[level].includes?.includes('stage-pass') ?? false) || packagesMap.has('stage'),
 			options: {},
 		},
 		tshirt: {
-			selected: (config.ticketLevels[level].includes?.includes('tshirt') ?? false) || packages.has('tshirt'),
+			selected: (config.ticketLevels[level].includes?.includes('tshirt') ?? false) || packagesMap.has('tshirt'),
 			options: {
 				size: tshirtFromApi(attendeeDto.tshirt_size) as RegistrationInfo['ticketLevel']['addons']['tshirt']['options']['size'],
 			},
 		},
+		fursuit: {
+			selected: packagesMap.has('fursuit'),
+			options: {},
+		},
+	}
+
+	if (packagesMap.has('ultrasponsor')) {
+		addons.ultrasponsor = {
+			selected: packagesMap.has('ultrasponsor'),
+			options: {
+				count: `c${packagesMap.get('ultrasponsor')}` as RegistrationInfo['ticketLevel']['addons']['ultrasponsor']['options']['count'],
+			},
+		}
+	}
+
+	if (packagesMap.has('addfursuit')) {
+		addons.addfursuit = {
+			selected: packagesMap.has('addfursuit'),
+			options: {
+				count: `c${packagesMap.get('addfursuit')}` as RegistrationInfo['ticketLevel']['addons']['addfursuit']['options']['count'],
+			},
+		}
 	}
 
 	return {
 		preferredLocale: attendeeDto.registration_language,
 		/* eslint-disable @typescript-eslint/indent */
-		ticketType: packages.has('attendance')
+		ticketType: packagesMap.has('attendance')
 			? { type: 'full' }
 			: {
 				type: 'day',
-				day: packages.has('day-sun') ? days.find(d => d.weekday === Weekdays.Sunday)!
-					: packages.has('day-mon') ? days.find(d => d.weekday === Weekdays.Monday)!
-					: packages.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
-					: packages.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
-					: packages.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
-					: packages.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
-					: packages.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
+				day: packagesMap.has('day-sun') ? days.find(d => d.weekday === Weekdays.Sunday)!
+					: packagesMap.has('day-mon') ? days.find(d => d.weekday === Weekdays.Monday)!
+					: packagesMap.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
+					: packagesMap.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
+					: packagesMap.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
+					: packagesMap.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
+					: packagesMap.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
 					: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
 			},
 		/* eslint-enable @typescript-eslint/indent */
@@ -279,7 +336,7 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 			},
 		},
 		originalFlags: attendeeDto.flags,
-		originalPackages: attendeeDto.packages,
+		originalPackages: attendeeDto.packages_list,
 	}
 }
 

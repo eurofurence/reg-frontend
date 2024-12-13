@@ -62,6 +62,15 @@ invoice-item-definition-register-ticket-addons-early =
 invoice-item-definition-register-ticket-addons-late =
   .name = Spätbucher
 
+invoice-item-definition-register-ticket-addons-ultrasponsor =
+  .name = Ultrasponsor
+
+invoice-item-definition-register-ticket-addons-fursuit =
+  .name = Fursuit Badge (inkl.)
+
+invoice-item-definition-register-ticket-addons-addfursuit =
+  .name = zus. Fursuit Badge
+
 invoice-item-definition-register-ticket-addons-dealer-half =
   .name = Dealer (halber Tisch)
 
@@ -295,6 +304,63 @@ register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticke
 
 register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
 
+register-ticket-level-addons-item-ultrasponsor =
+  .label = Ultrasponsor
+  .description = Freiwilliger Extrabeitrag, um EF für alle noch wundervoller zu machen. Als Dankeschön für deine besondere Unterstützung wirst du im Programmheft als Ultrasponsor genannt.
+
+register-ticket-level-addons-item-ultrasponsor-option-count =
+  .label = Anzahl
+
+register-ticket-level-addons-item-ultrasponsor-option-count-value = { $value ->
+ *[c1]   1x
+  [c2]   2x
+  [c3]   3x
+  [c4]   4x
+  [c5]   5x
+  [c6]   6x
+  [c8]   8x
+  [c10]  10x
+  [c15]  15x
+  [c20]  20x
+  [c30]  30x
+  [c40]  40x
+  [c50]  50x
+  [c100]  100x
+}
+
+register-ticket-level-addons-item-fursuit =
+  .label = kostenlose Fursuit Badge
+  .description = Wir drucken eine Badge für deinen Fursuit. Dies ist ein reines Andenken. Die erste ist für dich kostenlos.
+
+register-ticket-level-addons-item-addfursuit =
+  .label = zusätzliche Fursuit Badges
+  .description = Wenn du weitere Fursuits hast, und auch für diese eine Fursuit Badge möchtest, dann wähle hier bitte die Anzahl aus, damit du dafür bei der Anmeldung gleich mit bezahlen kannst.
+
+register-ticket-level-addons-item-addfursuit-option-count =
+  .label = Anzahl
+
+register-ticket-level-addons-item-addfursuit-option-count-value = { $value ->
+ *[c1]   1x
+  [c2]   2x
+  [c3]   3x
+  [c4]   4x
+  [c5]   5x
+  [c6]   6x
+  [c7]   7x
+  [c8]   8x
+  [c9]   9x
+  [c10]  10x
+}
+
+# validation errors
+
+register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticketart aus.
+
+register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
+
+register-ticket-level-validation-errors-addons-ultrasponsor-options-count-required = Bitte wähle eine Anzahl für den Ultrasponsor aus.
+
+register-ticket-level-validation-errors-addons-addfursuit-options-count-required = Bitte wähle eine Anzahl zusätzlicher Fursuit Badges aus.
 
 
 # Register personal info page

@@ -8,6 +8,7 @@ type TicketLevelConfig<Addon extends string> = {
 	}
 	readonly includes?: readonly Addon[]
 	readonly requires?: readonly Addon[]
+	readonly hidden?: boolean
 }
 
 type AddonOptionsConfig<Item extends string> = {
@@ -16,14 +17,16 @@ type AddonOptionsConfig<Item extends string> = {
 	readonly default?: Item
 }
 
-type AddonConfig<OptionsConfigItems> = {
+type AddonConfig<OptionsConfigItems, Addon extends string, TicketLevel extends string> = {
 	readonly price: number
 	readonly default: boolean
 	readonly options: { [K in keyof OptionsConfigItems]: AddonOptionsConfig<OptionsConfigItems[K] & string> }
 	readonly unavailableFor?: {
 		readonly type?: readonly ('day' | 'full')[]
+		readonly level?: readonly (TicketLevel | null)[]
 	}
 	readonly hidden: boolean
+	readonly requires?: readonly Addon[]
 }
 
 type RoomConfig = {
@@ -45,6 +48,7 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 	readonly dayTicketEndDate: DateTime
 	readonly earliestBirthDate: DateTime
 	readonly minimumAge: number
+	readonly enableRoomshare: boolean
 	readonly allowedCountries: readonly (
 		| 'AF' | 'AX' | 'AL' | 'DZ' | 'AS' | 'AD' | 'AO' | 'AI' | 'AQ' | 'AG' | 'AR' | 'AM' | 'AW' | 'AC' | 'AU' | 'AT' | 'AZ' | 'BS' | 'BH' | 'BD'
 		| 'BB' | 'BY' | 'BE' | 'BZ' | 'BJ' | 'BM' | 'BT' | 'BO' | 'BQ' | 'BA' | 'BW' | 'BV' | 'BR' | 'IO' | 'BN' | 'BG' | 'BF' | 'BI' | 'CV' | 'KH'
@@ -61,7 +65,7 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		| 'TV' | 'UG' | 'UA' | 'AE' | 'GB' | 'UM' | 'US' | 'UY' | 'UZ' | 'VU' | 'VE' | 'VN' | 'VG' | 'VI' | 'WF' | 'EH' | 'YE' | 'ZM' | 'ZW'
 	)[]
 	readonly ticketLevels: Readonly<Record<TicketLevel, TicketLevelConfig<keyof AddonConfigs & string>>>
-	readonly addons: { [K in keyof AddonConfigs]: AddonConfig<AddonConfigs[K]> }
+	readonly addons: { [K in keyof AddonConfigs]: AddonConfig<AddonConfigs[K], keyof AddonConfigs & string, TicketLevel> }
 	readonly rooms: readonly RoomConfig[]
 	readonly apis: {
 		readonly authsrv: {
@@ -73,6 +77,10 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		}
 		readonly paysrv: {
 			readonly url: string
+		}
+		readonly roomsrv: {
+			readonly url: string
+			readonly enable: boolean
 		}
 	}
 	readonly websiteLinks: {

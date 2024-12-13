@@ -2,6 +2,7 @@ import config from '~/config'
 import { Locale } from '~/localization'
 import { includes } from '~/util/includes'
 import { ReadonlyDateTime } from '~/util/readonly-types'
+import { PackageInfo } from '~/apis/attsrv'
 
 type TicketLevelConfig = typeof config.ticketLevels
 type TicketAddonsConfig = typeof config.addons
@@ -81,7 +82,7 @@ export interface RegistrationInfo {
 	readonly optionalInfo: OptionalInfo
 	readonly personalInfo: PersonalInfo
 	readonly originalFlags?: string
-	readonly originalPackages?: string
+	readonly originalPackages?: PackageInfo[]
 }
 
 export interface PaymentInfo {

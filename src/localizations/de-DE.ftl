@@ -62,13 +62,13 @@ invoice-item-definition-register-ticket-addons-early =
 invoice-item-definition-register-ticket-addons-late =
   .name = Spätbucher
 
-invoice-item-definition-register-ticket-addons-ultrasponsor =
-  .name = Ultrasponsor
+invoice-item-definition-register-ticket-addons-benefactor =
+  .name = Benefactor
 
 invoice-item-definition-register-ticket-addons-fursuit =
   .name = Fursuit Badge (inkl.)
 
-invoice-item-definition-register-ticket-addons-addfursuit =
+invoice-item-definition-register-ticket-addons-fursuitadd =
   .name = zus. Fursuit Badge
 
 invoice-item-definition-register-ticket-addons-dealer-half =
@@ -304,14 +304,14 @@ register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticke
 
 register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
 
-register-ticket-level-addons-item-ultrasponsor =
-  .label = Ultrasponsor
-  .description = Freiwilliger Extrabeitrag, um EF für alle noch wundervoller zu machen. Als Dankeschön für deine besondere Unterstützung wirst du im Programmheft als Ultrasponsor genannt.
+register-ticket-level-addons-item-benefactor =
+  .label = Benefaktor
+  .description = Freiwilliger Extrabeitrag, um EF für alle noch wundervoller zu machen. Als Dankeschön für deine besondere Unterstützung wirst du im Programmheft in die Liste der besonderen Unterstützer aufgenommen.
 
-register-ticket-level-addons-item-ultrasponsor-option-count =
+register-ticket-level-addons-item-benefactor-option-count =
   .label = Anzahl
 
-register-ticket-level-addons-item-ultrasponsor-option-count-value = { $value ->
+register-ticket-level-addons-item-benefactor-option-count-value = { $value ->
  *[c1]   1x
   [c2]   2x
   [c3]   3x
@@ -330,16 +330,16 @@ register-ticket-level-addons-item-ultrasponsor-option-count-value = { $value ->
 
 register-ticket-level-addons-item-fursuit =
   .label = kostenlose Fursuit Badge
-  .description = Wir drucken eine Badge für deinen Fursuit. Dies ist ein reines Andenken. Die erste ist für dich kostenlos.
+  .description = Wir drucken eine Badge für deinen Fursuit. Bitte beachte, dass du deine normale Badge immer dabeihaben musst, aber im Fursuit kannst du die Fursuitbadge stattdessen tragen. Die erste ist für dich kostenlos.
 
-register-ticket-level-addons-item-addfursuit =
+register-ticket-level-addons-item-fursuitadd =
   .label = zusätzliche Fursuit Badges
   .description = Wenn du weitere Fursuits hast, und auch für diese eine Fursuit Badge möchtest, dann wähle hier bitte die Anzahl aus, damit du dafür bei der Anmeldung gleich mit bezahlen kannst.
 
-register-ticket-level-addons-item-addfursuit-option-count =
+register-ticket-level-addons-item-fursuitadd-option-count =
   .label = Anzahl
 
-register-ticket-level-addons-item-addfursuit-option-count-value = { $value ->
+register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
  *[c1]   1x
   [c2]   2x
   [c3]   3x
@@ -358,9 +358,9 @@ register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticke
 
 register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
 
-register-ticket-level-validation-errors-addons-ultrasponsor-options-count-required = Bitte wähle eine Anzahl für den Ultrasponsor aus.
+register-ticket-level-validation-errors-addons-benefactor-options-count-required = Bitte wähle eine Anzahl aus.
 
-register-ticket-level-validation-errors-addons-addfursuit-options-count-required = Bitte wähle eine Anzahl zusätzlicher Fursuit Badges aus.
+register-ticket-level-validation-errors-addons-fursuitadd-options-count-required = Bitte wähle eine Anzahl zusätzlicher Fursuit Badges aus.
 
 
 # Register personal info page

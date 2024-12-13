@@ -177,13 +177,13 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 		&& registrationInfo.ticketLevel.addons.tshirt.selected ? 1 : 0)
 	packagesMap.set('early', registrationInfo.ticketLevel.addons.early.selected ? 1 : 0)
 	packagesMap.set('late', registrationInfo.ticketLevel.addons.late.selected ? 1 : 0)
-	// linter is wrong, undefined can happen if the field has been removed due to a level switch, because then ultrasponsor isn't available
+	// linter is wrong, undefined can happen if the field has been removed due to a level switch, because then benefactor isn't available
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	packagesMap.set('ultrasponsor', registrationInfo.ticketLevel.addons.ultrasponsor?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.ultrasponsor.options.count) : 0)
+	packagesMap.set('benefactor', registrationInfo.ticketLevel.addons.benefactor?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.benefactor.options.count) : 0)
 	packagesMap.set('fursuit', registrationInfo.ticketLevel.addons.fursuit.selected ? 1 : 0)
 	// linter is wrong, undefined can happen if the field has been removed due to switching off its dependency, addon 'fursuit'
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	packagesMap.set('addfursuit', registrationInfo.ticketLevel.addons.addfursuit?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.addfursuit.options.count) : 0)
+	packagesMap.set('fursuitadd', registrationInfo.ticketLevel.addons.fursuitadd?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.fursuitadd.options.count) : 0)
 
 	const packagesList = Array.from(packagesMap.entries())
 		.filter(([,c]) => c > 0)
@@ -266,20 +266,20 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 		},
 	}
 
-	if (packagesMap.has('ultrasponsor')) {
-		addons.ultrasponsor = {
-			selected: packagesMap.has('ultrasponsor'),
+	if (packagesMap.has('benefactor')) {
+		addons.benefactor = {
+			selected: packagesMap.has('benefactor'),
 			options: {
-				count: `c${packagesMap.get('ultrasponsor')}` as RegistrationInfo['ticketLevel']['addons']['ultrasponsor']['options']['count'],
+				count: `c${packagesMap.get('benefactor')}` as RegistrationInfo['ticketLevel']['addons']['benefactor']['options']['count'],
 			},
 		}
 	}
 
-	if (packagesMap.has('addfursuit')) {
-		addons.addfursuit = {
-			selected: packagesMap.has('addfursuit'),
+	if (packagesMap.has('fursuitadd')) {
+		addons.fursuitadd = {
+			selected: packagesMap.has('fursuitadd'),
 			options: {
-				count: `c${packagesMap.get('addfursuit')}` as RegistrationInfo['ticketLevel']['addons']['addfursuit']['options']['count'],
+				count: `c${packagesMap.get('fursuitadd')}` as RegistrationInfo['ticketLevel']['addons']['fursuitadd']['options']['count'],
 			},
 		}
 	}

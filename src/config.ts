@@ -216,7 +216,7 @@ const configEf = {
 			},
 			hidden: true,
 		},
-		'ultrasponsor': {
+		'benefactor': {
 			price: 50,
 			default: false,
 			options: {
@@ -236,7 +236,7 @@ const configEf = {
 			options: {},
 			hidden: false,
 		},
-		'addfursuit': {
+		'fursuitadd': {
 			price: 2,
 			default: false,
 			options: {

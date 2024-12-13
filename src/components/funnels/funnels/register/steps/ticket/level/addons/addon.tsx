@@ -12,12 +12,6 @@ export type AugmentedAddon = {
 	}
 }[keyof typeof config.addons]
 
-type AddonSelection = {
-	[key: string]: {
-		readonly selected?: boolean
-	}
-}
-
 export interface TicketLevelAddonProps {
 	readonly addon: AugmentedAddon
 	readonly formContext: ReturnType<typeof useFunnelForm<'register-ticket-level'>>
@@ -48,7 +42,7 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 
 					// skip expensive processing if this addon does not have requirements
 					if (requirements.length > 0) {
-						const nonSelectedAddonIds = Object.entries(value.addons as AddonSelection).filter(([, v]) => v.selected === false).map(([k]) => k as string)
+						const nonSelectedAddonIds = Object.entries(value.addons).filter(([, v]) => !v.selected).map(([k]) => k)
 
 						const includedInMissingRequirements = nonSelectedAddonIds.filter(id => requirements.includes(id))
 

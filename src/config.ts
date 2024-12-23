@@ -197,6 +197,9 @@ const configEf = {
 				},
 			},
 			hidden: false,
+			resetOn: {
+				levelChange: true,
+			},
 		},
 		'early': {
 			price: -15,
@@ -229,6 +232,9 @@ const configEf = {
 				level: ['standard', 'sponsor', null],
 			},
 			hidden: false,
+			resetOn: {
+				levelChange: true,
+			},
 		},
 		'fursuit': {
 			price: 0,

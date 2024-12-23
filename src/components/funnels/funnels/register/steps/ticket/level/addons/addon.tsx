@@ -43,13 +43,11 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 
 			if (name) {
 				if (name.startsWith('addons') && type === 'change') {
-					// this value CAN be undefined (it is for most addons).
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					const requirements = (config.addons[addon.id]?.requires ?? []) as string[]
+					const requirements = (config.addons[addon.id].requires ?? []) as string[]
 
 					// skip expensive processing if this addon does not have requirements
 					if (requirements.length > 0) {
-						const unselectedAddonIds = Object.entries(value.addons as AddonSelection).filter(([, v]) => v.selected === false).map(([k]) => k as string)
+						const unselectedAddonIds = Object.entries(value.addons as AddonSelection).filter(([, v]) => v.selected !== true).map(([k]) => k as string)
 
 						const missingRequirements = unselectedAddonIds.filter(id => requirements.includes(id))
 

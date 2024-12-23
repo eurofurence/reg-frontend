@@ -27,6 +27,12 @@ type AddonConfig<OptionsConfigItems, Addon extends string, TicketLevel extends s
 	}
 	readonly hidden: boolean
 	readonly requires?: readonly Addon[]
+	readonly resetOn?: {
+		readonly levelChange?: boolean // reset when ticket level (normal, sponsor, ...) changes
+		// note that a type change (full/day) always resets addons to their default values
+		// (type change can only be done in this frontend during initial registration)
+		// see reducers/register.ts
+	}
 }
 
 type RoomConfig = {

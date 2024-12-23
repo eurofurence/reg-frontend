@@ -28,13 +28,14 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 	const isIncluded = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].includes?.includes(addon.id) ?? false)
 	const isRequired = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].requires?.includes(addon.id) ?? false)
 	const isUnavailable = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.addons[addon.id].unavailableFor?.level?.includes(lvl) ?? false)
+	const resetOnLevelChange = config.addons[addon.id].resetOn?.levelChange ?? false
 
 	const { watch, register, setValue } = formContext
 	const level = watch('level')
 
 	useEffect(() => {
 		const subscription = watch((value, { name, type }) => {
-			if (name === 'level' && type === 'change') {
+			if (resetOnLevelChange && name === 'level' && type === 'change') {
 				const levelValue = value.level as Exclude<typeof value.level, undefined>
 
 				setValue(`addons.${addon.id}.selected`, isIncluded(levelValue) && !isUnavailable(levelValue) || addon.default)
@@ -42,17 +43,15 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 
 			if (name) {
 				if (name.startsWith('addons') && type === 'change') {
-					// this value CAN be undefined (it is for most addons).
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					const requirements = (config.addons[addon.id]?.requires ?? []) as string[]
+					const requirements = (config.addons[addon.id].requires ?? []) as string[]
 
 					// skip expensive processing if this addon does not have requirements
 					if (requirements.length > 0) {
-						const nonSelectedAddonIds = Object.entries(value.addons as AddonSelection).filter(([, v]) => v.selected === false).map(([k]) => k as string)
+						const unselectedAddonIds = Object.entries(value.addons as AddonSelection).filter(([, v]) => v.selected !== true).map(([k]) => k as string)
 
-						const includedInMissingRequirements = nonSelectedAddonIds.filter(id => requirements.includes(id))
+						const missingRequirements = unselectedAddonIds.filter(id => requirements.includes(id))
 
-						if (includedInMissingRequirements.length > 0) {
+						if (missingRequirements.length > 0) {
 							setValue(`addons.${addon.id}.selected`, false)
 						}
 					}

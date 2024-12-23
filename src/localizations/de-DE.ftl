@@ -72,19 +72,19 @@ invoice-item-definition-register-ticket-addons-fursuitadd =
   .name = zus. Fursuit Badge
 
 invoice-item-definition-register-ticket-addons-dealer-half =
-  .name = Dealer (halber Tisch)
+  .name = Dealers' Den (halber Tisch)
 
 invoice-item-definition-register-ticket-addons-dealer-full =
-  .name = Dealer (1 Tisch)
+  .name = Dealers' Den (1 Tisch)
 
 invoice-item-definition-register-ticket-addons-dealer-fullplus =
-  .name = Dealer (1,5 Tische)
+  .name = Dealers' Den (1,5 Tische)
 
 invoice-item-definition-register-ticket-addons-dealer-double =
-  .name = Dealer (2 Tische)
+  .name = Dealers' Den (2 Tische)
 
 invoice-item-definition-register-ticket-addons-dealer-quad =
-  .name = Dealer (4 Tische)
+  .name = Dealers' Den (4 Tische)
 
 invoice-item-definition-register-ticket-addons-boat-trip =
   .name = Bootsfahrt
@@ -96,52 +96,52 @@ invoice-item-definition-register-ticket-addons-boat-benefactor =
   .name = Bootssponsor
 
 invoice-item-definition-register-ticket-addons-artshow-table-half =
-  .name = Artshow (halber Tisch)
+  .name = Art Show (halber Tisch)
 
 invoice-item-definition-register-ticket-addons-artshow-table-one =
-  .name = Artshow (1 Tisch)
+  .name = Art Show (1 Tisch)
 
 invoice-item-definition-register-ticket-addons-artshow-table-oneandhalf =
-  .name = Artshow (1,5 Tische)
+  .name = Art Show (1,5 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-table-two =
-  .name = Artshow (2 Tische)
+  .name = Art Show (2 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-table-twoandhalf =
-  .name = Artshow (2,5 Tische)
+  .name = Art Show (2,5 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-table-three =
-  .name = Artshow (3 Tische)
+  .name = Art Show (3 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-table-threeandhalf =
-  .name = Artshow (3,5 Tische)
+  .name = Art Show (3,5 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-table-four =
-  .name = Artshow (4 Tische)
+  .name = Art Show (4 Tische)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-half =
-  .name = Artshow (halbes Panel)
+  .name = Art Show (halbes Panel)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-one =
-  .name = Artshow (1 Panel)
+  .name = Art Show (1 Panel)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-oneandhalf =
-  .name = Artshow (1,5 Panels)
+  .name = Art Show (1,5 Panels)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-two =
-  .name = Artshow (2 Panels)
+  .name = Art Show (2 Panels)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-twoandhalf =
-  .name = Artshow (2,5 Panels)
+  .name = Art Show (2,5 Panels)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-three =
-  .name = Artshow (3 Panels)
+  .name = Art Show (3 Panels)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
-  .name = Artshow (3,5 Panels)
+  .name = Art Show (3,5 Panels)
 
 invoice-item-definition-register-ticket-addons-artshow-panel-four =
-  .name = Artshow (4 Panels)
+  .name = Art Show (4 Panels)
 
 invoice-item-definition-other =
   .name = Sonstige
@@ -164,7 +164,7 @@ invoice-pay-button-sepa = SEPA Überweisung
 
 
 # Common register messages
-register-header-title = Willkommen zur Eurofurence 2024!
+register-header-title = Willkommen zur Eurofurence 2025!
 register-header-description =
   Wir freuen uns auf Dich!
   Mach Dich bereit für eine tolle Zeit mit Gleichgesinnten, und genieße das reiche Angebot an Attraktionen und Events.
@@ -190,7 +190,7 @@ register-ticket-type-day =
 register-ticket-type-full =
   .label = Gesamte Veranstaltung
 
-register-ticket-type-validation-errors-type-required = Bitte wähle ein Ticket.
+register-ticket-type-validation-errors-type-required = Bitte wähle ein Ticket!
 
 
 
@@ -200,7 +200,7 @@ register-ticket-day-title = Wähle Dein Ticket
 register-ticket-day-card =
   .label = {DATETIME($date, day: "numeric", month: "long", year: "numeric")}
 
-register-ticket-day-validation-errors-day-required = Bitte wähle einen Tag aus.
+register-ticket-day-validation-errors-day-required = Bitte wähle einen Tag aus!
 
 
 
@@ -283,30 +283,30 @@ register-ticket-level-addons-item-tshirt-option-size =
 
 register-ticket-level-addons-item-tshirt-option-size-value = { $value ->
   [XS]   X-Small (Standard)
-  [wXS]  X-Small (Tailliert)
+  [wXS]  X-Small (Ladies Cut)
  *[S]    Small (Standard)
-  [wS]   Small (Tailliert)
+  [wS]   Small (Ladies Cut)
   [M]    Medium (Standard)
-  [wM]   Medium (Tailliert)
+  [wM]   Medium (Ladies Cut)
   [L]    Large (Standard)
-  [wL]   Large (Tailliert)
+  [wL]   Large (Ladies Cut)
   [XL]   X-Large (Standard)
-  [wXL]  X-Large (Tailliert)
+  [wXL]  X-Large (Ladies Cut)
   [XXL]  XX-Large (Standard)
-  [wXXL] XX-Large (Tailliert)
+  [wXXL] XX-Large (Ladies Cut)
   [m3XL] 3X-Large (Standard)
-  [w3XL] 3X-Large (Tailliert)
+  [w3XL] 3X-Large (Ladies Cut)
   [m4XL] 4X-Large (Standard)
-  [w4XL] 4X-Large (Tailliert)
+  [w4XL] 4X-Large (Ladies Cut)
 }
 
-register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticketart aus.
+register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticketart aus!
 
-register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
+register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus!
 
 register-ticket-level-addons-item-benefactor =
   .label = Benefaktor
-  .description = Freiwilliger Extrabeitrag, um EF für alle noch wundervoller zu machen. Als Dankeschön für deine besondere Unterstützung wirst du im Programmheft in die Liste der besonderen Unterstützer aufgenommen.
+  .description = Dein freiwilliger Extrabeitrag für eine noch außergewöhnlichere Eurofurence. Als Benefactor kannst du uns direkt unterstützen und dazu beitragen, Vielfalt und Qualität der Eurofurence zu fördern, neue Ideen und Projekte zu realisieren und das Event noch inklusiver, kreativer und aufregender zu machen.
 
 register-ticket-level-addons-item-benefactor-option-count =
   .label = Anzahl
@@ -329,11 +329,11 @@ register-ticket-level-addons-item-benefactor-option-count-value = { $value ->
 }
 
 register-ticket-level-addons-item-fursuit =
-  .label = kostenlose Fursuit Badge
+  .label = Fursuit Badge (kostenlos)
   .description = Wir drucken eine Badge für deinen Fursuit. Bitte beachte, dass du deine normale Badge immer dabeihaben musst, aber im Fursuit kannst du die Fursuitbadge stattdessen tragen. Die erste ist für dich kostenlos.
 
 register-ticket-level-addons-item-fursuitadd =
-  .label = zusätzliche Fursuit Badges
+  .label = Fursuit Badges (zusätzlich)
   .description = Wenn du weitere Fursuits hast, und auch für diese eine Fursuit Badge möchtest, dann wähle hier bitte die Anzahl aus, damit du dafür bei der Anmeldung gleich mit bezahlen kannst.
 
 register-ticket-level-addons-item-fursuitadd-option-count =
@@ -354,13 +354,13 @@ register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
 
 # validation errors
 
-register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticketart aus.
+register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticketart aus!
 
-register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus.
+register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus!
 
-register-ticket-level-validation-errors-addons-benefactor-options-count-required = Bitte wähle eine Anzahl aus.
+register-ticket-level-validation-errors-addons-benefactor-options-count-required = Bitte wähle eine Anzahl aus!
 
-register-ticket-level-validation-errors-addons-fursuitadd-options-count-required = Bitte wähle eine Anzahl zusätzlicher Fursuit Badges aus.
+register-ticket-level-validation-errors-addons-fursuitadd-options-count-required = Bitte wähle eine Anzahl zusätzlicher Fursuit Badges aus!
 
 
 # Register personal info page
@@ -386,7 +386,7 @@ register-personal-info-date-of-birth =
   .placeholder = 1995-06-30
 
 register-personal-info-spoken-languages =
-  .label = Beherrschte Sprachen
+  .label = Sprachen
 
 register-personal-info-pronouns =
   .legend = Pronomen
@@ -403,21 +403,21 @@ register-personal-info-accessibility =
 register-personal-info-accessibility-wheelchair =
   .label = Bitte berücksichtigt, dass ich im Rollstuhl sitze.
 
-register-personal-info-validation-errors-nickname-required = Bitte gib einen Nickname an.
-register-personal-info-validation-errors-nickname-max-length = Dein Nickname darf höchstens {$limit} Zeichen lang sein.
-register-personal-info-validation-errors-nickname-validate-no-leading-or-trailing-whitespace = Bitte vermeide Leerzeichen am Anfang und am Ende.
-register-personal-info-validation-errors-nickname-validate-min-one-alphanumeric-char = Dein Nickname muß mindestens einen Buchstaben oder eine Zahl enthalten.
-register-personal-info-validation-errors-nickname-validate-max-two-non-alphanumeric-chars = Dein Nickname kann nur maximal zwei Sonderzeichen enthalten.
-register-personal-info-validation-errors-first-name-required = Bitte gib einen Vornamen ein.
-register-personal-info-validation-errors-first-name-max-length = Dein Vorname kann nur maximal {$limit} Zeichen lang sein.
-register-personal-info-validation-errors-last-name-required = Bitte gib einen Nachnamen ein.
-register-personal-info-validation-errors-last-name-max-length = Dein Nachname kann nur maximal {$limit} Zeichen lang sein.
-register-personal-info-validation-errors-date-of-birth-required = Bitte gib ein Geburtsdatum ein.
-register-personal-info-validation-errors-date-of-birth-validate-minimum-age = Du musst mindestens 18 Jahre alt sein, um an Eurofurence teilnehmen zu können.
-register-personal-info-validation-errors-date-of-birth-validate-maximum-age = Aus technischen Gründen können wir die Teilnahme an Eurofurence nur bis zu einem Alter von 122 Jahren zulassen.
-register-personal-info-validation-errors-spoken-languages-required = Bitte gib an welche Sprachen Du sprichst.
-register-personal-info-validation-errors-pronouns-selection-required = Bitte wähle Deine Pronomen.
-register-personal-info-validation-errors-pronouns-other-required = Gib einen alternativen Pronomen-Satz an.
+register-personal-info-validation-errors-nickname-required = Bitte gib einen Nickname an!
+register-personal-info-validation-errors-nickname-max-length = Dein Nickname darf höchstens {$limit} Zeichen lang sein!
+register-personal-info-validation-errors-nickname-validate-no-leading-or-trailing-whitespace = Bitte vermeide Leerzeichen am Anfang und am Ende!
+register-personal-info-validation-errors-nickname-validate-min-one-alphanumeric-char = Dein Nickname muß mindestens einen Buchstaben oder eine Zahl enthalten!
+register-personal-info-validation-errors-nickname-validate-max-two-non-alphanumeric-chars = Dein Nickname kann nur maximal zwei Sonderzeichen enthalten!
+register-personal-info-validation-errors-first-name-required = Bitte gib einen Vornamen ein!
+register-personal-info-validation-errors-first-name-max-length = Dein Vorname kann nur maximal {$limit} Zeichen lang sein!
+register-personal-info-validation-errors-last-name-required = Bitte gib einen Nachnamen ein!
+register-personal-info-validation-errors-last-name-max-length = Dein Nachname kann nur maximal {$limit} Zeichen lang sein!
+register-personal-info-validation-errors-date-of-birth-required = Bitte gib ein Geburtsdatum ein!
+register-personal-info-validation-errors-date-of-birth-validate-minimum-age = Du musst mindestens 18 Jahre alt sein, um an Eurofurence teilnehmen zu können!
+register-personal-info-validation-errors-date-of-birth-validate-maximum-age = Aus technischen Gründen können wir die Teilnahme an Eurofurence nur bis zu einem Alter von 122 Jahren zulassen!
+register-personal-info-validation-errors-spoken-languages-required = Bitte gib an welche Sprachen Du sprichst!
+register-personal-info-validation-errors-pronouns-selection-required = Bitte wähle Deine Pronomen!
+register-personal-info-validation-errors-pronouns-other-required = Bitte gib alternative Pronomen an!
 
 
 
@@ -456,23 +456,23 @@ register-contact-info-country =
   .label = Land
   .placeholder = Germany
 
-register-contact-info-validation-errors-email-required = Bitte gib eine Email-Adresse an.
-register-contact-info-validation-errors-email-max-length = Deine Email-Adresse kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-email-pattern = Deine Email-Adresse muß auch wie eine Email-Adresse aussehen.
-register-contact-info-validation-errors-email-validate-is-verified = Du kannst entweder deine bestätigte Emailadresse verwenden oder bei der aktuellen bleiben.
-register-contact-info-validation-errors-phone-number-required = Bitte gib eine Telefonnummer an.
-register-contact-info-validation-errors-phone-number-max-length = Deine Telefonnummer kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-telegram-username-max-length = Dein Telegram-Username kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-telegram-username-pattern = Dein Telegram-Username muß mit einem @ beginnen.
-register-contact-info-validation-errors-street-required = Bitte gib eine Straße ein.
-register-contact-info-validation-errors-street-max-length = Dein Straßenname kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-city-required = Bitte gib eine Stadt an.
-register-contact-info-validation-errors-city-max-length = Deine Stadt kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-postal-code-required = Bitte gib eine Postleitzahl an.
-register-contact-info-validation-errors-postal-code-max-length = Deine Postleitzahl kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-state-or-province-max-length = Der Name des Bundelands kann maximal {$limit} Zeichen lang sein.
-register-contact-info-validation-errors-country-required = Bitte gib ein Land an.
-register-contact-info-validation-errors-country-max-length = Der Name des Landes kann maximal {$limit} Zeichen lang sein.
+register-contact-info-validation-errors-email-required = Bitte gib eine Email-Adresse an!
+register-contact-info-validation-errors-email-max-length = Deine Email-Adresse kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-email-pattern = Deine Email-Adresse muß auch wie eine Email-Adresse aussehen!
+register-contact-info-validation-errors-email-validate-is-verified = Du kannst entweder deine bestätigte Emailadresse verwenden oder bei der aktuellen bleiben!
+register-contact-info-validation-errors-phone-number-required = Bitte gib eine Telefonnummer an!
+register-contact-info-validation-errors-phone-number-max-length = Deine Telefonnummer kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-telegram-username-max-length = Dein Telegram-Username kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-telegram-username-pattern = Dein Telegram-Username muß mit einem @ beginnen!
+register-contact-info-validation-errors-street-required = Bitte gib eine Straße ein!
+register-contact-info-validation-errors-street-max-length = Dein Straßenname kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-city-required = Bitte gib eine Stadt an!
+register-contact-info-validation-errors-city-max-length = Deine Stadt kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-postal-code-required = Bitte gib eine Postleitzahl an!
+register-contact-info-validation-errors-postal-code-max-length = Deine Postleitzahl kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-state-or-province-max-length = Der Name des Bundelands kann maximal {$limit} Zeichen lang sein!
+register-contact-info-validation-errors-country-required = Bitte gib ein Land an!
+register-contact-info-validation-errors-country-max-length = Der Name des Landes kann maximal {$limit} Zeichen lang sein!
 
 
 # Register optional info page
@@ -551,7 +551,7 @@ register-summary-boolean-value = { $value ->
 
 register-summary-rules-and-conditions-accepted = Ich akzeptiere die  <rules>Regeln</rules> und <conditions>Teilnahmebedingungen</conditions>.
 
-register-summary-validation-errors-rules-and-conditions-accepted-required = Du musst die Regeln und Teilnahmebedingungen akzeptieren.
+register-summary-validation-errors-rules-and-conditions-accepted-required = Du musst die Regeln und Teilnahmebedingungen akzeptieren!
 
 
 
@@ -569,15 +569,15 @@ register-thank-you-content =
 
 register-not-open-yet-title = Die Registration ist noch nicht geöffnet!
 register-not-open-yet-content =
-  Wir nehmen derzeit keine Anmeldungen an.
-  Schau wieder rein wenn die Registration öffnet.
+  Wir nehmen derzeit keine Anmeldungen an!
+  Schau wieder rein wenn die Registration öffnet!
 
 
 
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Willkommen zur Eurofurence 2024!
+hotel-booking-header-title = Willkommen zur Eurofurence 2025!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,
@@ -599,7 +599,7 @@ hotel-booking-room-title = Room types
 
 hotel-booking-room-card-standard =
   The 27 sqm standard rooms offer luxurious living comfort.
-  The rooms are additionally equipped with modern furnishings and spacious working & storage areas so as to best meet guests' needs.
+  The rooms are additionally equipped with modern furnishings and spacious working & storage areas so as to best meet your needs.
 
   .label = Standard room
 
@@ -625,28 +625,28 @@ hotel-booking-room-card-deluxe-suite =
 hotel-booking-room-card-price-scope = Price per room per night
 hotel-booking-room-card-breakfast-and-taxes-notice = Breakfast and taxes included
 
-hotel-booking-room-validation-errors-type-required = Please select a room type.
+hotel-booking-room-validation-errors-type-required = Please select a room type!
 
 
 
 # Hotel booking guests page
-hotel-booking-guests-title = Guest information
+hotel-booking-guests-title = Guest Information
 hotel-booking-guests-guest-title = Guest {$guestNumber}
 
 hotel-booking-guests-first-name =
-  .label = First name
+  .label = First Name
   .placeholder = John
 
 hotel-booking-guests-last-name =
-  .label = Last name
+  .label = Last Name
   .placeholder = Doe
 
 hotel-booking-guests-email =
-  .label = Email address
+  .label = Email Address
   .placeholder = john.smith@email.com
 
 hotel-booking-guests-phone-number =
-  .label = Phone number
+  .label = Phone Number
   .placeholder = +32 0 000 00 00
 
 hotel-booking-guests-street =
@@ -658,7 +658,7 @@ hotel-booking-guests-city =
   .placeholder = Zootopia
 
 hotel-booking-guests-postal-code =
-  .label = Postal code (ZIP)
+  .label = Postal Code (ZIP)
   .placeholder = 8888
 
 hotel-booking-guests-state-or-province =
@@ -669,20 +669,20 @@ hotel-booking-guests-country =
   .label = Country
   .placeholder = Germany
 
-hotel-booking-guests-validation-errors-guests-firstName-required = Please provide a first name.
-hotel-booking-guests-validation-errors-guests-lastName-required = Please provide a last name.
-hotel-booking-guests-validation-errors-guests-email-required = Please provide an email address.
-hotel-booking-guests-validation-errors-guests-phoneNumber-required = Please provide a phone number.
-hotel-booking-guests-validation-errors-guests-street-required = Please provide a street.
-hotel-booking-guests-validation-errors-guests-city-required = Please provide a city.
-hotel-booking-guests-validation-errors-guests-postalCode-required = Please provide a postal code.
-hotel-booking-guests-validation-errors-guests-stateOrProvince-required = Please provide a state or province.
-hotel-booking-guests-validation-errors-guests-country-required = Please provide a country.
+hotel-booking-guests-validation-errors-guests-firstName-required = Please provide a first name!
+hotel-booking-guests-validation-errors-guests-lastName-required = Please provide a last name!
+hotel-booking-guests-validation-errors-guests-email-required = Please provide an email address!
+hotel-booking-guests-validation-errors-guests-phoneNumber-required = Please provide a phone number!
+hotel-booking-guests-validation-errors-guests-street-required = Please provide a street!
+hotel-booking-guests-validation-errors-guests-city-required = Please provide a city!
+hotel-booking-guests-validation-errors-guests-postalCode-required = Please provide a postal code!
+hotel-booking-guests-validation-errors-guests-stateOrProvince-required = Please provide a state or province!
+hotel-booking-guests-validation-errors-guests-country-required = Please provide a country!
 
 
 
 # Hotel booking additional info page
-hotel-booking-additional-info-title = Additional information
+hotel-booking-additional-info-title = Additional Information
 
 hotel-booking-additional-info-comments =
   .label = Comments
@@ -704,28 +704,28 @@ hotel-booking-email-description =
 funnel-error-report-title = Oh nein...
 
 funnel-error-report-operation = {$operation ->
-  [registration-open-check]       Wir konnten nicht prüfen ob Du schon angemeldet bist.
-  [registration-submission]       Wir konnten Deine Anmeldung nicht absenden.
-  [registration-update]           Wir konnten Deine Anmeldung nicht aktualisieren.
-  [registration-initiate-payment] Wir konnten Deinen Bezahlvorgang nicht anstoßen.
- *[unknown]                       Es gab einen Fehler bei Deinem Antrag.
+  [registration-open-check]       Wir konnten nicht prüfen ob Du schon angemeldet bist!
+  [registration-submission]       Wir konnten Deine Anmeldung nicht absenden!
+  [registration-update]           Wir konnten Deine Anmeldung nicht aktualisieren!
+  [registration-initiate-payment] Wir konnten Deinen Bezahlvorgang nicht anstoßen!
+ *[unknown]                       Es gab einen Fehler bei Deinem Antrag!
 }
 
 funnel-error-report-message = {$category ->
   [attsrv] {$code ->
-    [attendee-data-duplicate]  Ein anderer Teilnehmer ist bereits mit diesen Daten registriert.
-    [attendee-data-invalid]    Die von Dir angegebenen Informationen wurden vom Server nicht akzeptiert. Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support.
-    [attendee-parse-error]     Der Server hat die Informationen nicht verstanden die von der Webseite gesendet wurden.  Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support.
-    [attendee-write-error]     Beim Speichern Deiner Teilnehmerdaten gab es einen Fehler.  Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support.
-    [auth-forbidden]           Du hast nicht die benötigten Zugangsrechte hierfür. Wende Dich an den Support falls Du glaubst das sei ein Fehler.
-   *[unknown]                  Der Server ist auf ein unerwartetes Problem gestoßen.  Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support.
+    [attendee-data-duplicate]  Ein anderer Teilnehmer ist bereits mit diesen Daten registriert!
+    [attendee-data-invalid]    Die von Dir angegebenen Informationen wurden vom Server nicht akzeptiert. Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support!
+    [attendee-parse-error]     Der Server hat die Informationen nicht verstanden die von der Webseite gesendet wurden.  Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support!
+    [attendee-write-error]     Beim Speichern Deiner Teilnehmerdaten gab es einen Fehler.  Dies sollte unter normalen Umständen nicht passieren. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support!
+    [auth-forbidden]           Du hast nicht die benötigten Zugangsrechte hierfür. Wende Dich an den Support falls Du glaubst das sei ein Fehler!
+   *[unknown]                  Der Server ist auf ein unerwartetes Problem gestoßen. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support!
   }
   [paysrv] {$code ->
-   *[unknown]                  Der Server ist auf ein unerwartetes Problem gestoßen.  Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support.
+   *[unknown]                  Der Server ist auf ein unerwartetes Problem gestoßen. Bitte versuch es in einigen Minuten erneut oder wende Dich an den Support!
   }
  *[frontend] {$code ->
-    [network-error]            Wir konnten den Server nicht erreichen um Deinen Auftrag zu bearbeiten. Bitte stell sicher dass Du mit dem Internet verbunden bist.
-   *[unknown]                  Bei der Bearbeitung Deines Auftrags ist ein Fehler aufgetreten. Bitte versuche es später nochmal. Falls das Problem weiterhin besteht versuch Deinen Browser-Cache zu leeren and die Seite neu zu laden.
+    [network-error]            Wir konnten den Server nicht erreichen um Deinen Auftrag zu bearbeiten. Bitte stell sicher dass Du mit dem Internet verbunden bist!
+   *[unknown]                  Bei der Bearbeitung Deines Auftrags ist ein Fehler aufgetreten. Bitte versuche es später nochmal. Falls das Problem weiterhin besteht versuch Deinen Browser-Cache zu leeren and die Seite neu zu laden!
   }
 }
 

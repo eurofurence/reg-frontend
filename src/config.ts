@@ -138,16 +138,16 @@ const configMmc = {
 } as const
 
 const configEf = {
-	version: 6, // increment to prevent loading from local storage (new year, pricing changes, default packages)
+	version: 7, // increment to prevent loading from local storage (new year, pricing changes, default packages)
 	eventName: 'Eurofurence',
-	registrationLaunch: DateTime.fromISO('2023-01-21T12:30:23+02:00'),
-	registrationExpirationDate: DateTime.fromISO('2024-09-22', { zone: 'Europe/Berlin' }),
-	hoursBeforeEditAvailable: 4,
-	hotelBookingLaunch: DateTime.fromISO('2023-01-28T12:30:23+02:00'),
-	eventStartDate: DateTime.fromISO('2024-09-18', { zone: 'Europe/Berlin' }),
-	eventEndDate: DateTime.fromISO('2024-09-21', { zone: 'Europe/Berlin' }),
-	dayTicketStartDate: DateTime.fromISO('2024-09-18', { zone: 'Europe/Berlin' }),
-	dayTicketEndDate: DateTime.fromISO('2024-09-21', { zone: 'Europe/Berlin' }),
+	registrationLaunch: DateTime.fromISO('2025-01-01T20:00:00+02:00'), // set early enough to allow testing
+	registrationExpirationDate: DateTime.fromISO('2025-09-06', { zone: 'Europe/Berlin' }), // currently unused
+	hoursBeforeEditAvailable: 0, // feature is commented out anyway
+	hotelBookingLaunch: DateTime.fromISO('2025-01-11T20:00:00+02:00'),
+	eventStartDate: DateTime.fromISO('2025-09-03', { zone: 'Europe/Berlin' }),
+	eventEndDate: DateTime.fromISO('2025-09-06', { zone: 'Europe/Berlin' }),
+	dayTicketStartDate: DateTime.fromISO('2025-09-03', { zone: 'Europe/Berlin' }),
+	dayTicketEndDate: DateTime.fromISO('2025-09-06', { zone: 'Europe/Berlin' }),
 	earliestBirthDate: DateTime.fromISO('1901-01-01'),
 	minimumAge: 18,
 	enableRoomshare: false,
@@ -155,22 +155,22 @@ const configEf = {
 	ticketLevels: {
 		'standard': {
 			prices: {
-				full: 160,
+				full: 165,
 				day: 90,
 			},
 			requires: ['stage-pass'],
 		},
 		'sponsor': {
 			prices: {
-				full: 260,
-				day: 190,
+				full: 285,
+				day: 210,
 			},
 			requires: ['stage-pass'],
 			includes: ['tshirt'],
 		},
 		'super-sponsor': {
 			prices: {
-				full: 360,
+				full: 365,
 				day: 290,
 			},
 			requires: ['stage-pass'],
@@ -203,7 +203,7 @@ const configEf = {
 		},
 		'early': {
 			price: -15,
-			default: false, // don't forget to increment version when changing this
+			default: true, // don't forget to increment version when changing this
 			options: {},
 			unavailableFor: {
 				type: ['day'],
@@ -212,7 +212,7 @@ const configEf = {
 		},
 		'late': {
 			price: 15,
-			default: true, // don't forget to increment version when changing this
+			default: false, // don't forget to increment version when changing this
 			options: {},
 			unavailableFor: {
 				type: ['day'],

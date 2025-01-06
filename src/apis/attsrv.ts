@@ -170,10 +170,12 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 	packagesMap.set('sponsor', registrationInfo.ticketLevel.level === 'sponsor' ? 1 : 0)
 	packagesMap.set('sponsor2', registrationInfo.ticketLevel.level === 'super-sponsor' ? 1 : 0)
 	packagesMap.set('stage',
-		!(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
+		registrationInfo.ticketLevel.level // it cannot be null here
+		&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
 		&& registrationInfo.ticketLevel.addons['stage-pass'].selected ? 1 : 0)
 	packagesMap.set('tshirt',
-		!(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
+		registrationInfo.ticketLevel.level // it cannot be null here
+		&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
 		&& registrationInfo.ticketLevel.addons.tshirt.selected ? 1 : 0)
 	packagesMap.set('early', registrationInfo.ticketLevel.addons.early.selected ? 1 : 0)
 	packagesMap.set('late', registrationInfo.ticketLevel.addons.late.selected ? 1 : 0)

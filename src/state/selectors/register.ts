@@ -33,7 +33,7 @@ export const getInvoice = createSelector(getTicketType(), getTicketLevel(), getP
 		return undefined
 	}
 
-	const ticketLevelConfig = config.ticketLevels[ticketLevel.level]
+	const ticketLevelConfig = config.ticketLevels[ticketLevel.level ?? 'standard'] // cannot be null here, just making ts happy
 
 	const convertCount = (countOptions: AddonCountOptions): number => {
 		const code = countOptions.count ?? '1'
@@ -62,7 +62,7 @@ export const getInvoice = createSelector(getTicketType(), getTicketLevel(), getP
 		.map(([addonId, addon]) => ({
 			id: `register-ticket-addons-${addonId}`,
 			amount: convertCount(addon.options as AddonCountOptions),
-			unitPrice: config.ticketLevels[ticketLevel.level].includes?.includes(addonId) ?? false ? 0 : config.addons[addonId].price,
+			unitPrice: config.ticketLevels[ticketLevel.level ?? 'standard'].includes?.includes(addonId) ?? false ? 0 : config.addons[addonId].price,
 			options: addon.options,
 		}))
 

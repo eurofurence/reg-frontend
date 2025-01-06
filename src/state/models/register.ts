@@ -37,7 +37,7 @@ export type TicketLevelAddons = {
 }
 
 export type TicketLevel = {
-	readonly level: keyof TicketLevelConfig
+	readonly level: keyof TicketLevelConfig | null
 	readonly addons: TicketLevelAddons
 }
 

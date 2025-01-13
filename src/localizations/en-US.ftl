@@ -570,6 +570,16 @@ register-not-open-yet-content =
 
 
 
+# Register self cancellation page
+register-self-cancel-title = Self Cancellation!
+register-self-cancel-sure = Are you sure?
+register-self-cancel-content =
+  If you click on yes, you will cancel your unpaid registration! Be sure you mean it!
+  You will receive an email to confirm the cancellation. If you have cancelled by accident, you can
+  reply to the email to ask for your registration to be reinstated, subject to availability.
+register-self-cancel-yes = Yes! Cancel my registration!
+register-self-cancel-no = No! Go Back!
+
 
 
 # Common hotel booking messages

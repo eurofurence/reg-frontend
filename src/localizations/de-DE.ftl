@@ -573,6 +573,17 @@ register-not-open-yet-content =
   Schau wieder rein wenn die Registration öffnet!
 
 
+# Register self cancellation page
+register-self-cancel-title = Anmeldung stornieren!
+register-self-cancel-sure = Bis du sicher?
+register-self-cancel-content =
+  Wenn du jetzt auf "Ja" klickst, dann wird deine unbezahlte Anmeldung storniert!
+  Sei dir sicher, dass du das auch möchtest. Du erhältst eine Email zur Bestätigung.
+  Falls du irrtümlich storniert hast, kannst du auf die Mail antworten und uns
+  darum bitten, deine Anmeldung wieder zu aktivieren. Es gibt aber keine Garantie, dass
+  noch Plätze frei sind.
+register-self-cancel-yes = Ja! Ich möchte stornieren!
+register-self-cancel-no = Nein! Zurück!
 
 
 

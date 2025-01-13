@@ -107,6 +107,11 @@ export interface AttendeeStatusDto {
 	readonly status: RegistrationStatus
 }
 
+export interface AttendeeStatusChangeDto {
+	readonly status: RegistrationStatus
+	readonly comment: string
+}
+
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 enum Weekdays {
 	Monday = 1,
@@ -451,6 +456,30 @@ export const loadRegistration = (id: number) => apiCall<AttendeeDto>({
 export const loadRegistrationStatus = (id: number) => apiCall<AttendeeStatusDto>({
 	path: `/attendees/${id}/status`,
 	method: 'GET',
+})
+
+/*
+ * POST /attendees/{id}/status creates a status change for an attendee.
+ *
+ * id should come from the list returned by findMyRegistrations. Then a 400, 403, 404 should not occur.
+ *
+ * Returns no body and status 204, or ErrorDto and an error status.
+ *
+ * 400: Invalid ID or body supplied.
+ * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
+ * 403: You do not have permission to see this attendee, or you do not have permission to perform this status change at all.
+ *      Note that situational limitations (e.g. cannot check in an unpaid attendee) result in 409 instead.
+ *      If you get 403, you do not have permissions for this status transition, ever.
+ * 404: No such attendee.
+ * 409: The current situation does not allow this status change, even though you generally have permission to do it.
+ *      Maybe you are trying to check in an attendee who hasn't fully paid, etc. See message and details fields of the error.
+ * 500: It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The update leads to an update in the payment service which failed, or the mail service failed to send an email as part of the update.
+ */
+export const changeRegistrationStatus = (id: number, dto: AttendeeStatusChangeDto) => apiCall({
+	path: `/attendees/${id}/status`,
+	method: 'POST',
+	body: dto,
 })
 
 /*

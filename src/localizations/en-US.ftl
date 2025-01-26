@@ -255,11 +255,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Early Bird Discount (if paid before March 1st)
+  .label = Early Bird Discount (if paid before March 15th)
   .price = - €15
 
 register-ticket-level-modifiers-late-fee =
-  .label = Late Fee (if paid June 1st or later)
+  .label = Late Fee (if paid June 15th or later)
   .price = + €15
 
 register-ticket-level-footnote-late-sponsors =

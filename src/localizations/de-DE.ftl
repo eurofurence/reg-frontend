@@ -255,11 +255,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Frühbucherrabatt (bei Zahlung vor 1. März)
+  .label = Frühbucherrabatt (bei Zahlung vor 15. März)
   .price = -15 €
 
 register-ticket-level-modifiers-late-fee =
-  .label = Spätbucheraufschlag (bei Zahlung ab 1. Juni)
+  .label = Spätbucheraufschlag (bei Zahlung ab 15. Juni)
   .price = +15 €
 
 register-ticket-level-footnote-late-sponsors =

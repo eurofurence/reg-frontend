@@ -186,6 +186,9 @@ const configEf = {
 				type: ['day'],
 			},
 			hidden: false,
+			resetOn: {
+				levelChange: true,
+			},
 		},
 		'tshirt': {
 			price: 20,

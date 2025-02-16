@@ -38,7 +38,7 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 			if (resetOnLevelChange && name === 'level' && type === 'change') {
 				const levelValue = value.level as Exclude<typeof value.level, undefined>
 
-				setValue(`addons.${addon.id}.selected`, isIncluded(levelValue) && !isUnavailable(levelValue) || addon.default)
+				setValue(`addons.${addon.id}.selected`, (isIncluded(levelValue) || isRequired(levelValue)) && !isUnavailable(levelValue) || addon.default)
 			}
 
 			if (name) {
@@ -67,7 +67,7 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 			label={addon.id}
 			description={addon.id}
 			price={isIncluded(level) ? 0 : addon.price}
-			disabled={isIncluded(level) || isRequired(level)}
+			disabled={isIncluded(level) || isRequired(level) || addon.id === 'stage-pass'}
 			{...register(`addons.${addon.id}.selected`)}
 		>
 			{Object.entries(addon.options).map(([id, option]) =>

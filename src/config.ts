@@ -287,6 +287,12 @@ const configEf = {
 			options: {},
 			hidden: true,
 		},
+		'boat-cruise': {
+			price: 30,
+			default: false,
+			options: {},
+			hidden: true,
+		},
 		'boat-trip': {
 			price: 40,
 			default: false,

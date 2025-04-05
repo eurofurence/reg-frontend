@@ -86,6 +86,9 @@ invoice-item-definition-register-ticket-addons-dealer-double =
 invoice-item-definition-register-ticket-addons-dealer-quad =
   .name = Dealers' Den (4 Tische)
 
+invoice-item-definition-register-ticket-addons-boat-cruise =
+  .name = Bootstour
+
 invoice-item-definition-register-ticket-addons-boat-trip =
   .name = Bootsfahrt
 

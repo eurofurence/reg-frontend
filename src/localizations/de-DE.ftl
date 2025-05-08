@@ -87,16 +87,16 @@ invoice-item-definition-register-ticket-addons-dealer-quad =
   .name = Dealers' Den (4 Tische)
 
 invoice-item-definition-register-ticket-addons-boat-cruise =
-  .name = Bootstour
+  .name = Bootsfahrt Sonntag
 
 invoice-item-definition-register-ticket-addons-boat-trip =
-  .name = Bootsfahrt
+  .name = Bootsfahrt Dienstag
 
 invoice-item-definition-register-ticket-addons-boat-vip =
   .name = Boot VIP
 
 invoice-item-definition-register-ticket-addons-boat-benefactor =
-  .name = Bootssponsor
+  .name = Boot Sponsor
 
 invoice-item-definition-register-ticket-addons-artshow-table-half =
   .name = Art Show (halber Tisch)

@@ -108,8 +108,6 @@ export const useFunnelForm = <F extends FormIds>(id: F) => {
 		TName extends Path<TFieldValues> = Path<TFieldValues>
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 	>({ rules, ...props }: Omit<ControllerProps<TFieldValues, TName>, 'rules'> & { rules: LocalizedRules<TFieldValues, TName> }) => {
-		const { l10n } = useLocalization()
-
 		return <Controller rules={localizeValidations(l10n, id, props.name, rules)} {...props}/>
 	}
 

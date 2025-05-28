@@ -23,14 +23,14 @@ const Personal = (_: ReadonlyRouteComponentProps) => {
 	const pronounsSelection = watch('pronounsSelection')
 
 	const { languageOptions, languageOptionsByValue } = useMemo(() => {
-		const languageOptions = sortBy(
+		const languageOptionsSorted = sortBy(
 			prop('label'),
 			Object.entries(langMap)
 				.filter(([key]) => !(key as string).includes('-') && !(key as string).includes('@'))
 				.map(([value, names]) => ({ label: `${l10n.getString('language-name', { languageCode: value }, names.englishName)}`, value })),
 		)
 
-		return { languageOptions, languageOptionsByValue: new Map(languageOptions.map(l => [l.value, l])) }
+		return { languageOptions: languageOptionsSorted, languageOptionsByValue: new Map(languageOptionsSorted.map(l => [l.value, l])) }
 	}, [l10n])
 
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={2}>

@@ -26,12 +26,12 @@ const TicketLevelSelectAddonOption = ({ option, formContext: { control, watch, f
 	const selected = watch(`addons.${option.addonId}.selected`)
 
 	const { items, itemsByValue } = useMemo(() => {
-		const items = option.items.map(value => ({
+		const mappedItems = option.items.map(value => ({
 			value,
 			label: l10n.getString(`register-ticket-level-addons-item-${option.addonId}-option-${option.id}-value`, { value }),
 		}))
 
-		return { items, itemsByValue: new Map(items.map(item => [item.value, item])) }
+		return { items: mappedItems, itemsByValue: new Map(mappedItems.map(item => [item.value, item])) }
 	}, [l10n])
 
 	const addonErrorOptions = errors.addons?.[option.addonId]?.options as AddonErrorOptions

@@ -3,14 +3,14 @@ import { UpdateLastSavedTime } from '~/state/actions/autosave'
 import { ReadonlyDate } from '~/util/readonly-types'
 
 export interface AutosaveState {
-	readonly lastSaved?: ReadonlyDate
+    readonly lastSaved?: ReadonlyDate
 }
 
 export default (state: AutosaveState = {}, action: GetAction<AnyAppAction>): AutosaveState => {
-	switch (action.type) {
-		case UpdateLastSavedTime.type:
-			return { ...state, lastSaved: action.payload }
-		default:
-			return state
-	}
+    switch (action.type) {
+        case UpdateLastSavedTime.type:
+            return { ...state, lastSaved: action.payload }
+        default:
+            return state
+    }
 }

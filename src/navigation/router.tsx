@@ -16,26 +16,28 @@ import { withPrefix } from 'gatsby'
 import { useAppSelector } from '~/hooks/redux'
 import { isEditMode } from '~/state/selectors/register'
 
-export const EFRouter = () =>
-	<IndexPage />
+export const EFRouter = () => <IndexPage />
 
 export const RegisterRouter = () => {
-	const isEdit = useAppSelector(isEditMode())
+    const isEdit = useAppSelector(isEditMode())
 
-	return <Router basepath={withPrefix('/register')}>
-		<Ticket default={!isEdit} path={`/${ROUTES.REGISTER_TICKET}/*`} />
-		<Personal path={`/${ROUTES.REGISTER_PERSONAL}`} />
-		<Contact path={`/${ROUTES.REGISTER_CONTACT}`} />
-		<Optional path={`/${ROUTES.REGISTER_OPTIONAL}`} />
-		<Summary default={isEdit} path={`/${ROUTES.REGISTER_SUMMARY}`} />
-		<ThankYou path={`/${ROUTES.REGISTER_THANK_YOU}`} />
-	</Router>
+    return (
+        <Router basepath={withPrefix('/register')}>
+            <Ticket default={!isEdit} path={`/${ROUTES.REGISTER_TICKET}/*`} />
+            <Personal path={`/${ROUTES.REGISTER_PERSONAL}`} />
+            <Contact path={`/${ROUTES.REGISTER_CONTACT}`} />
+            <Optional path={`/${ROUTES.REGISTER_OPTIONAL}`} />
+            <Summary default={isEdit} path={`/${ROUTES.REGISTER_SUMMARY}`} />
+            <ThankYou path={`/${ROUTES.REGISTER_THANK_YOU}`} />
+        </Router>
+    )
 }
 
-export const HotelBookingRouter = () =>
-	<Router basepath={withPrefix('/hotel-booking')}>
-		<Room path={ROUTES.HOTEL_BOOKING_ROOM} />
-		<Guests path={ROUTES.HOTEL_BOOKING_GUESTS} />
-		<AdditionalInfo path={ROUTES.HOTEL_BOOKING_ADDITIONAL_INFO} />
-		<Email path={ROUTES.HOTEL_BOOKING_EMAIL} />
-	</Router>
+export const HotelBookingRouter = () => (
+    <Router basepath={withPrefix('/hotel-booking')}>
+        <Room path={ROUTES.HOTEL_BOOKING_ROOM} />
+        <Guests path={ROUTES.HOTEL_BOOKING_GUESTS} />
+        <AdditionalInfo path={ROUTES.HOTEL_BOOKING_ADDITIONAL_INFO} />
+        <Email path={ROUTES.HOTEL_BOOKING_EMAIL} />
+    </Router>
+)

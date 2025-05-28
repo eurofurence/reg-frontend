@@ -13,60 +13,81 @@ import { isEditMode } from '~/state/selectors/register'
 import type { ReadonlyReactNode } from '~/util/readonly-types'
 
 const Header = styled.header`
-	margin-bottom: 3em;
+    margin-bottom: 3em;
 `
 
 const Footer = styled.footer`
-	margin-top: 3.5em;
-	margin-bottom: 1em;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    margin-top: 3.5em;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `
 
 const Nav = styled.nav`
-	display: flex;
-	gap: 1em;
+    display: flex;
+    gap: 1em;
 
-	@media not all and ${MediaQueries.phone} {
-		align-items: center;
-	}
+    @media not all and ${MediaQueries.phone} {
+        align-items: center;
+    }
 
-	@media ${MediaQueries.phone} {
-		width: 100%;
-		flex-direction: column;
-		align-items: stretch;
-	}
+    @media ${MediaQueries.phone} {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
 `
 
 export interface StepFunnelLayoutProps {
-	readonly children: ReadonlyReactNode
-	readonly header?: ReadonlyReactNode
-	readonly isFirstPage?: boolean
-	readonly isLastPage?: boolean
-	readonly onNext: () => void
-	readonly showBack?: boolean
+    readonly children: ReadonlyReactNode
+    readonly header?: ReadonlyReactNode
+    readonly isFirstPage?: boolean
+    readonly isLastPage?: boolean
+    readonly onNext: () => void
+    readonly showBack?: boolean
 }
 
-const StepFunnelLayout = ({ children, header: headerContent, isFirstPage = false, isLastPage = false, onNext, showBack = false }: StepFunnelLayoutProps) => {
-	const isEdit = useAppSelector(isEditMode())
+const StepFunnelLayout = ({
+    children,
+    header: headerContent,
+    isFirstPage = false,
+    isLastPage = false,
+    onNext,
+    showBack = false,
+}: StepFunnelLayoutProps) => {
+    const isEdit = useAppSelector(isEditMode())
 
-	return <Page>
-		<Header>
-			{headerContent}
-		</Header>
-		{children}
-		{isEdit && isLastPage ? null : <Footer>
-			<Nav>
-				<Localized id={isEdit ? 'register-navigation-update' : isLastPage ? 'register-navigation-finish' : 'register-navigation-next'}>
-					<Button onClick={onNext}>Continue</Button>
-				</Localized>
-				{isFirstPage && !showBack ? null : <Localized id="register-navigation-back">
-					<Button variant="inverted" onClick={() => navigate(-1)}>Go back</Button>
-				</Localized>}
-			</Nav>
-		</Footer>}
-	</Page>
+    return (
+        <Page>
+            <Header>{headerContent}</Header>
+            {children}
+            {isEdit && isLastPage ? null : (
+                <Footer>
+                    <Nav>
+                        <Localized
+                            id={
+                                isEdit
+                                    ? 'register-navigation-update'
+                                    : isLastPage
+                                      ? 'register-navigation-finish'
+                                      : 'register-navigation-next'
+                            }
+                        >
+                            <Button onClick={onNext}>Continue</Button>
+                        </Localized>
+                        {isFirstPage && !showBack ? null : (
+                            <Localized id="register-navigation-back">
+                                <Button variant="inverted" onClick={() => navigate(-1)}>
+                                    Go back
+                                </Button>
+                            </Localized>
+                        )}
+                    </Nav>
+                </Footer>
+            )}
+        </Page>
+    )
 }
 
 export default StepFunnelLayout

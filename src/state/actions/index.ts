@@ -7,10 +7,4 @@ import { NavigationAction } from './navigation'
 
 export type { GetAction } from './create-action'
 
-export type AnyAppAction =
-	| AuthAction
-	| AutosaveAction
-	| ErrorAction
-	| FormAction
-	| RegisterAction
-	| NavigationAction
+export type AnyAppAction = AuthAction | AutosaveAction | ErrorAction | FormAction | RegisterAction | NavigationAction

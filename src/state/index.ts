@@ -5,21 +5,17 @@ import reducer from './reducers'
 import epic from './epics'
 
 export const configureStore = () => {
-	// eslint-disable-next-line
-	const composeEnhancers = global.window && ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ as typeof compose) || compose
+    // eslint-disable-next-line
+    const composeEnhancers =
+        (global.window && ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ as typeof compose)) || compose
 
-	const epicMiddleware = createEpicMiddleware<GetAction<AnyAppAction>, GetAction<AnyAppAction>, AppState>()
+    const epicMiddleware = createEpicMiddleware<GetAction<AnyAppAction>, GetAction<AnyAppAction>, AppState>()
 
-	const store = createStore(
-		reducer,
-		composeEnhancers(
-			applyMiddleware(epicMiddleware),
-		),
-	)
+    const store = createStore(reducer, composeEnhancers(applyMiddleware(epicMiddleware)))
 
-	epicMiddleware.run(epic)
+    epicMiddleware.run(epic)
 
-	return store
+    return store
 }
 
 export type AppState = ReturnType<typeof reducer>

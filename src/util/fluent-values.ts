@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import { DeepReadonly } from 'ts-essentials'
 
 export const createLuxonFluentDateTime = (dateTime: DeepReadonly<DateTime>) =>
-	new FluentDateTime(dateTime.toMillis(), { timeZone: dateTime.zoneName })
+    new FluentDateTime(dateTime.toMillis(), { timeZone: dateTime.zoneName })
 
 export const createLuxonFluentDateTimeRange = (start: DeepReadonly<DateTime>, end: DeepReadonly<DateTime>) =>
-	new FluentDateTimeRange(start.toMillis(), end.toMillis(), { timeZone: start.zoneName })
+    new FluentDateTimeRange(start.toMillis(), end.toMillis(), { timeZone: start.zoneName })

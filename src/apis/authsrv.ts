@@ -9,45 +9,45 @@ import { AppError } from '~/state/models/errors'
 import type { Replace } from 'type-fest'
 
 export interface UserInfoDto {
-	readonly subject: string
-	readonly name: string
-	readonly email: string
-	readonly email_verified: boolean
-	readonly groups: readonly string[]
+    readonly subject: string
+    readonly name: string
+    readonly email: string
+    readonly email_verified: boolean
+    readonly groups: readonly string[]
 }
 
-export type ErrorMessage =
-	| 'auth.unauthorized'
-	| 'auth.idp.error'
-	| 'unknown'
+export type ErrorMessage = 'auth.unauthorized' | 'auth.idp.error' | 'unknown'
 
 export type ErrorDto = CommonErrorDto<ErrorMessage>
 
 export class AuthSrvAppError extends AppError<Replace<ErrorMessage, '.', '-', { all: true }>> {
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-	constructor(err: AjaxError) {
-		const errDto = err.response as ErrorDto
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+    constructor(err: AjaxError) {
+        const errDto = err.response as ErrorDto
 
-		super('authsrv', errDto.message.replaceAll('.', '-'), `Authentication API Error: ${JSON.stringify(errDto, undefined, 2)}`)
-	}
+        super(
+            'authsrv',
+            errDto.message.replaceAll('.', '-'),
+            `Authentication API Error: ${JSON.stringify(errDto, undefined, 2)}`,
+        )
+    }
 }
 
 const userInfoDtoToUserInfo = (userInfo: UserInfoDto): UserInfo => ({
-	subject: userInfo.subject,
-	name: userInfo.name,
-	email: userInfo.email,
-	emailVerified: userInfo.email_verified,
+    subject: userInfo.subject,
+    name: userInfo.name,
+    email: userInfo.email,
+    emailVerified: userInfo.email_verified,
 })
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const apiCall = <T>({ path, ...cfg }: Omit<AjaxConfig, 'url'> & { path: string }) => ajax<T>({
-	url: `${config.apis.authsrv.url}${path}`,
-	crossDomain: true,
-	withCredentials: true,
-	...cfg,
-}).pipe(
-	catchError(handleStandardApiErrors(AuthSrvAppError)),
-)
+const apiCall = <T>({ path, ...cfg }: Omit<AjaxConfig, 'url'> & { path: string }) =>
+    ajax<T>({
+        url: `${config.apis.authsrv.url}${path}`,
+        crossDomain: true,
+        withCredentials: true,
+        ...cfg,
+    }).pipe(catchError(handleStandardApiErrors(AuthSrvAppError)))
 
 /*
  * GET /frontend-userinfo obtains information about the logged in user: their assigned relevant roles, and their email address,
@@ -66,9 +66,8 @@ const apiCall = <T>({ path, ...cfg }: Omit<AjaxConfig, 'url'> & { path: string }
  *
  * This endpoint is optimized in the backend for high traffic, so it is safe to call during initial reg.
  */
-export const getUserInfo = () => apiCall<UserInfoDto>({
-	path: '/frontend-userinfo',
-	method: 'GET',
-}).pipe(
-	map(result => userInfoDtoToUserInfo(result.response)),
-)
+export const getUserInfo = () =>
+    apiCall<UserInfoDto>({
+        path: '/frontend-userinfo',
+        method: 'GET',
+    }).pipe(map((result) => userInfoDtoToUserInfo(result.response)))

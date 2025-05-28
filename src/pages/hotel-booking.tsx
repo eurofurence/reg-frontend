@@ -6,8 +6,8 @@ import config from '~/config'
 
 export const Head = () => <SEO title="Hotel Booking" />
 
-const HotelBookingPage = (_: ReadonlyRouteComponentProps) => <Layout deadline={config.hotelBookingLaunch}>
-	{HotelBookingRouter()}
-</Layout>
+const HotelBookingPage = (_: ReadonlyRouteComponentProps) => (
+    <Layout deadline={config.hotelBookingLaunch}>{HotelBookingRouter()}</Layout>
+)
 
 export default HotelBookingPage

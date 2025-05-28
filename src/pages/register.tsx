@@ -11,22 +11,27 @@ import { CheckCountdown } from '~/state/actions/register'
 export const Head = () => <SEO title="Register" />
 
 const Content = () => {
-	const isOpen = useAppSelector(isRegistrationOpen())
-	const dispatch = useAppDispatch()
+    const isOpen = useAppSelector(isRegistrationOpen())
+    const dispatch = useAppDispatch()
 
-	useEffect(() => {
-		dispatch(CheckCountdown.create(undefined))
-	}, [])
+    useEffect(() => {
+        dispatch(CheckCountdown.create(undefined))
+    }, [])
 
-	switch (isOpen) {
-		case true: return <RegisterRouter/>
-		case false: return <NotOpenYet/>
-		case null: return <div>Loading...</div>
-	}
+    switch (isOpen) {
+        case true:
+            return <RegisterRouter />
+        case false:
+            return <NotOpenYet />
+        case null:
+            return <div>Loading...</div>
+    }
 }
 
-const RegisterPage = (_: ReadonlyRouteComponentProps) => <Layout>
-	<Content/>
-</Layout>
+const RegisterPage = (_: ReadonlyRouteComponentProps) => (
+    <Layout>
+        <Content />
+    </Layout>
+)
 
 export default RegisterPage

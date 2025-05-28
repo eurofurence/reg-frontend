@@ -13,35 +13,37 @@ import { TOTAL_STEPS } from '../constants'
 import RegisterHeader from '../header'
 
 export interface WithInvoiceRegisterFunnelLayoutProps {
-	readonly children: ReadonlyReactNode
-	readonly currentStep: number
-	readonly onNext: () => void
+    readonly children: ReadonlyReactNode
+    readonly currentStep: number
+    readonly onNext: () => void
 }
 
 const WithInvoiceRegisterFunnelLayout = ({ children, currentStep, onNext }: WithInvoiceRegisterFunnelLayoutProps) => {
-	const invoice = useAppSelector(getInvoice)
-	const isEdit = useAppSelector(isEditMode())
-	const unprocessedPayments = useAppSelector(hasUnprocessedPayments())
-	const status = useAppSelector(getStatus())
-	const dispatch = useAppDispatch()
+    const invoice = useAppSelector(getInvoice)
+    const isEdit = useAppSelector(isEditMode())
+    const unprocessedPayments = useAppSelector(hasUnprocessedPayments())
+    const status = useAppSelector(getStatus())
+    const dispatch = useAppDispatch()
 
-	return <Localized id="register-invoice-layout" attrs={{ invoiceTitle: true }}>
-		<WithInvoiceFunnelLayout
-			header={<RegisterHeader currentStep={currentStep}/>}
-			isFirstPage={currentStep === 0}
-			isLastPage={currentStep === TOTAL_STEPS - 1}
-			onNext={onNext}
-			invoiceTitle="Your registration"
-			invoiceEditLink={isEdit && currentStep === TOTAL_STEPS - 1 ? '/register/ticket/level' : undefined}
-			invoice={invoice ?? buildInvoice([])}
-			hideInvoice={status === 'cancelled'}
-			unprocessedPayments={unprocessedPayments}
-			onPay={() => dispatch(InitiatePayment.create(undefined))}
-			onSepa={() => dispatch(InitiateSepaPayment.create(undefined))}
-		>
-			{children}
-		</WithInvoiceFunnelLayout>
-	</Localized>
+    return (
+        <Localized id="register-invoice-layout" attrs={{ invoiceTitle: true }}>
+            <WithInvoiceFunnelLayout
+                header={<RegisterHeader currentStep={currentStep} />}
+                isFirstPage={currentStep === 0}
+                isLastPage={currentStep === TOTAL_STEPS - 1}
+                onNext={onNext}
+                invoiceTitle="Your registration"
+                invoiceEditLink={isEdit && currentStep === TOTAL_STEPS - 1 ? '/register/ticket/level' : undefined}
+                invoice={invoice ?? buildInvoice([])}
+                hideInvoice={status === 'cancelled'}
+                unprocessedPayments={unprocessedPayments}
+                onPay={() => dispatch(InitiatePayment.create(undefined))}
+                onSepa={() => dispatch(InitiateSepaPayment.create(undefined))}
+            >
+                {children}
+            </WithInvoiceFunnelLayout>
+        </Localized>
+    )
 }
 
 export default WithInvoiceRegisterFunnelLayout

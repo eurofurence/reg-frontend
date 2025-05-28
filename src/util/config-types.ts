@@ -33,6 +33,7 @@ type AddonConfig<OptionsConfigItems, Addon extends string, TicketLevel extends s
 		// (type change can only be done in this frontend during initial registration)
 		// see reducers/register.ts
 	}
+	readonly unavailable?: boolean
 }
 
 type RoomConfig = {

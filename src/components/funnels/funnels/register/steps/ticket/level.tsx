@@ -131,6 +131,7 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 						.filter(([, addon]) => !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false))
 						.filter(([, addon]) => !(addon.unavailableFor?.level?.includes(formContext.getValues('level')) ?? false))
 						.filter(([, addon]) => requirementsMet(addon.requires as string[] | undefined))
+						.filter(([id, addon]) => addon.unavailable === true ? Boolean(formContext.getValues('addons')[id].selected) : true)
 						.map(([id, addon]) =>
 							// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 							<TicketLevelAddon key={id} addon={{ id, ...addon } as AugmentedAddon} formContext={formContext}/>,

@@ -6,7 +6,7 @@ import { pluck, prop, sortBy } from 'ramda'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import config from '~/config'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { DateTime } from 'luxon'
 
 const reAlphaNum = /[\p{Letter}\p{Number}]/ug
@@ -17,10 +17,17 @@ const reSpaceNum = /[\p{White_Space}]/ug
 const spaceCount = (s: string) => s.match(reSpaceNum)?.length ?? 0
 
 const Personal = (_: ReadonlyRouteComponentProps) => {
-	const { register, handleSubmit, control, watch, formState: { errors }, FunnelController } = useFunnelForm('register-personal-info')
+	const { register, handleSubmit, control, watch, formState: { errors }, FunnelController, setValue } = useFunnelForm('register-personal-info')
 	const { l10n } = useLocalization()
 
 	const pronounsSelection = watch('pronounsSelection')
+	const pronounsOther = watch('pronounsOther')
+
+	useEffect(() => {
+		if (typeof pronounsOther === 'string' && pronounsOther.length > 0 && pronounsSelection !== 'other') {
+			setValue('pronounsSelection', 'other', { shouldValidate: true })
+		}
+	}, [pronounsOther, pronounsSelection, setValue])
 
 	const { languageOptions, languageOptionsByValue } = useMemo(() => {
 		const languageOptions = sortBy(

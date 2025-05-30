@@ -3,7 +3,7 @@ import { Form, Select, TextField } from '@eurofurence/reg-component-library'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { countryCodeEmoji } from 'country-code-emoji'
 import config from '~/config'
 import { prop, sortBy } from 'ramda'
@@ -14,7 +14,7 @@ const reEmail = /^[^@\p{Space_Separator}]+@[^@\p{Space_Separator}]+$/u
 const reTelegram = /^@.+$/u
 
 const Contact = (_: ReadonlyRouteComponentProps) => {
-	const { register, handleSubmit, control, formState: { errors }, FunnelController } = useFunnelForm('register-contact-info')
+	const { register, handleSubmit, control, formState: { errors }, FunnelController, watch, setValue } = useFunnelForm('register-contact-info')
 	const { l10n } = useLocalization()
 	const verifiedEmails = useAppSelector(getVerifiedEmails())
 
@@ -29,6 +29,14 @@ const Contact = (_: ReadonlyRouteComponentProps) => {
 
 		return { countryOptions, countryOptionsByValue: new Map(countryOptions.map(o => [o.value, o])) }
 	}, [l10n])
+
+	const telegramUsername = watch('telegramUsername')
+
+	useEffect(() => {
+		if (typeof telegramUsername === 'string' && telegramUsername.length > 0 && !telegramUsername.startsWith('@')) {
+			setValue('telegramUsername', `@${telegramUsername}`, { shouldValidate: true })
+		}
+	}, [telegramUsername, setValue])
 
 	return <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={3}>
 		<Localized id="register-contact-info-title"><h3>Contact information</h3></Localized>

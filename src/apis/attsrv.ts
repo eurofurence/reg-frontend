@@ -250,7 +250,7 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 	// parse all hidden addons, so they show up in the invoice box
 	const hiddenAddons = Object.fromEntries(
 		Object.entries(config.addons)
-			.filter(([, addon]) => addon.hidden)
+			.filter(([,addon]) => addon.hidden)
 			.map(([id, _addon]) => {
 				return [id, { selected: packagesMap.has(id), options: {} }]
 			}),
@@ -300,12 +300,12 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 				type: 'day',
 				day: packagesMap.has('day-sun') ? days.find(d => d.weekday === Weekdays.Sunday)!
 					: packagesMap.has('day-mon') ? days.find(d => d.weekday === Weekdays.Monday)!
-						: packagesMap.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
-							: packagesMap.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
-								: packagesMap.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
-									: packagesMap.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
-										: packagesMap.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
-											: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
+					: packagesMap.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
+					: packagesMap.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
+					: packagesMap.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
+					: packagesMap.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
+					: packagesMap.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
+					: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
 			},
 		/* eslint-enable @typescript-eslint/indent */
 		ticketLevel: {

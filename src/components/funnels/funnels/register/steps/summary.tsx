@@ -138,8 +138,6 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	const { l10n } = useLocalization()
 	const { handleSubmit, register, formState: { errors } } = useFunnelForm('register-summary')
 
-	console.log(status)
-
 	const notificationNames = Object
 		.entries(optionalInfo.notifications)
 		.filter(([, enabled]) => enabled)

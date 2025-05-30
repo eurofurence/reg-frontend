@@ -107,6 +107,11 @@ export interface AttendeeStatusDto {
 	readonly status: RegistrationStatus
 }
 
+// DTO for changing attendee status (e.g., for self-cancellation)
+export interface AttendeeStatusChangeDto {
+	status: RegistrationStatus
+}
+
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 enum Weekdays {
 	Monday = 1,
@@ -171,12 +176,12 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 	packagesMap.set('sponsor2', registrationInfo.ticketLevel.level === 'super-sponsor' ? 1 : 0)
 	packagesMap.set('stage',
 		registrationInfo.ticketLevel.level // it cannot be null here
-		&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
-		&& registrationInfo.ticketLevel.addons['stage-pass'].selected ? 1 : 0)
+			&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('stage-pass') ?? false)
+			&& registrationInfo.ticketLevel.addons['stage-pass'].selected ? 1 : 0)
 	packagesMap.set('tshirt',
 		registrationInfo.ticketLevel.level // it cannot be null here
-		&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
-		&& registrationInfo.ticketLevel.addons.tshirt.selected ? 1 : 0)
+			&& !(config.ticketLevels[registrationInfo.ticketLevel.level].includes?.includes('tshirt') ?? false)
+			&& registrationInfo.ticketLevel.addons.tshirt.selected ? 1 : 0)
 	packagesMap.set('early', registrationInfo.ticketLevel.addons.early.selected ? 1 : 0)
 	packagesMap.set('late', registrationInfo.ticketLevel.addons.late.selected ? 1 : 0)
 	// linter is wrong, undefined can happen if the field has been removed due to a level switch, because then benefactor isn't available
@@ -188,7 +193,7 @@ const attendeeDtoFromRegistrationInfo = (registrationInfo: RegistrationInfo): At
 	packagesMap.set('fursuitadd', registrationInfo.ticketLevel.addons.fursuitadd?.selected ? countAsNumber(registrationInfo.ticketLevel.addons.fursuitadd.options.count) : 0)
 
 	const packagesList = Array.from(packagesMap.entries())
-		.filter(([,c]) => c > 0)
+		.filter(([, c]) => c > 0)
 		.sort((a, b) => a[0].localeCompare(b[0]))
 		.map(([n, c]) => ({
 			name: n,
@@ -245,7 +250,7 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 	// parse all hidden addons, so they show up in the invoice box
 	const hiddenAddons = Object.fromEntries(
 		Object.entries(config.addons)
-			.filter(([,addon]) => addon.hidden)
+			.filter(([, addon]) => addon.hidden)
 			.map(([id, _addon]) => {
 				return [id, { selected: packagesMap.has(id), options: {} }]
 			}),
@@ -295,12 +300,12 @@ const registrationInfoFromAttendeeDto = (attendeeDto: AttendeeDto): Registration
 				type: 'day',
 				day: packagesMap.has('day-sun') ? days.find(d => d.weekday === Weekdays.Sunday)!
 					: packagesMap.has('day-mon') ? days.find(d => d.weekday === Weekdays.Monday)!
-					: packagesMap.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
-					: packagesMap.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
-					: packagesMap.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
-					: packagesMap.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
-					: packagesMap.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
-					: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
+						: packagesMap.has('day-tue') ? days.find(d => d.weekday === Weekdays.Tuesday)!
+							: packagesMap.has('day-wed') ? days.find(d => d.weekday === Weekdays.Wednesday)!
+								: packagesMap.has('day-thu') ? days.find(d => d.weekday === Weekdays.Thursday)!
+									: packagesMap.has('day-fri') ? days.find(d => d.weekday === Weekdays.Friday)!
+										: packagesMap.has('day-sat') ? days.find(d => d.weekday === Weekdays.Saturday)!
+											: days.find(d => d.weekday === Weekdays.Wednesday)!, // better than nothing
 			},
 		/* eslint-enable @typescript-eslint/indent */
 		ticketLevel: {
@@ -451,6 +456,30 @@ export const loadRegistration = (id: number) => apiCall<AttendeeDto>({
 export const loadRegistrationStatus = (id: number) => apiCall<AttendeeStatusDto>({
 	path: `/attendees/${id}/status`,
 	method: 'GET',
+})
+
+/*
+ * POST /attendees/{id}/status creates a status change for an attendee.
+ *
+ * id should come from the list returned by findMyRegistrations. Then a 400, 403, 404 should not occur.
+ *
+ * Returns no body and status 204, or ErrorDto and an error status.
+ *
+ * 400: Invalid ID or body supplied.
+ * 401: The user's token has expired, and you need to redirect them to the auth start to refresh it.
+ * 403: You do not have permission to see this attendee, or you do not have permission to perform this status change at all.
+ *      Note that situational limitations (e.g. cannot check in an unpaid attendee) result in 409 instead.
+ *      If you get 403, you do not have permissions for this status transition, ever.
+ * 404: No such attendee.
+ * 409: The current situation does not allow this status change, even though you generally have permission to do it.
+ *      Maybe you are trying to check in an attendee who hasn't fully paid, etc. See message and details fields of the error.
+ * 500: It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
+ * 502: The update leads to an update in the payment service which failed, or the mail service failed to send an email as part of the update.
+ */
+export const changeRegistrationStatus = (id: number, dto: AttendeeStatusChangeDto) => apiCall({
+	path: `/attendees/${id}/status`,
+	method: 'POST',
+	body: dto,
 })
 
 /*

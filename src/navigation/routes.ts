@@ -11,6 +11,7 @@ export const REGISTER_CONTACT = 'contact-info'
 export const REGISTER_OPTIONAL = 'optional-info'
 export const REGISTER_SUMMARY = 'summary'
 export const REGISTER_THANK_YOU = 'thank-you'
+export const REGISTER_SELF_CANCEL = 'self-cancel'
 
 // Hotel booking flow
 export const HOTEL_BOOKING = 'hotel-booking'

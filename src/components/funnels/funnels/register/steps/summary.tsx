@@ -137,6 +137,7 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 	const locale = useCurrentLocale()
 	const { l10n } = useLocalization()
 	const { handleSubmit, register, formState: { errors } } = useFunnelForm('register-summary')
+
 	console.log(status)
 
 	const notificationNames = Object
@@ -156,11 +157,11 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 			<RegistrationId>Badge number: {registrationId}</RegistrationId>
 		</Localized> : undefined }
 
-		{ registrationId && (status === "new" || status === "waiting" || status === "approved") ?
-			<Localized id="register-summary-self-cancel">
+		{ registrationId && (status === 'new' || status === 'waiting' || status === 'approved')
+			?			<Localized id="register-summary-self-cancel">
 				<Button onClick={() => navigate(`/register/self-cancel`)}>Self Cancel!</Button>
 			</Localized>
-		: undefined }
+			: undefined }
 
 		<Section id="personal" editLink="/register/personal-info" properties={[
 			{ id: 'nickname', value: personalInfo.nickname },

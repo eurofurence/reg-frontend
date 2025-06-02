@@ -87,10 +87,10 @@ invoice-item-definition-register-ticket-addons-dealer-quad =
   .name = Dealers' Den (4 Tables)
 
 invoice-item-definition-register-ticket-addons-boat-cruise =
-  .name = Boat Cruise
+  .name = Boat Trip Sunday
 
 invoice-item-definition-register-ticket-addons-boat-trip =
-  .name = Boat Trip
+  .name = Boat Trip Tuesday
 
 invoice-item-definition-register-ticket-addons-boat-vip =
   .name = Boat VIP

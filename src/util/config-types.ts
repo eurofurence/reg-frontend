@@ -99,6 +99,7 @@ type Config<TicketLevel extends string, AddonConfigs extends Readonly<Record<str
 		readonly rules: string
 		readonly contact: string
 	}
+	readonly disablePackageEditForStatuses: readonly string[]
 }
 
 export const checkConfig = <

@@ -11,6 +11,7 @@ import { getInvoice, getStatus, hasUnprocessedPayments, isEditMode } from '~/sta
 import type { ReadonlyReactNode } from '~/util/readonly-types'
 import { TOTAL_STEPS } from '../constants'
 import RegisterHeader from '../header'
+import config from '~/config'
 
 export interface WithInvoiceRegisterFunnelLayoutProps {
 	readonly children: ReadonlyReactNode
@@ -32,7 +33,7 @@ const WithInvoiceRegisterFunnelLayout = ({ children, currentStep, onNext }: With
 			isLastPage={currentStep === TOTAL_STEPS - 1}
 			onNext={onNext}
 			invoiceTitle="Your registration"
-			invoiceEditLink={isEdit && currentStep === TOTAL_STEPS - 1 ? '/register/ticket/level' : undefined}
+			invoiceEditLink={isEdit && currentStep === TOTAL_STEPS - 1 && !config.disablePackageEditForStatuses.includes(status ?? '') ? '/register/ticket/level' : undefined}
 			invoice={invoice ?? buildInvoice([])}
 			hideInvoice={status === 'cancelled'}
 			unprocessedPayments={unprocessedPayments}

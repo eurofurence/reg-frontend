@@ -27,20 +27,12 @@ export interface TicketLevelAddonProps {
 const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 	const isIncluded = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].includes?.includes(addon.id) ?? false)
 	const isRequired = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].requires?.includes(addon.id) ?? false)
-	const isUnavailable = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.addons[addon.id].unavailableFor?.level?.includes(lvl) ?? false)
-	const resetOnLevelChange = config.addons[addon.id].resetOn?.levelChange ?? false
 
 	const { watch, register, setValue } = formContext
 	const level = watch('level')
 
 	useEffect(() => {
 		const subscription = watch((value, { name, type }) => {
-			if (resetOnLevelChange && name === 'level' && type === 'change') {
-				const levelValue = value.level as Exclude<typeof value.level, undefined>
-
-				setValue(`addons.${addon.id}.selected`, (isIncluded(levelValue) || isRequired(levelValue)) && !isUnavailable(levelValue) || addon.default)
-			}
-
 			if (name) {
 				if (name.startsWith('addons') && type === 'change') {
 					const requirements = (config.addons[addon.id].requires ?? []) as string[]

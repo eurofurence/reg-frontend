@@ -15,7 +15,7 @@ const SelfCancel = (_: ReadonlyRouteComponentProps) => {
 	const registrationId = useAppSelector(getRegistrationId())!
 
 	const doCancel = async (id: number): Promise<void> => {
-		changeRegistrationStatus(id, { status: 'cancelled' })
+		changeRegistrationStatus(id, { status: 'cancelled', comment: 'self cancellation' })
 		await navigate(returnLink)
 	}
 

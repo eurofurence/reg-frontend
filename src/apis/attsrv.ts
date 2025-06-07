@@ -109,7 +109,8 @@ export interface AttendeeStatusDto {
 
 // DTO for changing attendee status (e.g., for self-cancellation)
 export interface AttendeeStatusChangeDto {
-	status: RegistrationStatus
+	readonly status: RegistrationStatus
+	readonly comment: string
 }
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */

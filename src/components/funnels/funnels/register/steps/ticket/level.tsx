@@ -11,6 +11,7 @@ import { useAppSelector } from '~/hooks/redux'
 import { getTicketType } from '~/state/selectors/register'
 import { createLuxonFluentDateTime } from '~/util/fluent-values'
 import TicketLevelFootnote from '~/components/funnels/funnels/register/steps/ticket/level/footnote'
+import { useEffect } from 'react'
 
 const TicketLevelGrid = styled.section`
 	display: grid;
@@ -47,7 +48,7 @@ type AddonSelection = {
 const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 	const ticketType = useAppSelector(getTicketType())!
 	const formContext = useFunnelForm('register-ticket-level')
-	const { register, handleSubmit } = formContext
+	const { watch, register, setValue, handleSubmit } = formContext
 
 	const nonSelectedAddonIds = Object.entries(formContext.getValues('addons') as AddonSelection).filter(([, v]) => v.selected === false).map(([k]) => k as string)
 
@@ -60,6 +61,40 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 		} else {
 			return true
 		}
+	}
+
+	// adjust addons that have resetOn.levelChange on level change, even if they are not currently visible
+	// (this code used to be in addon.tsx, but that does not work if the addon is currently invisible due to being unavailable)
+	useEffect(() => {
+		const subscription = watch((value, { name, type }) => {
+			if (name === 'level' && type === 'change') {
+				const levelValue = value.level as Exclude<typeof value.level, undefined>
+
+				if (levelValue !== null) {
+					Object.entries(config.addons)
+						.filter(([, addon]) => addon.resetOn?.levelChange ?? false)
+						.forEach(([id, addon]) => {
+							const isIncluded = config.ticketLevels[levelValue].includes?.includes(id) ?? false
+							const isRequired = config.ticketLevels[levelValue].requires?.includes(id) ?? false
+							const isUnavailable = config.addons[id].unavailableFor?.level?.includes(levelValue) ?? false
+
+							setValue(`addons.${id}.selected`, (isIncluded || isRequired) && !isUnavailable || addon.default)
+						})
+				}
+			}
+		})
+
+		return () => subscription.unsubscribe()
+	}, [watch])
+
+	const unavailableAddonVisible = (id: keyof typeof config.addons): boolean => {
+		// an unavailable addon is visible if
+		// - it is already selected (previously bought)
+		// - it is included in the selected ticket level (sponsor upgrades still include a tshirt, the level change needs to be disabled separately, see disablePackageEditForStatuses in config)
+		//
+		// (the ticket level in the form context CAN be nullish, which even causes an error!)
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		return Boolean(formContext.getValues('addons')[id].selected) || Boolean(config.ticketLevels[formContext.getValues('level') ?? 'standard']?.includes?.includes(id))
 	}
 
 	return <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={1}>
@@ -131,7 +166,7 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 						.filter(([, addon]) => !(addon.unavailableFor?.type?.includes(ticketType.type) ?? false))
 						.filter(([, addon]) => !(addon.unavailableFor?.level?.includes(formContext.getValues('level')) ?? false))
 						.filter(([, addon]) => requirementsMet(addon.requires as string[] | undefined))
-						.filter(([id, addon]) => addon.unavailable === true ? Boolean(formContext.getValues('addons')[id].selected) : true)
+						.filter(([id, addon]) => addon.unavailable === true ? unavailableAddonVisible(id) : true)
 						.map(([id, addon]) =>
 							// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 							<TicketLevelAddon key={id} addon={{ id, ...addon } as AugmentedAddon} formContext={formContext}/>,

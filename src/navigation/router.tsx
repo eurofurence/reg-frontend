@@ -6,6 +6,7 @@ import Contact from '~/components/funnels/funnels/register/steps/contact'
 import Optional from '~/components/funnels/funnels/register/steps/optional'
 import Summary from '~/components/funnels/funnels/register/steps/summary'
 import ThankYou from '~/components/funnels/funnels/register/steps/thank-you'
+import SelfCancel from '~/components/funnels/funnels/register/steps/self-cancel'
 import Room from '~/components/funnels/funnels/hotel-booking/steps/room'
 import Guests from '~/components/funnels/funnels/hotel-booking/steps/guests'
 import AdditionalInfo from '~/components/funnels/funnels/hotel-booking/steps/additional-info'
@@ -29,6 +30,7 @@ export const RegisterRouter = () => {
 		<Optional path={`/${ROUTES.REGISTER_OPTIONAL}`} />
 		<Summary default={isEdit} path={`/${ROUTES.REGISTER_SUMMARY}`} />
 		<ThankYou path={`/${ROUTES.REGISTER_THANK_YOU}`} />
+		<SelfCancel path={`/${ROUTES.REGISTER_SELF_CANCEL}`} />
 	</Router>
 }
 

@@ -25,12 +25,13 @@ export type ValidOptionPaths = {
 export interface TicketLevelAddonOptionProps {
 	readonly option: AugmentedOption
 	readonly formContext: ReturnType<typeof useFunnelForm<'register-ticket-level'>>
+	readonly preventChange: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelAddonOption = ({ option, formContext }: TicketLevelAddonOptionProps) => {
+const TicketLevelAddonOption = ({ option, formContext, preventChange }: TicketLevelAddonOptionProps) => {
 	switch (option.type) {
-		case 'select': return <TicketLevelSelectAddonOption option={option} formContext={formContext}/>
+		case 'select': return <TicketLevelSelectAddonOption option={option} formContext={formContext} preventChange={preventChange}/>
 		default: return <div>Not implemented!</div>
 	}
 }

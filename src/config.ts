@@ -140,7 +140,7 @@ const configMmc = {
 		rules: 'https://www.mephitminicon.de/hausordnung.htm',
 		contact: 'https://help.eurofurence.org/contact',
 	},
-	disablePackageEditForStatuses: ['checked in'],
+	disablePackageEditForStatuses: ['checked-in'],
 } as const
 
 const configEf = {
@@ -480,7 +480,7 @@ const configEf = {
 		rules: 'https://help.eurofurence.org/legal/roc',
 		contact: 'https://help.eurofurence.org/contact',
 	},
-	disablePackageEditForStatuses: ['checked in'],
+	disablePackageEditForStatuses: ['checked-in'],
 } as const
 
 const config = checkConfig(configEf)

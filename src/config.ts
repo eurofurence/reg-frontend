@@ -210,7 +210,7 @@ const configEf = {
 			resetOn: {
 				levelChange: true,
 			},
-			unavailable: false,
+			unavailable: true,
 		},
 		'early': {
 			price: -15,
@@ -255,7 +255,7 @@ const configEf = {
 			default: false,
 			options: {},
 			hidden: false,
-			unavailable: false,
+			unavailable: true,
 		},
 		'fursuitadd': {
 			price: 2,
@@ -268,7 +268,7 @@ const configEf = {
 			},
 			hidden: false,
 			requires: ['fursuit'],
-			unavailable: false,
+			unavailable: true,
 		},
 		'dealer-half': {
 			price: 50,

@@ -93,8 +93,12 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 		// - it is included in the selected ticket level (sponsor upgrades still include a tshirt, the level change needs to be disabled separately, see disablePackageEditForStatuses in config)
 		//
 		// (the ticket level in the form context CAN be nullish, which even causes an error!)
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		return Boolean(formContext.getValues('addons')[id].selected) || Boolean(config.ticketLevels[formContext.getValues('level') ?? 'standard']?.includes?.includes(id))
+		if (id in formContext.getValues('addons')) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			return Boolean(formContext.getValues('addons')[id].selected) || Boolean(config.ticketLevels[formContext.getValues('level') ?? 'standard']?.includes?.includes(id))
+		}
+
+		return false
 	}
 
 	return <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={1}>

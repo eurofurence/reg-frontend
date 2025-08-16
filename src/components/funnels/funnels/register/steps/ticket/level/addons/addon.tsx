@@ -38,6 +38,15 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 			if (resetOnLevelChange && name === 'level' && type === 'change') {
 				const levelValue = value.level as Exclude<typeof value.level, undefined>
 
+				if (addon.id === 'tshirt') {
+					// Keep existing selection if available for new level
+					const isAvailable = !isUnavailable(levelValue)
+
+					if (isAvailable && value.addons?.[addon.id]?.selected === true) {
+						return
+					}
+				}
+
 				setValue(`addons.${addon.id}.selected`, (isIncluded(levelValue) || isRequired(levelValue)) && !isUnavailable(levelValue) || addon.default)
 			}
 

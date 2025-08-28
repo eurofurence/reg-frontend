@@ -480,7 +480,7 @@ const configEf = {
 		rules: 'https://help.eurofurence.org/legal/roc',
 		contact: 'https://help.eurofurence.org/contact',
 	},
-	disablePackageEditForStatuses: ['checked-in'],
+	disablePackageEditForStatuses: ['paid', 'checked-in', 'cancelled'],
 } as const
 
 const config = checkConfig(configEf)

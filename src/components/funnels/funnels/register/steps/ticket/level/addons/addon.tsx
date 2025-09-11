@@ -27,6 +27,7 @@ export interface TicketLevelAddonProps {
 const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 	const isIncluded = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].includes?.includes(addon.id) ?? false)
 	const isRequired = (lvl: TicketLevel['level'] | null) => lvl !== null && (config.ticketLevels[lvl].requires?.includes(addon.id) ?? false)
+	const isUnavailable = config.addons[addon.id].unavailable ?? false
 
 	const { watch, register, setValue } = formContext
 	const level = watch('level')
@@ -59,12 +60,12 @@ const TicketLevelAddon = ({ addon, formContext }: TicketLevelAddonProps) => {
 			label={addon.id}
 			description={addon.id}
 			price={isIncluded(level) ? 0 : addon.price}
-			disabled={isIncluded(level) || isRequired(level) || addon.id === 'stage-pass'}
+			disabled={isIncluded(level) || isRequired(level) || addon.id === 'stage-pass' || isUnavailable}
 			{...register(`addons.${addon.id}.selected`)}
 		>
 			{Object.entries(addon.options).map(([id, option]) =>
 				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-				<TicketLevelAddonOption key={id} option={{ id, addonId: addon.id, ...option } as AugmentedOption} formContext={formContext}/>,
+				<TicketLevelAddonOption key={id} option={{ id, addonId: addon.id, ...option } as AugmentedOption} formContext={formContext} preventChange={isUnavailable && id === 'count'}/>,
 			)}
 		</TicketLevelAddonControl>
 	</Localized>

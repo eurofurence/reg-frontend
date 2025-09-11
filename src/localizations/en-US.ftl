@@ -512,7 +512,7 @@ register-summary-registration-status = { $status ->
   [new] We have received your registration and will confirm it when things are ready. Keep an eye on your mailbox!
   [approved] Your registration has been approved, if you pay now, you will be all set!
   [partially-paid] We have received partial payment, if you pay what is left, you will be all set!
-  [paid] You are all set. See you at the convention!
+  [paid] We have received your payment. You are all set. See you at the convention!
   [checked-in] What are you doing looking at the registration system? Go have fun at the convention!
   [cancelled] Uh oh, your registration has been cancelled. You should have received an email explaining why. If you believe this is an error on our part, reply to that email.
   [waiting] You are on the waiting list. Let us hope a place opens up for you!

@@ -140,11 +140,11 @@ const configMmc = {
 		rules: 'https://www.mephitminicon.de/hausordnung.htm',
 		contact: 'https://help.eurofurence.org/contact',
 	},
-	disablePackageEditForStatuses: ['checked in'],
+	disablePackageEditForStatuses: ['checked-in'],
 } as const
 
 const configEf = {
-	version: 9, // increment to prevent loading from local storage (new year, pricing changes, default packages)
+	version: 10, // increment to prevent loading local storage (new year, pricing changes, default packages)
 	eventName: 'Eurofurence',
 	registrationLaunch: DateTime.fromISO('2025-01-01T20:00:00+02:00'), // set early enough to allow testing
 	registrationExpirationDate: DateTime.fromISO('2025-09-06', { zone: 'Europe/Berlin' }), // currently unused
@@ -210,7 +210,7 @@ const configEf = {
 			resetOn: {
 				levelChange: true,
 			},
-			unavailable: false,
+			unavailable: true,
 		},
 		'early': {
 			price: -15,
@@ -255,7 +255,7 @@ const configEf = {
 			default: false,
 			options: {},
 			hidden: false,
-			unavailable: false,
+			unavailable: true,
 		},
 		'fursuitadd': {
 			price: 2,
@@ -268,7 +268,7 @@ const configEf = {
 			},
 			hidden: false,
 			requires: ['fursuit'],
-			unavailable: false,
+			unavailable: true,
 		},
 		'dealer-half': {
 			price: 50,
@@ -480,7 +480,7 @@ const configEf = {
 		rules: 'https://help.eurofurence.org/legal/roc',
 		contact: 'https://help.eurofurence.org/contact',
 	},
-	disablePackageEditForStatuses: ['checked in'],
+	disablePackageEditForStatuses: ['paid', 'checked-in', 'cancelled'],
 } as const
 
 const config = checkConfig(configEf)

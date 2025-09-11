@@ -8,6 +8,7 @@ export interface TicketLevelSelectAddonOptionProps {
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 	readonly option: AugmentedOption<'select'>
 	readonly formContext: ReturnType<typeof useFunnelForm<'register-ticket-level'>>
+	readonly preventChange: boolean
 }
 
 type AddonErrorOptions = {
@@ -20,7 +21,7 @@ type AddonErrorOptions = {
 }
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelSelectAddonOption = ({ option, formContext: { control, watch, formState: { errors }, FunnelController } }: TicketLevelSelectAddonOptionProps) => {
+const TicketLevelSelectAddonOption = ({ option, formContext: { control, watch, formState: { errors }, FunnelController }, preventChange }: TicketLevelSelectAddonOptionProps) => {
 	const { l10n } = useLocalization()
 
 	const selected = watch(`addons.${option.addonId}.selected`)
@@ -46,7 +47,7 @@ const TicketLevelSelectAddonOption = ({ option, formContext: { control, watch, f
 					label={option.id}
 					isSearchable={false}
 					options={items}
-					onChange={item => onChange(item?.value)}
+					onChange={item => !preventChange ? onChange(item?.value) : undefined}
 					value={value === null ? null : itemsByValue.get(value)}
 					// both count/size may be missing, doing what eslint suggests leads to tsc compile error
 					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

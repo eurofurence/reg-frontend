@@ -1,3 +1,3 @@
-import { EFRouter } from '~/navigation/router'
+import { EFRouter } from "~/navigation/router"
 
 export default EFRouter

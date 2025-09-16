@@ -1,4 +1,4 @@
-import { Entries, Replace } from 'type-fest'
+import { Entries, Replace } from "type-fest"
 
 declare global {
 	interface ObjectConstructor {
@@ -7,7 +7,23 @@ declare global {
 	}
 
 	interface String {
-		replace<Input extends string, Search extends string, Replacement extends string>(this: Input, searchValue: Search, replaceValue: Replacement): Replace<Input, Search, Replacement>;
-		replaceAll<Input extends string, Search extends string, Replacement extends string>(this: Input, searchValue: Search, replaceValue: Replacement): Replace<Input, Search, Replacement, { all: true }>;
+		replace<
+			Input extends string,
+			Search extends string,
+			Replacement extends string,
+		>(
+			this: Input,
+			searchValue: Search,
+			replaceValue: Replacement
+		): Replace<Input, Search, Replacement>
+		replaceAll<
+			Input extends string,
+			Search extends string,
+			Replacement extends string,
+		>(
+			this: Input,
+			searchValue: Search,
+			replaceValue: Replacement
+		): Replace<Input, Search, Replacement, { all: true }>
 	}
 }

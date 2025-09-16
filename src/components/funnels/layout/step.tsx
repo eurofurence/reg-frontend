@@ -4,13 +4,15 @@
  * of which the "back" button will be invisible if `isFirstPage` is true.
  */
 
-import styled from '@emotion/styled'
-import { Button, MediaQueries, Page } from '@eurofurence/reg-component-library'
-import { Localized } from '@fluent/react'
-import { navigate } from 'gatsby'
-import { useAppSelector } from '~/hooks/redux'
-import { isEditMode } from '~/state/selectors/register'
-import type { ReadonlyReactNode } from '~/util/readonly-types'
+import styled from "@emotion/styled"
+import { Button, MediaQueries, Page } from "@eurofurence/reg-component-library"
+import { Localized } from "@fluent/react"
+import { navigate } from "gatsby"
+import { isEditMode } from "~/state/selectors/register"
+
+import type { ReadonlyReactNode } from "~/util/readonly-types"
+
+import { useAppSelector } from "~/hooks/redux"
 
 const Header = styled.header`
 	margin-bottom: 3em;
@@ -48,25 +50,46 @@ export interface StepFunnelLayoutProps {
 	readonly showBack?: boolean
 }
 
-const StepFunnelLayout = ({ children, header: headerContent, isFirstPage = false, isLastPage = false, onNext, showBack = false }: StepFunnelLayoutProps) => {
+const StepFunnelLayout = ({
+	children,
+	header: headerContent,
+	isFirstPage = false,
+	isLastPage = false,
+	onNext,
+	showBack = false,
+}: StepFunnelLayoutProps) => {
 	const isEdit = useAppSelector(isEditMode())
 
-	return <Page>
-		<Header>
-			{headerContent}
-		</Header>
-		{children}
-		{isEdit && isLastPage ? null : <Footer>
-			<Nav>
-				<Localized id={isEdit ? 'register-navigation-update' : isLastPage ? 'register-navigation-finish' : 'register-navigation-next'}>
-					<Button onClick={onNext}>Continue</Button>
-				</Localized>
-				{isFirstPage && !showBack ? null : <Localized id="register-navigation-back">
-					<Button variant="inverted" onClick={() => navigate(-1)}>Go back</Button>
-				</Localized>}
-			</Nav>
-		</Footer>}
-	</Page>
+	return (
+		<Page>
+			<Header>{headerContent}</Header>
+			{children}
+			{isEdit && isLastPage ? null : (
+				<Footer>
+					<Nav>
+						<Localized
+							id={
+								isEdit
+									? "register-navigation-update"
+									: isLastPage
+										? "register-navigation-finish"
+										: "register-navigation-next"
+							}
+						>
+							<Button onClick={onNext}>Continue</Button>
+						</Localized>
+						{isFirstPage && !showBack ? null : (
+							<Localized id="register-navigation-back">
+								<Button variant="inverted" onClick={() => navigate(-1)}>
+									Go back
+								</Button>
+							</Localized>
+						)}
+					</Nav>
+				</Footer>
+			)}
+		</Page>
+	)
 }
 
 export default StepFunnelLayout

@@ -3,14 +3,15 @@
  * The `extra` property can be used to add additional information below the item's name.
  */
 
-import styled from '@emotion/styled'
-import { FluentNumber } from '@fluent/bundle'
-import { Localized } from '@fluent/react'
+import styled from "@emotion/styled"
+import { FluentNumber } from "@fluent/bundle"
+import { Localized } from "@fluent/react"
 
 const Container = styled.li`
 	display: grid;
-	grid-template: "label price" auto
-	               "extra extra"  auto / auto auto;
+	grid-template:
+		"label price" auto
+		"extra extra" auto / auto auto;
 	align-items: center;
 
 	:not(:first-child) {
@@ -46,10 +47,23 @@ export interface InvoiceItemProps {
 	readonly extra?: string
 }
 
-const InvoiceItem = ({ amount, name, price, extra }: InvoiceItemProps) => <Container>
-	<Localized id="invoice-item-label" vars={{ amount, name }}><Label>{amount} x {name}</Label></Localized>
-	<Localized id="price" vars={{ value: new FluentNumber(price, { style: 'currency', currency: 'EUR' }) }}><Price>{price} €</Price></Localized>
-	{extra === undefined ? undefined : <Extra>{extra}</Extra>}
-</Container>
+const InvoiceItem = ({ amount, name, price, extra }: InvoiceItemProps) => (
+	<Container>
+		<Localized id="invoice-item-label" vars={{ amount, name }}>
+			<Label>
+				{amount} x {name}
+			</Label>
+		</Localized>
+		<Localized
+			id="price"
+			vars={{
+				value: new FluentNumber(price, { style: "currency", currency: "EUR" }),
+			}}
+		>
+			<Price>{price} €</Price>
+		</Localized>
+		{extra === undefined ? undefined : <Extra>{extra}</Extra>}
+	</Container>
+)
 
 export default InvoiceItem

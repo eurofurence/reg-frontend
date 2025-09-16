@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux"
 
-import autosave from './autosave'
-import auth from './auth'
-import errors from './errors'
-import register from './register'
-import hotelBooking from './hotel-booking'
+import auth from "./auth"
+import autosave from "./autosave"
+import errors from "./errors"
+import hotelBooking from "./hotel-booking"
+import register from "./register"
 
 export default combineReducers<{
 	readonly autosave: typeof autosave

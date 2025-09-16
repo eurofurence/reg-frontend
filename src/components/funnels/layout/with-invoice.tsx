@@ -2,12 +2,14 @@
  * Layout for funnel pages that has a blue invoice on the right side.
  */
 
-import styled from '@emotion/styled'
-import { MediaQueries } from '@eurofurence/reg-component-library'
-import InvoiceComponent from '~/components/funnels/invoice/invoice'
-import { Invoice } from '~/state/models/invoice'
-import type { ReadonlyReactNode } from '~/util/readonly-types'
-import StepFunnelLayout from './step'
+import styled from "@emotion/styled"
+import { MediaQueries } from "@eurofurence/reg-component-library"
+import { Invoice } from "~/state/models/invoice"
+
+import type { ReadonlyReactNode } from "~/util/readonly-types"
+
+import InvoiceComponent from "~/components/funnels/invoice/invoice"
+import StepFunnelLayout from "./step"
 
 export interface WithInvoiceFunnelLayoutProps {
 	readonly header?: ReadonlyReactNode
@@ -50,22 +52,27 @@ const WithInvoiceFunnelLayout = ({
 	onPay,
 	onSepa,
 	...passthroughProps
-}: WithInvoiceFunnelLayoutProps) =>
-	<StepFunnelLayout {...passthroughProps} onNext={onNext} isLastPage={isLastPage}>
+}: WithInvoiceFunnelLayoutProps) => (
+	<StepFunnelLayout
+		{...passthroughProps}
+		onNext={onNext}
+		isLastPage={isLastPage}
+	>
 		<Grid>
-			<div>
-				{children}
-			</div>
-			{hideInvoice ? undefined : <InvoiceComponent
-				title={invoiceTitle}
-				editLink={invoiceEditLink}
-				invoice={invoice}
-				showOnMobile={isLastPage}
-				onPay={onPay}
-				onSepa={onSepa}
-				unprocessedPayments={unprocessedPayments}
-			/>}
+			<div>{children}</div>
+			{hideInvoice ? undefined : (
+				<InvoiceComponent
+					title={invoiceTitle}
+					editLink={invoiceEditLink}
+					invoice={invoice}
+					showOnMobile={isLastPage}
+					onPay={onPay}
+					onSepa={onSepa}
+					unprocessedPayments={unprocessedPayments}
+				/>
+			)}
 		</Grid>
 	</StepFunnelLayout>
+)
 
 export default WithInvoiceFunnelLayout

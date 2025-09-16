@@ -1,37 +1,42 @@
-import config from '~/config'
-import { Locale } from '~/localization'
-import { includes } from '~/util/includes'
-import { ReadonlyDateTime } from '~/util/readonly-types'
-import { PackageInfo } from '~/apis/attsrv'
+import { PackageInfo } from "~/apis/attsrv"
+import config from "~/config"
+import { Locale } from "~/localization"
+import { includes } from "~/util/includes"
+import { ReadonlyDateTime } from "~/util/readonly-types"
 
 type TicketLevelConfig = typeof config.ticketLevels
 type TicketAddonsConfig = typeof config.addons
 
 /* eslint-disable @typescript-eslint/indent */
-type ParseAddonOption<T> =
-	T extends { readonly type: 'select', readonly items: readonly (infer I)[] } ? I
+type ParseAddonOption<T> = T extends {
+	readonly type: "select"
+	readonly items: readonly (infer I)[]
+}
+	? I
 	: never
 /* eslint-enable @typescript-eslint/indent */
 
 export type RegistrationStatus =
-	| 'unsubmitted'
-	| 'new'
-	| 'approved'
-	| 'partially-paid'
-	| 'paid'
-	| 'checked-in'
-	| 'cancelled'
-	| 'waiting'
+	| "unsubmitted"
+	| "new"
+	| "approved"
+	| "partially-paid"
+	| "paid"
+	| "checked-in"
+	| "cancelled"
+	| "waiting"
 
-export type TicketType
-	= { readonly type: 'full' }
-	| { readonly type: 'day', readonly day: ReadonlyDateTime }
+export type TicketType =
+	| { readonly type: "full" }
+	| { readonly type: "day"; readonly day: ReadonlyDateTime }
 
 export type TicketLevelAddons = {
 	readonly [K in keyof TicketAddonsConfig]: {
 		readonly selected: boolean
 		readonly options: {
-			[L in keyof TicketAddonsConfig[K]['options']]: ParseAddonOption<TicketAddonsConfig[K]['options'][L]>
+			[L in keyof TicketAddonsConfig[K]["options"]]: ParseAddonOption<
+				TicketAddonsConfig[K]["options"][L]
+			>
 		}
 	}
 }
@@ -92,19 +97,24 @@ export interface PaymentInfo {
 }
 
 export interface UnsubmittedRegistration {
-	readonly status: 'unsubmitted'
+	readonly status: "unsubmitted"
 	readonly registrationInfo: Partial<RegistrationInfo>
 }
 
 export interface PendingRegistration {
 	readonly id: number
-	readonly status: 'new' | 'waiting'
+	readonly status: "new" | "waiting"
 	readonly registrationInfo: RegistrationInfo
 }
 
 export interface ApprovedRegistration {
 	readonly id: number
-	readonly status: 'approved' | 'partially-paid' | 'paid' | 'checked-in' | 'cancelled'
+	readonly status:
+		| "approved"
+		| "partially-paid"
+		| "paid"
+		| "checked-in"
+		| "cancelled"
 	readonly registrationInfo: RegistrationInfo
 	readonly paymentInfo: PaymentInfo
 }
@@ -114,13 +124,16 @@ export type SubmittedRegistration = PendingRegistration | ApprovedRegistration
 export type Registration = UnsubmittedRegistration | SubmittedRegistration
 
 export const isUnsubmitted = (r: Registration): r is UnsubmittedRegistration =>
-	r.status === 'unsubmitted'
+	r.status === "unsubmitted"
 
 export const isSubmitted = (r: Registration): r is SubmittedRegistration =>
-	r.status !== 'unsubmitted'
+	r.status !== "unsubmitted"
 
 export const isPending = (r: Registration): r is PendingRegistration =>
-	includes(['new', 'waiting'] as const, r.status)
+	includes(["new", "waiting"] as const, r.status)
 
 export const isApproved = (r: Registration): r is ApprovedRegistration =>
-	includes(['approved', 'partially-paid', 'paid', 'checked-in', 'cancelled'] as const, r.status)
+	includes(
+		["approved", "partially-paid", "paid", "checked-in", "cancelled"] as const,
+		r.status,
+	)

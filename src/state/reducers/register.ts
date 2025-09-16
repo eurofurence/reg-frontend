@@ -1,12 +1,19 @@
-import { Registration, RegistrationInfo, TicketLevel, TicketType } from '~/state/models/register'
-import { AnyAppAction, GetAction } from '~/state/actions'
-import type { DeepNonNullable } from 'ts-essentials'
-import { SubmitForm, SubmitFormActionBundle } from '~/state/actions/forms'
-import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
-import config from '~/config'
-import { DateTime } from 'luxon'
-import { determineDefaultAddons } from '~/state/selectors/forms'
-import { sanitizeFormCache } from '~/hooks/funnels/form'
+import { DateTime } from "luxon"
+import config from "~/config"
+import { AnyAppAction, GetAction } from "~/state/actions"
+import { SubmitForm, SubmitFormActionBundle } from "~/state/actions/forms"
+import { LoadRegistrationState, SetLocale } from "~/state/actions/register"
+import {
+	Registration,
+	RegistrationInfo,
+	TicketLevel,
+	TicketType,
+} from "~/state/models/register"
+import { determineDefaultAddons } from "~/state/selectors/forms"
+
+import type { DeepNonNullable } from "ts-essentials"
+
+import { sanitizeFormCache } from "~/hooks/funnels/form"
 
 export interface ClosedRegisterState {
 	readonly isOpen: false | null
@@ -19,81 +26,139 @@ export interface OpenRegisterState {
 
 export type RegisterState = ClosedRegisterState | OpenRegisterState
 
-export const isOpen = (s: RegisterState): s is OpenRegisterState => s.isOpen ?? false
+export const isOpen = (s: RegisterState): s is OpenRegisterState =>
+	s.isOpen ?? false
 
 const defaultState: RegisterState = {
 	isOpen: null,
 }
 
-const transformTicketLevel = (ticketType: TicketType, payload: GetAction<SubmitFormActionBundle<'register-ticket-level'>>['payload']): TicketLevel => {
+const transformTicketLevel = (
+	ticketType: TicketType,
+	payload: GetAction<
+		SubmitFormActionBundle<"register-ticket-level">
+	>["payload"],
+): TicketLevel => {
 	const { addons, ...payloadRest } = payload as DeepNonNullable<typeof payload>
 
-	const unselectedAddonIds = Object.entries(addons).filter(([, { selected }]) => !selected).map(([id]) => id)
+	const unselectedAddonIds = Object.entries(addons)
+		.filter(([, { selected }]) => !selected)
+		.map(([id]) => id)
 
 	return {
-		addons: Object.fromEntries(Object.entries(addons).map(([id, { selected, ...rest }]) => [id, {
-			selected: !(config.addons[id].unavailableFor?.type?.includes(ticketType.type) ?? false)
-				&& !(config.addons[id].unavailableFor?.level?.includes(payload.level) ?? false)
-				&& !(unselectedAddonIds.filter(id => config.addons[id].requires?.includes(id) ?? false).length > 0)
-				&& selected,
-			...rest,
-		}])),
+		addons: Object.fromEntries(
+			Object.entries(addons).map(([id, { selected, ...rest }]) => [
+				id,
+				{
+					selected:
+						!(
+							config.addons[id].unavailableFor?.type?.includes(
+								ticketType.type,
+							) ?? false
+						) &&
+						!(
+							config.addons[id].unavailableFor?.level?.includes(
+								payload.level,
+							) ?? false
+						) &&
+						!(
+							unselectedAddonIds.filter(
+								(id) => config.addons[id].requires?.includes(id) ?? false,
+							).length > 0
+						) &&
+						selected,
+					...rest,
+				},
+			]),
+		),
 		...payloadRest,
 	}
 }
 
-const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'register-personal-info'>>['payload']) => {
-	const { pronounsSelection, pronounsOther, dateOfBirth, ...rest } = payload as DeepNonNullable<typeof payload>
+const transformPersonalInfo = (
+	payload: GetAction<
+		SubmitFormActionBundle<"register-personal-info">
+	>["payload"],
+) => {
+	const { pronounsSelection, pronounsOther, dateOfBirth, ...rest } =
+		payload as DeepNonNullable<typeof payload>
 
 	return {
-		pronouns: pronounsSelection === 'prefer-not-to-say'
-			? null
-			: pronounsSelection === 'other'
-				? pronounsOther
-				: pronounsSelection,
+		pronouns:
+			pronounsSelection === "prefer-not-to-say"
+				? null
+				: pronounsSelection === "other"
+					? pronounsOther
+					: pronounsSelection,
 		dateOfBirth: DateTime.fromISO(dateOfBirth),
 		...rest,
 	}
 }
 
-const resetAddonsAndLevelInState = (state: Partial<RegistrationInfo>, ticketType: 'day' | 'full'): Partial<RegistrationInfo> => {
+const resetAddonsAndLevelInState = (
+	state: Partial<RegistrationInfo>,
+	ticketType: "day" | "full",
+): Partial<RegistrationInfo> => {
 	if (state.ticketLevel) {
-		return { ...state,
+		return {
+			...state,
 			ticketLevel: {
 				level: null,
 				addons: determineDefaultAddons(ticketType),
-			} }
+			},
+		}
 	} else {
 		return state
 	}
 }
 
-const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAction<AnyAppAction>): Partial<RegistrationInfo> => {
+const registrationInfoReducer = (
+	state: Partial<RegistrationInfo>,
+	action: GetAction<AnyAppAction>,
+): Partial<RegistrationInfo> => {
 	switch (action.type) {
-		case SubmitForm('register-ticket-type').type: {
+		case SubmitForm("register-ticket-type").type: {
 			// sanitize the form cache - not an ideal solution, but it works
 			sanitizeFormCache()
 
 			// here we can force reset ticket addons to defaults (different hidden packages, different defaults)
-			if (action.payload.type === 'day') {
+			if (action.payload.type === "day") {
 				// not setting ticketType - it is set when choosing a day
-				return resetAddonsAndLevelInState(state, 'day')
+				return resetAddonsAndLevelInState(state, "day")
 			}
 
-			const stateWithAddonsReset = resetAddonsAndLevelInState(state, 'full')
+			const stateWithAddonsReset = resetAddonsAndLevelInState(state, "full")
 
-			return { ...stateWithAddonsReset, ticketType: { type: action.payload.type! } }
+			return {
+				...stateWithAddonsReset,
+				ticketType: { type: action.payload.type! },
+			}
 		}
 
-		case SubmitForm('register-ticket-day').type:
-			return { ...state, ticketType: { type: 'day', day: DateTime.fromISO(action.payload.day!, { zone: 'Europe/Berlin' }) } }
-		case SubmitForm('register-ticket-level').type:
-			return { ...state, ticketLevel: transformTicketLevel(state.ticketType!, action.payload) }
-		case SubmitForm('register-contact-info').type:
-			return { ...state, contactInfo: action.payload as DeepNonNullable<typeof action.payload> }
-		case SubmitForm('register-optional-info').type:
-			return { ...state, optionalInfo: action.payload as DeepNonNullable<typeof action.payload> }
-		case SubmitForm('register-personal-info').type:
+		case SubmitForm("register-ticket-day").type:
+			return {
+				...state,
+				ticketType: {
+					type: "day",
+					day: DateTime.fromISO(action.payload.day!, { zone: "Europe/Berlin" }),
+				},
+			}
+		case SubmitForm("register-ticket-level").type:
+			return {
+				...state,
+				ticketLevel: transformTicketLevel(state.ticketType!, action.payload),
+			}
+		case SubmitForm("register-contact-info").type:
+			return {
+				...state,
+				contactInfo: action.payload as DeepNonNullable<typeof action.payload>,
+			}
+		case SubmitForm("register-optional-info").type:
+			return {
+				...state,
+				optionalInfo: action.payload as DeepNonNullable<typeof action.payload>,
+			}
+		case SubmitForm("register-personal-info").type:
 			return { ...state, personalInfo: transformPersonalInfo(action.payload) }
 		case SetLocale.type:
 			return { ...state, preferredLocale: action.payload }
@@ -102,18 +167,35 @@ const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAc
 	}
 }
 
-const registrationReducer = (state: Registration, action: GetAction<AnyAppAction>): Registration => {
+const registrationReducer = (
+	state: Registration,
+	action: GetAction<AnyAppAction>,
+): Registration => {
 	switch (action.type) {
 		default:
-			return { ...state, registrationInfo: registrationInfoReducer(state.registrationInfo, action) as RegistrationInfo }
+			return {
+				...state,
+				registrationInfo: registrationInfoReducer(
+					state.registrationInfo,
+					action,
+				) as RegistrationInfo,
+			}
 	}
 }
 
-export default (state: RegisterState = defaultState, action: GetAction<AnyAppAction>): RegisterState => {
+export default (
+	state: RegisterState = defaultState,
+	action: GetAction<AnyAppAction>,
+): RegisterState => {
 	switch (action.type) {
 		case LoadRegistrationState.type:
 			return { ...state, ...action.payload }
 		default:
-			return isOpen(state) ? { ...state, registration: registrationReducer(state.registration, action) } : state
+			return isOpen(state)
+				? {
+						...state,
+						registration: registrationReducer(state.registration, action),
+					}
+				: state
 	}
 }

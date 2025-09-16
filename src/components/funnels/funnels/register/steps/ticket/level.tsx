@@ -116,7 +116,7 @@ const TicketLevel = (_: ReadonlyRouteComponentProps) => {
 				Boolean(
 					config.ticketLevels[
 						formContext.getValues("level") ?? "standard"
-					]?.includes?.includes(id),
+					].includes?.includes(id),
 				)
 			)
 		}

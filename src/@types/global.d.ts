@@ -14,7 +14,7 @@ declare global {
 		>(
 			this: Input,
 			searchValue: Search,
-			replaceValue: Replacement
+			replaceValue: Replacement,
 		): Replace<Input, Search, Replacement>
 		replaceAll<
 			Input extends string,
@@ -23,7 +23,7 @@ declare global {
 		>(
 			this: Input,
 			searchValue: Search,
-			replaceValue: Replacement
+			replaceValue: Replacement,
 		): Replace<Input, Search, Replacement, { all: true }>
 	}
 }

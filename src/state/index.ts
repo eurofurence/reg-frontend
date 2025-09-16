@@ -8,10 +8,8 @@ import reducer from "./reducers"
 export const configureStore = () => {
 	// eslint-disable-next-line
 	const composeEnhancers =
-		(global.window &&
-			((window as any)
-				.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ as typeof compose)) ||
-		compose
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/dot-notation
+		(global.window as any)?.["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] ?? compose
 
 	const epicMiddleware = createEpicMiddleware<
 		GetAction<AnyAppAction>,
@@ -21,6 +19,7 @@ export const configureStore = () => {
 
 	const store = createStore(
 		reducer,
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
 		composeEnhancers(applyMiddleware(epicMiddleware)),
 	)
 

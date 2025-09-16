@@ -269,7 +269,7 @@ const attendeeDtoFromRegistrationInfo = (
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	packagesMap.set(
 		"benefactor",
-		registrationInfo.ticketLevel.addons.benefactor?.selected
+		registrationInfo.ticketLevel.addons.benefactor.selected
 			? countAsNumber(
 					registrationInfo.ticketLevel.addons.benefactor.options.count,
 				)
@@ -283,7 +283,7 @@ const attendeeDtoFromRegistrationInfo = (
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	packagesMap.set(
 		"fursuitadd",
-		registrationInfo.ticketLevel.addons.fursuitadd?.selected
+		registrationInfo.ticketLevel.addons.fursuitadd.selected
 			? countAsNumber(
 					registrationInfo.ticketLevel.addons.fursuitadd.options.count,
 				)

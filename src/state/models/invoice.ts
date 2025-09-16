@@ -1,6 +1,6 @@
-import { FluentVariable } from "@fluent/bundle"
-import { pluck, sum } from "ramda"
-import { DeepReadonly } from "utility-types"
+import { FluentVariable } from '@fluent/bundle'
+import { sum, pluck } from 'ramda'
+import { DeepReadonly } from 'utility-types'
 
 export interface UncalculatedInvoiceItem {
 	readonly id: string
@@ -24,12 +24,9 @@ const augmentInvoiceItem = (item: UncalculatedInvoiceItem) => {
 	return { ...item, totalPrice: item.amount * item.unitPrice }
 }
 
-export const buildInvoice = (
-	items: readonly UncalculatedInvoiceItem[],
-	{ paid, due }: Pick<Invoice, "paid" | "due"> = {},
-) => {
+export const buildInvoice = (items: readonly UncalculatedInvoiceItem[], { paid, due }: Pick<Invoice, 'paid' | 'due'> = {}) => {
 	const augmentedItems = items.map(augmentInvoiceItem)
-	const totalPrice = sum(pluck("totalPrice", augmentedItems))
+	const totalPrice = sum(pluck('totalPrice', augmentedItems))
 
 	if (paid === undefined && due === undefined) {
 		return { items: augmentedItems, totalPrice }
@@ -37,13 +34,7 @@ export const buildInvoice = (
 		const other = (paid ?? 0) + (due ?? 0) - totalPrice
 
 		return {
-			items:
-				other === 0
-					? augmentedItems
-					: [
-							...augmentedItems,
-							{ id: "other", amount: 1, unitPrice: other, totalPrice: other },
-						],
+			items: other === 0 ? augmentedItems : [...augmentedItems, { id: 'other', amount: 1, unitPrice: other, totalPrice: other }],
 			totalPrice: totalPrice + other,
 			paid,
 			due,

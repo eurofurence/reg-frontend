@@ -1,13 +1,12 @@
-import { ForwardedRef, forwardRef } from "react"
-import styled from "@emotion/styled"
-import { RadioCard, RadioCardProps } from "@eurofurence/reg-component-library"
-import ReactMarkdown from "react-markdown"
+import styled from '@emotion/styled'
+import { forwardRef, ForwardedRef } from 'react'
+import { RadioCard, RadioCardProps } from '@eurofurence/reg-component-library'
+import ReactMarkdown from 'react-markdown'
+import Price from '~/components/funnels/price'
+import listItemCheckmark from '~/images/list-item-checkmark.svg'
+import listItemCheckmarkHighlighted from '~/images/list-item-checkmark-highlighted.svg'
 
-import Price from "~/components/funnels/price"
-import listItemCheckmarkHighlighted from "~/images/list-item-checkmark-highlighted.svg"
-import listItemCheckmark from "~/images/list-item-checkmark.svg"
-
-export interface TicketLevelCardProps extends Omit<RadioCardProps, "value"> {
+export interface TicketLevelCardProps extends Omit<RadioCardProps, 'value'> {
 	readonly id: string
 	readonly price: number
 	readonly priceLabel: string
@@ -51,31 +50,18 @@ const PriceLabel = styled.p`
 `
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelCard = forwardRef(
-	(
-		{
-			id,
-			price,
-			priceLabel,
-			footnoteMarker,
-			children,
-			...rest
-		}: TicketLevelCardProps,
-		ref: ForwardedRef<HTMLInputElement>,
-	) => (
-		<RadioCard value={id} ref={ref} {...rest}>
-			<Description>
-				<ReactMarkdown>{children}</ReactMarkdown>
-			</Description>
-			<Footer>
-				<PriceLabelContainer>
-					<PriceLabel>{priceLabel}</PriceLabel>
-				</PriceLabelContainer>
-				<Price price={price} />
-				{footnoteMarker}
-			</Footer>
-		</RadioCard>
-	),
+const TicketLevelCard = forwardRef(({ id, price, priceLabel, footnoteMarker, children, ...rest }: TicketLevelCardProps, ref: ForwardedRef<HTMLInputElement>) =>
+	<RadioCard value={id} ref={ref} {...rest}>
+		<Description>
+			<ReactMarkdown>{children}</ReactMarkdown>
+		</Description>
+		<Footer>
+			<PriceLabelContainer>
+				<PriceLabel>{priceLabel}</PriceLabel>
+			</PriceLabelContainer>
+			<Price price={price}/>{footnoteMarker}
+		</Footer>
+	</RadioCard>,
 )
 
 export default TicketLevelCard

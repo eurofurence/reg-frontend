@@ -1,33 +1,25 @@
-import { useMemo } from "react"
-import { FluentBundle, FluentResource } from "@fluent/bundle"
-import { negotiateLanguages } from "@fluent/langneg"
-import { MarkupParser, ReactLocalization } from "@fluent/react"
-import { useLocation } from "@reach/router"
-import { DATETIME_RANGE, NUMBER_RANGE } from "fluent-ranges"
-import { getCurrentLangKey } from "ptz-i18n"
+import { MarkupParser, ReactLocalization } from '@fluent/react'
+import { FluentBundle, FluentResource } from '@fluent/bundle'
+import { useLocation } from '@reach/router'
+import { getCurrentLangKey } from 'ptz-i18n'
+import { DATETIME_RANGE, NUMBER_RANGE } from 'fluent-ranges'
+import { useAppSelector } from './hooks/redux'
+import { getPreferredLocale } from './state/selectors/register'
+import { negotiateLanguages } from '@fluent/langneg'
+import { useMemo } from 'react'
 
-import { useAppSelector } from "./hooks/redux"
-import { getPreferredLocale } from "./state/selectors/register"
-
-export const supportedLanguages = ["en-US", "de-DE"] as const
+export const supportedLanguages = ['en-US', 'de-DE'] as const
 
 export type Locale = (typeof supportedLanguages)[number]
 
-const defaultLocale = "en-US"
+const defaultLocale = 'en-US'
 
 export const getDefaultLocale = (queryBrowserLocale: boolean = true) =>
 	queryBrowserLocale
-		? negotiateLanguages(navigator.languages, supportedLanguages, {
-				strategy: "lookup",
-				defaultLocale,
-			})[0]
+		? negotiateLanguages(navigator.languages, supportedLanguages, { strategy: 'lookup', defaultLocale })[0]
 		: defaultLocale
 
-export const createLocalization = (
-	locale: Locale,
-	ftl: string,
-	parseMarkup?: MarkupParser | null | undefined,
-) => {
+export const createLocalization = (locale: Locale, ftl: string, parseMarkup?: MarkupParser | null | undefined) => {
 	const resource = new FluentResource(ftl)
 
 	const bundle = new FluentBundle([locale], {
@@ -42,12 +34,8 @@ export const createLocalization = (
 	return new ReactLocalization([bundle], parseMarkup)
 }
 
-export const loadLanguage = async (
-	locale: Locale,
-): Promise<ReactLocalization> => {
-	const { default: ftl } = (await import(
-		`raw-loader!~/localizations/${locale}.ftl`
-	)) as { default: string }
+export const loadLanguage = async (locale: Locale): Promise<ReactLocalization> => {
+	const { default: ftl } = await import(`raw-loader!~/localizations/${locale}.ftl`) as { default: string }
 
 	return createLocalization(locale, ftl)
 }
@@ -63,17 +51,13 @@ export const loadLanguage = async (
 export const useCurrentLocale = (queryBrowserLocale?: boolean) => {
 	const location = useLocation()
 	const preferredLocale = useAppSelector(getPreferredLocale())
-	const fallbackLocale = useMemo(
-		() =>
-			preferredLocale !== undefined
-				? preferredLocale
-				: getDefaultLocale(queryBrowserLocale),
-		[queryBrowserLocale, preferredLocale],
-	)
+	const fallbackLocale = useMemo(() =>
+		preferredLocale !== undefined
+			? preferredLocale
+			: getDefaultLocale(queryBrowserLocale)
+	, [queryBrowserLocale, preferredLocale])
 
-	return useMemo(
-		() =>
-			getCurrentLangKey(supportedLanguages, fallbackLocale, location.pathname),
-		[location, fallbackLocale],
-	)
+	return useMemo(() =>
+		getCurrentLangKey(supportedLanguages, fallbackLocale, location.pathname)
+	, [location, fallbackLocale])
 }

@@ -1,8 +1,8 @@
-import type { RouteComponentProps } from "@reach/router"
-import type { DateTime, Interval } from "luxon"
-import type { ReactElement, ReactNode } from "react"
-import type { DeepReadonly } from "ts-essentials"
-import type { DeepReadonly as DeepReadonlyForDate } from "utility-types" // ts-essentials is more powerful but intentionally skips Date objects
+import type { ReactElement, ReactNode } from 'react'
+import type { DeepReadonly } from 'ts-essentials'
+import type { DeepReadonly as DeepReadonlyForDate } from 'utility-types' // ts-essentials is more powerful but intentionally skips Date objects
+import type { RouteComponentProps } from '@reach/router'
+import type { DateTime, Interval } from 'luxon'
 
 export type ReadonlyReactNode = DeepReadonly<ReactNode>
 export type ReadonlyReactElement = DeepReadonly<ReactElement>

@@ -1,27 +1,26 @@
-import { StatusCodes } from "http-status-codes"
+import { ajax, AjaxConfig, AjaxError } from 'rxjs/ajax'
+import { catchError, concatMap, map } from 'rxjs/operators'
+import config from '~/config'
 /* eslint-disable camelcase */
-import { sum } from "ramda"
-import { of } from "rxjs"
-import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax"
-import { catchError, concatMap, map } from "rxjs/operators"
-import config from "~/config"
-import { AppError } from "~/state/models/errors"
-
-import { ErrorDto as CommonErrorDto, handleStandardApiErrors } from "./common"
+import { sum } from 'ramda'
+import { ErrorDto as CommonErrorDto, handleStandardApiErrors } from './common'
+import { StatusCodes } from 'http-status-codes'
+import { of } from 'rxjs'
+import { AppError } from '~/state/models/errors'
 
 export type ErrorMessage =
-	| "Status Error (Bad Request)"
-	| "Status Error (Unauthorized)"
-	| "Status Error (Forbidden)"
-	| "Status Error (Not Found)"
-	| "Status Error (Conflict)"
-	| "Status Error (Internal Server Error)"
+	| 'Status Error (Bad Request)'
+	| 'Status Error (Unauthorized)'
+	| 'Status Error (Forbidden)'
+	| 'Status Error (Not Found)'
+	| 'Status Error (Conflict)'
+	| 'Status Error (Internal Server Error)'
 
 export type ErrorDto = CommonErrorDto<ErrorMessage>
 
-export type TransactionType = "due" | "payment"
-export type Method = "credit" | "paypal" | "transfer" | "internal" | "gift"
-export type Status = "tentative" | "pending" | "valid" | "deleted"
+export type TransactionType = 'due' | 'payment'
+export type Method = 'credit' | 'paypal' | 'transfer' | 'internal' | 'gift'
+export type Status = 'tentative' | 'pending' | 'valid' | 'deleted'
 
 export interface Amount {
 	readonly currency: string // EUR
@@ -70,31 +69,25 @@ export class PaySrvAppError extends AppError<StatusCodes> {
 	constructor(err: AjaxError) {
 		const errDto = err.response as ErrorDto
 
-		super(
-			"paysrv",
-			err.status,
-			`Payment API error: ${JSON.stringify(errDto, undefined, 2)}`,
-		)
+		super('paysrv', err.status, `Payment API error: ${JSON.stringify(errDto, undefined, 2)}`)
 	}
 }
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const apiCall = <T>({
-	path,
-	...cfg
-}: Omit<AjaxConfig, "url"> & { path: string }) =>
-	ajax<T>({
-		url: `${config.apis.paysrv.url}${path}`,
-		crossDomain: true,
-		withCredentials: true,
-		...cfg,
-	}).pipe(catchError(handleStandardApiErrors(PaySrvAppError)))
+const apiCall = <T>({ path, ...cfg }: Omit<AjaxConfig, 'url'> & { path: string }) => ajax<T>({
+	url: `${config.apis.paysrv.url}${path}`,
+	crossDomain: true,
+	withCredentials: true,
+	...cfg,
+}).pipe(
+	catchError(handleStandardApiErrors(PaySrvAppError)),
+)
 
 export const calculateTotalPaid = (transactions: readonly TransactionDto[]) =>
 	sum(
 		transactions
-			.filter((t) => t.status === "valid" && t.transaction_type === "payment")
-			.map((t) => t.amount.gross_cent),
+			.filter(t => t.status === 'valid' && t.transaction_type === 'payment')
+			.map(t => t.amount.gross_cent),
 	)
 
 /*
@@ -102,17 +95,11 @@ export const calculateTotalPaid = (transactions: readonly TransactionDto[]) =>
  *
  * The payment service handles all currency amounts as integers in the currency's smallest denomination, for EUR this is cents.
  */
-export const calculateOutstandingDues = (
-	transactions: readonly TransactionDto[],
-) =>
+export const calculateOutstandingDues = (transactions: readonly TransactionDto[]) =>
 	sum(
 		transactions
-			.filter((t) => t.status === "valid")
-			.map((t) =>
-				t.transaction_type === "due"
-					? t.amount.gross_cent
-					: -t.amount.gross_cent,
-			),
+			.filter(t => t.status === 'valid')
+			.map(t => t.transaction_type === 'due' ? t.amount.gross_cent : -t.amount.gross_cent),
 	)
 
 /*
@@ -121,12 +108,8 @@ export const calculateOutstandingDues = (
  *
  * Should also not generate a new paylink while this is the case.
  */
-export const hasUnprocessedPayments = (
-	transactions: readonly TransactionDto[],
-) =>
-	transactions.some(
-		(t) => t.status === "pending" && t.transaction_type === "payment",
-	)
+export const hasUnprocessedPayments = (transactions: readonly TransactionDto[]) =>
+	transactions.some(t => t.status === 'pending' && t.transaction_type === 'payment')
 
 /*
  * GET /transactions obtains all visible payment/dues transaction for the provided badge number.
@@ -140,20 +123,19 @@ export const hasUnprocessedPayments = (
  * 404: there are no visible transactions for this debitor id.
  * 500: It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
  */
-export const findTransactionsForBadgeNumber = (badgeNumber: number) =>
-	apiCall<TransactionResponseDto>({
-		path: `/transactions?debitor_id=${badgeNumber}`,
-		method: "GET",
-	}).pipe(
-		map((result) => result.response.payload),
-		catchError((err) => {
-			if (err instanceof PaySrvAppError && err.code === StatusCodes.NOT_FOUND) {
-				return of([] as readonly TransactionDto[])
-			} else {
-				throw err
-			}
-		}),
-	)
+export const findTransactionsForBadgeNumber = (badgeNumber: number) => apiCall<TransactionResponseDto>({
+	path: `/transactions?debitor_id=${badgeNumber}`,
+	method: 'GET',
+}).pipe(
+	map(result => result.response.payload),
+	catchError(err => {
+		if (err instanceof PaySrvAppError && err.code === StatusCodes.NOT_FOUND) {
+			return of([] as readonly TransactionDto[])
+		} else {
+			throw err
+		}
+	}),
+)
 
 /*
  * POST /transactions/initiate-payment creates a payment that includes a payment link.
@@ -174,24 +156,20 @@ export const findTransactionsForBadgeNumber = (badgeNumber: number) =>
  * 409: This debitor already has an open payment link, please use that one.
  * 500: It is important to communicate the ErrorDto's requestid field to the user, so they can give it to us, so we can look in the logs.
  */
-export const initiateCreditCardPayment = (badgeNumber: number) =>
-	apiCall<InitiatePaymentResponseDto>({
-		path: "/transactions/initiate-payment",
-		method: "POST",
-		body: {
-			debitor_id: badgeNumber,
-		},
-	}).pipe(map((result) => result.response.transaction))
+export const initiateCreditCardPayment = (badgeNumber: number) => apiCall<InitiatePaymentResponseDto>({
+	path: '/transactions/initiate-payment',
+	method: 'POST',
+	body: {
+		debitor_id: badgeNumber,
+	},
+}).pipe(
+	map(result => result.response.transaction),
+)
 
 export const initiateCreditCardPaymentOrUseExisting = (badgeNumber: number) =>
 	findTransactionsForBadgeNumber(badgeNumber).pipe(
-		concatMap((transactions) => {
-			const tentativeTransaction = transactions.find(
-				(t) =>
-					t.transaction_type === "payment" &&
-					t.method === "credit" &&
-					t.status === "tentative",
-			)
+		concatMap(transactions => {
+			const tentativeTransaction = transactions.find(t => t.transaction_type === 'payment' && t.method === 'credit' && t.status === 'tentative')
 
 			return tentativeTransaction !== undefined
 				? of(tentativeTransaction)
@@ -199,25 +177,21 @@ export const initiateCreditCardPaymentOrUseExisting = (badgeNumber: number) =>
 		}),
 	)
 
-export const initiateSepaPayment = (badgeNumber: number) =>
-	apiCall<InitiatePaymentResponseDto>({
-		path: "/transactions/initiate-payment",
-		method: "POST",
-		body: {
-			debitor_id: badgeNumber,
-			method: "transfer",
-		},
-	}).pipe(map((result) => result.response.transaction))
+export const initiateSepaPayment = (badgeNumber: number) => apiCall<InitiatePaymentResponseDto>({
+	path: '/transactions/initiate-payment',
+	method: 'POST',
+	body: {
+		debitor_id: badgeNumber,
+		method: 'transfer',
+	},
+}).pipe(
+	map(result => result.response.transaction),
+)
 
 export const initiateSepaPaymentOrUseExisting = (badgeNumber: number) =>
 	findTransactionsForBadgeNumber(badgeNumber).pipe(
-		concatMap((transactions) => {
-			const tentativeTransaction = transactions.find(
-				(t) =>
-					t.transaction_type === "payment" &&
-					t.method === "transfer" &&
-					t.status === "tentative",
-			)
+		concatMap(transactions => {
+			const tentativeTransaction = transactions.find(t => t.transaction_type === 'payment' && t.method === 'transfer' && t.status === 'tentative')
 
 			return tentativeTransaction !== undefined
 				? of(tentativeTransaction)

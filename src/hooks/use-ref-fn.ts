@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef } from "react"
+import { MutableRefObject, useRef } from 'react'
 
 export const useRefFn = <T>(init: () => T) => {
 	const ref = useRef<T | null>(null)

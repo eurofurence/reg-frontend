@@ -1,22 +1,22 @@
-export type FrontendErrorCode = "network-error" | "unknown"
+export type FrontendErrorCode =
+	| 'network-error'
+	| 'unknown'
 
 export type AppErrorOperation =
-	| "registration-open-check"
-	| "registration-submission"
-	| "registration-update"
-	| "registration-initiate-payment"
-	| "registration-set-locale"
-	| "user-info-lookup"
-	| "unknown"
+	| 'registration-open-check'
+	| 'registration-submission'
+	| 'registration-update'
+	| 'registration-initiate-payment'
+	| 'registration-set-locale'
+	| 'user-info-lookup'
+	| 'unknown'
 
 export interface ErrorReport {
 	readonly operation: AppErrorOperation
 	readonly error: unknown
 }
 
-export class AppError<
-	ErrorCode extends string | number = string | number,
-> extends Error {
+export class AppError<ErrorCode extends string | number = string | number> extends Error {
 	constructor(
 		public category: string,
 		public code: ErrorCode,
@@ -28,6 +28,6 @@ export class AppError<
 
 export class FrontendAppError extends AppError<FrontendErrorCode> {
 	constructor(code: FrontendErrorCode, detailedMessage: string) {
-		super("frontend", code, detailedMessage)
+		super('frontend', code, detailedMessage)
 	}
 }

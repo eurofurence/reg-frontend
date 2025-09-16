@@ -44,7 +44,7 @@ rules:
   callback-return: error
   camelcase: error
   class-methods-use-this: error
-  comma-style: [error, last]
+  comma-style: off
   complexity: [warn, { max: 10 }]
   computed-property-spacing: [error, never]
   consistent-this: [error, that]
@@ -202,14 +202,7 @@ rules:
   "@typescript-eslint/init-declarations": off
   "@typescript-eslint/keyword-spacing": [error, { before: true, after: true }]
   "@typescript-eslint/lines-between-class-members": [error, always]
-  "@typescript-eslint/member-delimiter-style":
-    [
-      error,
-      {
-        multiline: { delimiter: none },
-        singleline: { delimiter: comma, requireLast: false },
-      },
-    ]
+  "@typescript-eslint/member-delimiter-style": off
   "@typescript-eslint/member-ordering": off
   "@typescript-eslint/method-signature-style": error
   "@typescript-eslint/naming-convention": off

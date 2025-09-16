@@ -26,6 +26,7 @@ export type RegistrationStatus =
 	| "cancelled"
 	| "waiting"
 
+// eslint-disable-next-line @typescript-eslint/comma-dangle
 export type TicketType =
 	| { readonly type: "full" }
 	| { readonly type: "day"; readonly day: ReadonlyDateTime }

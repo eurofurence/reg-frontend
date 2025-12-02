@@ -43,9 +43,14 @@ const transformTicketLevel = (ticketType: TicketType, payload: GetAction<SubmitF
 }
 
 const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'register-personal-info'>>['payload']) => {
-	const { pronounsSelection, pronounsOther, dateOfBirth, ...rest } = payload as DeepNonNullable<typeof payload>
+	const { pronounsSelection, pronounsOther, dateOfBirth, nickname, firstName, lastName, ...rest } = payload as DeepNonNullable<typeof payload>
+
+	const sanitize = (s: string) => s.replace(/[\r\n]+/gu, '').trim()
 
 	return {
+		nickname: sanitize(nickname),
+		firstName: sanitize(firstName),
+		lastName: sanitize(lastName),
 		pronouns: pronounsSelection === 'prefer-not-to-say'
 			? null
 			: pronounsSelection === 'other'
@@ -56,13 +61,40 @@ const transformPersonalInfo = (payload: GetAction<SubmitFormActionBundle<'regist
 	}
 }
 
+const transformContactInfo = (payload: GetAction<SubmitFormActionBundle<'register-contact-info'>>['payload']) => {
+	const { email, phoneNumber, telegramUsername, street, city, postalCode, stateOrProvince, ...rest } = payload as DeepNonNullable<typeof payload>
+	const sanitize = (s: string | null | undefined) => typeof s === 'string' ? s.replace(/[\r\n]+/gu, '').trim() : ''
+
+	return {
+		email: sanitize(email),
+		phoneNumber: sanitize(phoneNumber),
+		telegramUsername: typeof telegramUsername === 'string' ? sanitize(telegramUsername) : null,
+		street: sanitize(street),
+		city: sanitize(city),
+		postalCode: sanitize(postalCode),
+		stateOrProvince: typeof stateOrProvince === 'string' ? sanitize(stateOrProvince) : null,
+		...rest,
+	}
+}
+
+const transformOptionalInfo = (payload: GetAction<SubmitFormActionBundle<'register-optional-info'>>['payload']) => {
+	const { comments, ...rest } = payload as DeepNonNullable<typeof payload>
+
+	return {
+		comments: typeof comments === 'string' ? comments.trim() : comments,
+		...rest,
+	}
+}
+
 const resetAddonsAndLevelInState = (state: Partial<RegistrationInfo>, ticketType: 'day' | 'full'): Partial<RegistrationInfo> => {
 	if (state.ticketLevel) {
-		return { ...state,
+		return {
+			...state,
 			ticketLevel: {
 				level: null,
 				addons: determineDefaultAddons(ticketType),
-			} }
+			},
+		}
 	} else {
 		return state
 	}
@@ -90,9 +122,9 @@ const registrationInfoReducer = (state: Partial<RegistrationInfo>, action: GetAc
 		case SubmitForm('register-ticket-level').type:
 			return { ...state, ticketLevel: transformTicketLevel(state.ticketType!, action.payload) }
 		case SubmitForm('register-contact-info').type:
-			return { ...state, contactInfo: action.payload as DeepNonNullable<typeof action.payload> }
+			return { ...state, contactInfo: transformContactInfo(action.payload) }
 		case SubmitForm('register-optional-info').type:
-			return { ...state, optionalInfo: action.payload as DeepNonNullable<typeof action.payload> }
+			return { ...state, optionalInfo: transformOptionalInfo(action.payload) }
 		case SubmitForm('register-personal-info').type:
 			return { ...state, personalInfo: transformPersonalInfo(action.payload) }
 		case SetLocale.type:

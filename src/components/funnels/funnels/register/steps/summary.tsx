@@ -6,11 +6,11 @@ import { useAppSelector } from '~/hooks/redux'
 import type { RegistrationStatus } from '~/state/models/register'
 import { getContactInfo, getOptionalInfo, getPersonalInfo, getRegistrationId, getStatus, isEditMode } from '~/state/selectors/register'
 import langmap from 'langmap'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { css } from '@emotion/react'
 import { useCurrentLocale } from '~/localization'
 import { useFunnelForm } from '~/hooks/funnels/form'
-import { Checkbox, ErrorMessage, Form } from '@eurofurence/reg-component-library'
+import { Checkbox, ErrorMessage, Form, Button } from '@eurofurence/reg-component-library'
 import config from '~/config'
 
 interface PropertyDefinition {
@@ -154,6 +154,12 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
 		{ registrationId ? <Localized id="register-summary-registration-id" vars={{ registrationId }}>
 			<RegistrationId>Badge number: {registrationId}</RegistrationId>
 		</Localized> : undefined }
+
+		{ registrationId && (status === 'new' || status === 'waiting' || status === 'approved')
+			?			<Localized id="register-summary-self-cancel">
+				<Button onClick={() => navigate(`/register/self-cancel`)}>Self Cancel!</Button>
+			</Localized>
+			: undefined }
 
 		<Section id="personal" editLink="/register/personal-info" properties={[
 			{ id: 'nickname', value: personalInfo.nickname },

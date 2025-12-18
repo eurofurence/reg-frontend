@@ -1,15 +1,23 @@
 import styled from '@emotion/styled'
-import { forwardRef, ForwardedRef, ComponentType, useMemo } from 'react'
+import {
+  forwardRef,
+  type ForwardedRef,
+  type ComponentType,
+  useMemo,
+} from 'react'
 import { Localized } from '@fluent/react'
-import { RadioCard, RadioCardProps } from '@eurofurence/reg-component-library'
+import {
+  RadioCard,
+  type RadioCardProps,
+} from '@eurofurence/reg-component-library'
 import Price from '~/components/funnels/price'
 import ReactMarkdown from 'react-markdown'
 
 export interface RoomCardProps extends Omit<RadioCardProps, 'value'> {
-	readonly id: string
-	readonly price: number
-	readonly children: string
-	readonly image: ComponentType
+  readonly id: string
+  readonly price: number
+  readonly children: string
+  readonly image: ComponentType
 }
 
 const Description = styled.div`
@@ -36,28 +44,42 @@ const BreakfastAndTaxesNotice = styled.aside`
 `
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const RoomCard = forwardRef(({ id, price, children, image, ...rest }: RoomCardProps, ref: ForwardedRef<HTMLInputElement>) => {
-	const StyledImage = useMemo(() => styled(image)`
+const RoomCard = forwardRef(
+  (
+    { id, price, children, image, ...rest }: RoomCardProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
+    const StyledImage = useMemo(
+      () => styled(image)`
 		label[data-checked] & path {
 			fill: var(--color-semantic-info);
 		}
-	`, [image])
+	`,
+      [image]
+    )
 
-	return <RadioCard layout="side-by-side" value={id} ref={ref} {...rest}>
-		<Description><ReactMarkdown>{children}</ReactMarkdown></Description>
-		<figure>{<StyledImage />}</figure>
-		<Footer>
-			<PriceLabelContainer>
-				<Localized id="hotel-booking-room-card-price-scope">
-					<PriceLabel>Price per room per night</PriceLabel>
-				</Localized>
-				<Localized id="hotel-booking-room-card-breakfast-and-taxes-notice">
-					<BreakfastAndTaxesNotice>Breakfast and taxes included</BreakfastAndTaxesNotice>
-				</Localized>
-			</PriceLabelContainer>
-			<Price price={price}/>
-		</Footer>
-	</RadioCard>
-})
+    return (
+      <RadioCard layout="side-by-side" value={id} ref={ref} {...rest}>
+        <Description>
+          <ReactMarkdown>{children}</ReactMarkdown>
+        </Description>
+        <figure>{<StyledImage />}</figure>
+        <Footer>
+          <PriceLabelContainer>
+            <Localized id="hotel-booking-room-card-price-scope">
+              <PriceLabel>Price per room per night</PriceLabel>
+            </Localized>
+            <Localized id="hotel-booking-room-card-breakfast-and-taxes-notice">
+              <BreakfastAndTaxesNotice>
+                Breakfast and taxes included
+              </BreakfastAndTaxesNotice>
+            </Localized>
+          </PriceLabelContainer>
+          <Price price={price} />
+        </Footer>
+      </RadioCard>
+    )
+  }
+)
 
 export default RoomCard

@@ -13,31 +13,31 @@ registry.
 
 To configure access, obtain a GitHub personal access token with `read:packages` scope permissions. With that, do
 
-```
+```bash
 echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
 ```
 
-#### Ubuntu 24.04 LTS fun 
+#### Ubuntu 24.04 LTS fun
 
 The node snap is just ... broken in weird ways. You need to install node the old-fashioned way.
 
 Installing gyp may fail during npm install because it detects you have python,
 but on Ubuntu python either points to really old python2, or for newer Ubuntu releases, wonderfully
-does not work at all. There's a fix, so python points to python3. 
+does not work at all. There's a fix, so python points to python3.
 
-```
+```bash
 sudo apt-get install python-is-python3
 ```
 
 Then it also fails to properly report missing build utilities, but some node packages expect certain build tools.
 
-```
+```bash
 sudo apt-get install build-essential
 ```
 
 #### install gatsby and dependencies
 
-```
+```bash
 npm install -g gatsby-cli
 gatsby telemetry --disable
 
@@ -49,7 +49,7 @@ to install as the wrong user and then runs into permission errors._
 
 #### set up a local dotenv
 
-```
+```bash
 cp .example.env.development .env.development
 ```
 
@@ -57,11 +57,11 @@ Edit this new file and fill in the env vars with the test env information.
 
 ### run locally
 
-```
+```bash
 npm start
 ```
 
-Then point your browser to http://localhost:8000/register
+Then point your browser to <http://localhost:8000/register>
 
 ### server-like installation on localhost
 
@@ -71,7 +71,7 @@ reg-attendee-service and reg-payment-service).
 See the instructions [here](https://github.com/eurofurence/reg-regsys-classic), as well as the readme's of the
 backend services.
 
-Then you can use the system exactly as it is installed on the server by pointing your browser to http://localhost:10000/register
+Then you can use the system exactly as it is installed on the server by pointing your browser to <http://localhost:10000/register>
 
 This also lets you avoid any CORS issues because everything is coming from the same domain.
 
@@ -79,14 +79,14 @@ This also lets you avoid any CORS issues because everything is coming from the s
 
 In `gatsby-config.js`, set the correct `pathPrefix`. Then do
 
-```
+```bash
 PREFIX_PATHS=true npm run build
 ```
 
 This will generate a full static version of the site into `public`, which you can then tar.gz and upload to the server
 for roll-out with a script similar to this one (assuming you have ssh-agent running and have access):
 
-```
+```bash
 # build application with prefix paths as configured
 PREFIX_PATHS=true npm run build
 

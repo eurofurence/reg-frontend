@@ -1,4 +1,4 @@
-import { MarkupParser, ReactLocalization } from '@fluent/react'
+import { type MarkupParser, ReactLocalization } from '@fluent/react'
 import { FluentBundle, FluentResource } from '@fluent/bundle'
 import { useLocation } from '@reach/router'
 import { getCurrentLangKey } from 'ptz-i18n'
@@ -15,29 +15,40 @@ export type Locale = (typeof supportedLanguages)[number]
 const defaultLocale = 'en-US'
 
 export const getDefaultLocale = (queryBrowserLocale: boolean = true) =>
-	queryBrowserLocale
-		? negotiateLanguages(navigator.languages, supportedLanguages, { strategy: 'lookup', defaultLocale })[0]
-		: defaultLocale
+  queryBrowserLocale
+    ? negotiateLanguages(navigator.languages, supportedLanguages, {
+        strategy: 'lookup',
+        defaultLocale,
+      })[0]
+    : defaultLocale
 
-export const createLocalization = (locale: Locale, ftl: string, parseMarkup?: MarkupParser | null | undefined) => {
-	const resource = new FluentResource(ftl)
+export const createLocalization = (
+  locale: Locale,
+  ftl: string,
+  parseMarkup?: MarkupParser | null | undefined
+) => {
+  const resource = new FluentResource(ftl)
 
-	const bundle = new FluentBundle([locale], {
-		functions: {
-			DATETIME_RANGE,
-			NUMBER_RANGE,
-		},
-	})
+  const bundle = new FluentBundle([locale], {
+    functions: {
+      DATETIME_RANGE,
+      NUMBER_RANGE,
+    },
+  })
 
-	bundle.addResource(resource)
+  bundle.addResource(resource)
 
-	return new ReactLocalization([bundle], parseMarkup)
+  return new ReactLocalization([bundle], parseMarkup)
 }
 
-export const loadLanguage = async (locale: Locale): Promise<ReactLocalization> => {
-	const { default: ftl } = await import(`raw-loader!~/localizations/${locale}.ftl`) as { default: string }
+export const loadLanguage = async (
+  locale: Locale
+): Promise<ReactLocalization> => {
+  const { default: ftl } = (await import(
+    `raw-loader!~/localizations/${locale}.ftl`
+  )) as { default: string }
 
-	return createLocalization(locale, ftl)
+  return createLocalization(locale, ftl)
 }
 
 /*
@@ -49,15 +60,19 @@ export const loadLanguage = async (locale: Locale): Promise<ReactLocalization> =
  * 4. Fallback to en-US
  */
 export const useCurrentLocale = (queryBrowserLocale?: boolean) => {
-	const location = useLocation()
-	const preferredLocale = useAppSelector(getPreferredLocale())
-	const fallbackLocale = useMemo(() =>
-		preferredLocale !== undefined
-			? preferredLocale
-			: getDefaultLocale(queryBrowserLocale)
-	, [queryBrowserLocale, preferredLocale])
+  const location = useLocation()
+  const preferredLocale = useAppSelector(getPreferredLocale())
+  const fallbackLocale = useMemo(
+    () =>
+      preferredLocale !== undefined
+        ? preferredLocale
+        : getDefaultLocale(queryBrowserLocale),
+    [queryBrowserLocale, preferredLocale]
+  )
 
-	return useMemo(() =>
-		getCurrentLangKey(supportedLanguages, fallbackLocale, location.pathname)
-	, [location, fallbackLocale])
+  return useMemo(
+    () =>
+      getCurrentLangKey(supportedLanguages, fallbackLocale, location.pathname),
+    [location, fallbackLocale]
+  )
 }

@@ -5,16 +5,21 @@ import type { ReadonlyReactNode } from '~/util/readonly-types'
 import ErrorReport from './error-report'
 
 export interface ErrorGuardProps {
-	readonly children: ReadonlyReactNode
+  readonly children: ReadonlyReactNode
 }
 
 const ErrorGuard = ({ children }: ErrorGuardProps) => {
-	const dispatch = useAppDispatch()
-	const currentError = useAppSelector(getCurrentError())
+  const dispatch = useAppDispatch()
+  const currentError = useAppSelector(getCurrentError())
 
-	return currentError === undefined
-		? <>{children}</>
-		: <ErrorReport report={currentError} onBack={() => dispatch(ClearError.create(undefined))}/>
+  return currentError === undefined ? (
+    <>{children}</>
+  ) : (
+    <ErrorReport
+      report={currentError}
+      onBack={() => dispatch(ClearError.create(undefined))}
+    />
+  )
 }
 
 export default ErrorGuard

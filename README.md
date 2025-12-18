@@ -17,6 +17,24 @@ To configure access, obtain a GitHub personal access token with `read:packages` 
 echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
 ```
 
+#### Ubuntu 24.04 LTS fun 
+
+The node snap is just ... broken in weird ways. You need to install node the old-fashioned way.
+
+Installing gyp may fail during npm install because it detects you have python,
+but on Ubuntu python either points to really old python2, or for newer Ubuntu releases, wonderfully
+does not work at all. There's a fix, so python points to python3. 
+
+```
+sudo apt-get install python-is-python3
+```
+
+Then it also fails to properly report missing build utilities, but some node packages expect certain build tools.
+
+```
+sudo apt-get install build-essential
+```
+
 #### install gatsby and dependencies
 
 ```

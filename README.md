@@ -55,6 +55,21 @@ cp .example.env.development .env.development
 
 Edit this new file and fill in the env vars with the test env information.
 
+### set up biome (linter)
+
+If you have `biome` in your path, then `npm run format` will fix any formatting problems for you and avoid lots of spurious
+changes. Please run it before creating a PR.
+
+Install biome with
+```bash
+npm install -g biome
+```
+
+With this, the [IntelliJ biome plugin](https://biomejs.dev/guides/editors/first-party-extensions/#intellij)
+should also work, including auto-format on save.
+
+VSCode is auto-configured, see .vscode.
+
 ### run locally
 
 ```bash

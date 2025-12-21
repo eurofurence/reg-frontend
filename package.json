@@ -1,9 +1,8 @@
 {
-  "name": "@eurofurence/reg-frontend",
-  "private": true,
-  "description": "The Eurofurence Registration frontend!",
-  "version": "0.1.0",
   "author": "Eurofurence Registration Team",
+  "bugs": {
+    "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -43,7 +42,9 @@
     "reselect": "^4.1.7",
     "rxjs": "^7.8.0"
   },
+  "description": "The Eurofurence Registration frontend!",
   "devDependencies": {
+    "@biomejs/biome": "2.3.10",
     "@types/langmap": "0.0.1",
     "@types/luxon": "^3.2.0",
     "@types/ramda": "^0.28.20",
@@ -59,31 +60,32 @@
     "typescript": "^4.9.4",
     "utility-types": "^3.10.0"
   },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "0BSD",
+  "name": "@eurofurence/reg-frontend",
   "overrides": {
     "react-server-dom-webpack@0.0.0-experimental-c8b778b7f-20220825": {
       "react": "^18.2.0"
     }
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "0BSD",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "lint": "eslint ./src",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "tsc": "tsc",
-    "gatsby": "gatsby"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/gatsbyjs/gatsby-starter-default"
   },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
-  }
+  "scripts": {
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "develop": "gatsby develop",
+    "gatsby": "gatsby",
+    "lint": "biome lint --write",
+    "format": "biome format --write",
+    "serve": "gatsby serve",
+    "start": "npm run develop",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "tsc": "tsc"
+  },
+  "version": "0.1.0"
 }

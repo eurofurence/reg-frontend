@@ -1,5 +1,9 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, AppState } from '~/state'
+import {
+  type TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from 'react-redux'
+import type { AppDispatch, AppState } from '~/state'
 
 /*
  * Pre-typed `useDispatch` and `useSelector` functions.

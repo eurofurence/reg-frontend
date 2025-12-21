@@ -3,9 +3,7 @@ import { Provider } from 'react-redux'
 import { configureStore } from './src/state'
 
 export default ({ element }) => {
-	const store = configureStore()
+  const store = configureStore()
 
-	return <Provider store={store}>
-		{element}
-	</Provider>
+  return <Provider store={store}>{element}</Provider>
 }

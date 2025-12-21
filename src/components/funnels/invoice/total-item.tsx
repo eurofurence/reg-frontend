@@ -14,7 +14,10 @@ const Container = styled.li<{ readonly warn?: boolean }>`
 	               "extra extra"  auto / auto auto;
 	align-items: center;
 
-	${({ warn = false }) => !warn ? css`` : css`
+	${({ warn = false }) =>
+    !warn
+      ? css``
+      : css`
 		color: var(--color-semantic-warning);
 	`}
 
@@ -51,17 +54,34 @@ const Extra = styled.div`
 `
 
 export interface InvoiceTotalItemProps {
-	readonly type: 'price' | 'due'
-	readonly name: string
-	readonly value: number
-	readonly extra?: string
-	readonly warn?: boolean
+  readonly type: 'price' | 'due'
+  readonly name: string
+  readonly value: number
+  readonly extra?: string
+  readonly warn?: boolean
 }
 
-const InvoiceTotalItem = ({ type, name, value, extra, warn }: InvoiceTotalItemProps) => <Container warn={warn}>
-	<Localized id="invoice-total-item-label" vars={{ name }}><Label>{name}</Label></Localized>
-	<Localized id={type} vars={{ value: new FluentNumber(value, { style: 'currency', currency: 'EUR' }) }}><Price>{value} €</Price></Localized>
-	{extra === undefined ? undefined : <Extra>{extra}</Extra>}
-</Container>
+const InvoiceTotalItem = ({
+  type,
+  name,
+  value,
+  extra,
+  warn,
+}: InvoiceTotalItemProps) => (
+  <Container warn={warn}>
+    <Localized id="invoice-total-item-label" vars={{ name }}>
+      <Label>{name}</Label>
+    </Localized>
+    <Localized
+      id={type}
+      vars={{
+        value: new FluentNumber(value, { style: 'currency', currency: 'EUR' }),
+      }}
+    >
+      <Price>{value} €</Price>
+    </Localized>
+    {extra === undefined ? undefined : <Extra>{extra}</Extra>}
+  </Container>
+)
 
 export default InvoiceTotalItem

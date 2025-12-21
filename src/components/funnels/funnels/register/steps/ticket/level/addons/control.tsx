@@ -1,14 +1,18 @@
 import styled from '@emotion/styled'
-import { forwardRef, ForwardedRef } from 'react'
-import { Checkbox, CheckboxProps, MediaQueries } from '@eurofurence/reg-component-library'
+import {
+  Checkbox,
+  type CheckboxProps,
+  MediaQueries,
+} from '@eurofurence/reg-component-library'
+import { type ForwardedRef, forwardRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import Price from '~/components/funnels/price'
 import type { ReadonlyReactNode } from '~/util/readonly-types'
 
 export type TicketLevelAddonControlProps = CheckboxProps & {
-	readonly description: string
-	readonly children?: ReadonlyReactNode
-	readonly price: number
+  readonly description: string
+  readonly children?: ReadonlyReactNode
+  readonly price: number
 }
 
 const Container = styled.section`
@@ -64,15 +68,24 @@ const OptionsContainer = styled.div`
 `
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelAddonControl = forwardRef(({ children, price, description, ...rest }: TicketLevelAddonControlProps, ref: ForwardedRef<HTMLInputElement>) =>
-	<Container>
-		<CheckboxContainer><Checkbox ref={ref} {...rest}/></CheckboxContainer>
-		<Description><ReactMarkdown>{description}</ReactMarkdown></Description>
-		<PriceContainer><Price price={price}/></PriceContainer>
-		<OptionsContainer>
-			{children}
-		</OptionsContainer>
-	</Container>,
+const TicketLevelAddonControl = forwardRef(
+  (
+    { children, price, description, ...rest }: TicketLevelAddonControlProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => (
+    <Container>
+      <CheckboxContainer>
+        <Checkbox ref={ref} {...rest} />
+      </CheckboxContainer>
+      <Description>
+        <ReactMarkdown>{description}</ReactMarkdown>
+      </Description>
+      <PriceContainer>
+        <Price price={price} />
+      </PriceContainer>
+      <OptionsContainer>{children}</OptionsContainer>
+    </Container>
+  )
 )
 
 export default TicketLevelAddonControl

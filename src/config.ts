@@ -296,6 +296,13 @@ const configMmc = {
         day: 26,
       },
     },
+    contributor: {
+      prices: {
+        full: 260,
+        day: 26,
+      },
+      hidden: true,
+    },
     sponsor: {
       prices: {
         full: 260,
@@ -685,6 +692,14 @@ const configEf = {
       },
       requires: ['stage-pass'],
     },
+    contributor: {
+      prices: {
+        full: 205,
+        day: 140,
+      },
+      requires: ['stage-pass'],
+      includes: ['tshirt'],
+    },
     sponsor: {
       prices: {
         full: 285,
@@ -746,11 +761,11 @@ const configEf = {
       resetOn: {
         levelChange: true,
       },
-      unavailable: true,
+      unavailable: false,
     },
     early: {
       price: -15,
-      default: false, // don't forget to increment version when changing this
+      default: true, // don't forget to increment version when changing this
       options: {},
       unavailableFor: {
         type: ['day'],
@@ -760,7 +775,7 @@ const configEf = {
     },
     late: {
       price: 15,
-      default: true, // don't forget to increment version when changing this
+      default: false, // don't forget to increment version when changing this
       options: {},
       unavailableFor: {
         type: ['day'],
@@ -793,7 +808,7 @@ const configEf = {
         },
       },
       unavailableFor: {
-        level: ['standard', 'sponsor', null],
+        level: ['standard', 'contributor', 'sponsor', null],
       },
       hidden: false,
       resetOn: {
@@ -806,7 +821,7 @@ const configEf = {
       default: false,
       options: {},
       hidden: false,
-      unavailable: true,
+      unavailable: false,
     },
     fursuitadd: {
       price: 2,
@@ -819,7 +834,7 @@ const configEf = {
       },
       hidden: false,
       requires: ['fursuit'],
-      unavailable: true,
+      unavailable: false,
     },
     'dealer-half': {
       price: 50,

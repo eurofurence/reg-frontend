@@ -223,6 +223,20 @@ register-ticket-level-card-standard =
                     [day]  Standard Day Ticket
                 }
 
+register-ticket-level-card-contributor =
+  As a thank you for supporting Eurofurence with a voluntary donation, you will receive
+
+  + Contributor convention badge
+  + Program book
+  + Participation in scheduled events
+  + Free T-shirt**
+
+  .label = Contributor
+  .priceLabel = {$type ->
+                   *[full] Contributor Ticket
+                    [day]  Contributor Day Ticket
+                }
+
 register-ticket-level-card-sponsor =
   As a thank you for supporting Eurofurence with a voluntary donation, you will receive
 

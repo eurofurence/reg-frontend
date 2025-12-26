@@ -227,6 +227,10 @@ const attendeeDtoFromRegistrationInfo = (
       : 0
   )
   packagesMap.set(
+    'contributor',
+    registrationInfo.ticketLevel.level === 'contributor' ? 1 : 0
+  )
+  packagesMap.set(
     'sponsor',
     registrationInfo.ticketLevel.level === 'sponsor' ? 1 : 0
   )
@@ -356,7 +360,9 @@ const registrationInfoFromAttendeeDto = (
     ? 'super-sponsor'
     : packagesMap.has('sponsor')
       ? 'sponsor'
-      : 'standard'
+      : packagesMap.has('contributor')
+        ? 'contributor'
+        : 'standard'
 
   // parse all hidden addons, so they show up in the invoice box
   const hiddenAddons = Object.fromEntries(

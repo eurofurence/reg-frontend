@@ -15,15 +15,15 @@ import { useEffect } from 'react'
 
 const TicketLevelGrid = styled.section`
 	display: grid;
-	gap: 20px;
-	margin-top: 2em;
+	gap: 10px;
+	margin-top: 1.5em;
 
-	@media not all and (min-width: 950px) {
+	@media not all and (min-width: 1150px) {
 		grid: auto-flow auto / 1fr;
 	}
 
-	@media (min-width: 950px) {
-		grid: auto-flow 1fr / repeat(3, 1fr);
+	@media (min-width: 1150px) {
+		grid: auto-flow 1fr / repeat(4, 1fr);
 	}
 `
 

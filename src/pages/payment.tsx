@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react'
 import Layout from '~/components/layout'
 import SEO from '~/components/seo'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
-import { useEffect, useState } from 'react'
 
 export const Head = () => <SEO title="Register" />
 
@@ -18,10 +18,10 @@ const PaymentPage = (_: ReadonlyRouteComponentProps) => {
     : ''
 
   const [isScriptLoaded, setIsScriptLoaded] = useState(false)
-  const [scriptError, setScriptError] = useState(null)
+  const [scriptError, setScriptError] = useState<string | null>(null)
 
+  // Effect 1: Load the SumUp SDK script
   useEffect(() => {
-    // Create script element to load library
     const script = document.createElement('script')
     script.src = 'https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js'
     script.type = 'text/javascript'
@@ -29,26 +29,13 @@ const PaymentPage = (_: ReadonlyRouteComponentProps) => {
 
     // Handle script load success
     const handleLoad = () => {
-      console.log('External script loaded!')
+      console.log('SumUp script loaded!')
       setIsScriptLoaded(true)
-
-      // now we can mount the payment widget
-      if (checkoutParamSanitized) {
-        // @ts-expect-error
-        SumUpCard.mount({
-          id: 'sumup-card',
-          checkoutId: checkoutParamSanitized,
-          onResponse: function (type: any, body: any) {
-            console.log('Type', type)
-            console.log('Body', body)
-          },
-        })
-      }
     }
 
     // Handle script load error
     const handleError = () => {
-      setScriptError('Failed to load external script.')
+      setScriptError('Failed to load SumUp script.')
     }
 
     // Attach event listeners
@@ -64,7 +51,22 @@ const PaymentPage = (_: ReadonlyRouteComponentProps) => {
       script.removeEventListener('error', handleError)
       document.body.removeChild(script)
     }
-  }, []) // Empty dependency array: runs once on mount
+  }, [])
+
+  // Effect 2: Mount the widget AFTER the div is rendered
+  useEffect(() => {
+    if (!isScriptLoaded || !checkoutParamSanitized) return
+
+    // @ts-expect-error - SumUpCard is loaded via external script
+    SumUpCard.mount({
+      id: 'sumup-card',
+      checkoutId: checkoutParamSanitized,
+      onResponse: (type: any, body: any) => {
+        console.log('Type', type)
+        console.log('Body', body)
+      },
+    })
+  }, [isScriptLoaded, checkoutParamSanitized])
 
   if (scriptError) {
     return (

@@ -165,6 +165,9 @@ invoice-unprocessed-payments = Deine Zahlung ist in Bearbeitung.
 
 invoice-pay-button-sepa = SEPA Überweisung
 
+invoice-card-disabled = Kartenzahlung z.Zt. nicht verfügbar
+
+invoice-sepa-disabled = Bitte im Moment nicht überweisen
 
 # Common register messages
 register-header-title = Willkommen zur Eurofurence 2025!

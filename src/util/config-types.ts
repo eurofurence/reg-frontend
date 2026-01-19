@@ -361,6 +361,8 @@ type Config<
     readonly contact: string
   }
   readonly disablePackageEditForStatuses: readonly string[]
+  readonly disableCCPayments: boolean
+  readonly disableSEPAPayments: boolean
 }
 
 export const checkConfig = <

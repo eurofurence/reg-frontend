@@ -16,6 +16,7 @@ import { Localized } from '@fluent/react'
 import type { Invoice as InvoiceModel } from '~/state/models/invoice'
 import { Link } from 'gatsby'
 import { useState } from 'react'
+import config from '~/config'
 
 const InvoiceCard = styled(Card)<{ readonly showOnMobile?: boolean }>`
 	@media ${MediaQueries.laptop}, ${MediaQueries.desktop} {
@@ -53,6 +54,10 @@ const UnprocessedPayments = styled.p`
 	text-align: center;
 `
 
+const DisabledPayments = styled.p`
+	text-align: center;
+`
+
 export interface InvoiceProps {
   readonly title: string
   readonly invoice: InvoiceModel
@@ -83,6 +88,9 @@ const Invoice = ({
   const sepa = () => {
     onSepa!()
   }
+
+  const disableCCPayments = config.disableCCPayments
+  const disableSEPAPayments = config.disableSEPAPayments
 
   return (
     <InvoiceCard inverted={true} showOnMobile={showOnMobile}>
@@ -145,6 +153,10 @@ const Invoice = ({
               Your payment is being processed.
             </UnprocessedPayments>
           </Localized>
+        ) : disableCCPayments ? (
+          <Localized id="invoice-card-disabled">
+            <DisabledPayments>CC payments disabled</DisabledPayments>
+          </Localized>
         ) : (
           <PayButton
             variant="inverted-card"
@@ -164,7 +176,12 @@ const Invoice = ({
           </PayButton>
         )}
         {invoice.due === undefined ||
-        invoice.due === 0 ? undefined : unprocessedPayments ? undefined : (
+        invoice.due ===
+          0 ? undefined : unprocessedPayments ? undefined : disableSEPAPayments ? (
+          <Localized id="invoice-sepa-disabled">
+            <DisabledPayments>SEPA payments disabled</DisabledPayments>
+          </Localized>
+        ) : (
           <SepaButton
             variant="inverted-card"
             onClick={onSepa === undefined ? undefined : sepa}

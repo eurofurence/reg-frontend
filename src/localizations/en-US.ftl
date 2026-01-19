@@ -165,6 +165,10 @@ invoice-unprocessed-payments = Your payment is being processed
 
 invoice-pay-button-sepa = SEPA Transfer
 
+invoice-card-disabled = Card payments currently unavailable
+
+invoice-sepa-disabled = SEPA transfer currently unavailable
+
 
 # Common register messages
 register-header-title = Welcome to Eurofurence 2025!

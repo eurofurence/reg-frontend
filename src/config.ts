@@ -409,6 +409,8 @@ const configMmc = {
     contact: 'https://help.eurofurence.org/contact',
   },
   disablePackageEditForStatuses: ['checked-in'],
+  disableCCPayments: true,
+  disableSEPAPayments: false,
 } as const
 
 const configEf = {
@@ -1047,6 +1049,8 @@ const configEf = {
     contact: 'https://help.eurofurence.org/contact',
   },
   disablePackageEditForStatuses: ['paid', 'checked-in', 'cancelled'],
+  disableCCPayments: false,
+  disableSEPAPayments: false,
 } as const
 
 const config = checkConfig(configEf)

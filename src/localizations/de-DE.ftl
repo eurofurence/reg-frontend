@@ -95,9 +95,6 @@ invoice-item-definition-register-ticket-addons-boat-trip =
 invoice-item-definition-register-ticket-addons-boat-vip =
   .name = Boot VIP
 
-invoice-item-definition-register-ticket-addons-boat-benefactor =
-  .name = Boot Sponsor
-
 invoice-item-definition-register-ticket-addons-artshow-table-half =
   .name = Art Show (halber Tisch)
 
@@ -145,6 +142,9 @@ invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
 
 invoice-item-definition-register-ticket-addons-artshow-panel-four =
   .name = Art Show (4 Panels)
+
+invoice-item-definition-register-ticket-addons-party =
+  .name = Dead Dog Party
 
 invoice-item-definition-other =
   .name = Sonstige
@@ -371,6 +371,10 @@ register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
   [c9]   9x
   [c10]  10x
 }
+
+register-ticket-level-addons-item-party =
+  .label = Dead Dog Party
+  .description = Party nach der Con am Sonntag abend.
 
 # validation errors
 

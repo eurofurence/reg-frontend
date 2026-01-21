@@ -894,13 +894,6 @@ const configEf = {
       hidden: true,
       unavailable: false,
     },
-    'boat-benefactor': {
-      price: 100,
-      default: false,
-      options: {},
-      hidden: true,
-      unavailable: false,
-    },
     'artshow-table-half': {
       price: 20,
       default: false,
@@ -1011,6 +1004,13 @@ const configEf = {
       default: false,
       options: {},
       hidden: true,
+      unavailable: false,
+    },
+    party: {
+      price: 10,
+      default: false,
+      options: {},
+      hidden: false,
       unavailable: false,
     },
   },

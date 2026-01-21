@@ -425,7 +425,7 @@ const configEf = {
   eventStartDate: DateTime.fromISO('2026-08-19', { zone: 'Europe/Berlin' }),
   eventEndDate: DateTime.fromISO('2026-08-23', { zone: 'Europe/Berlin' }),
   dayTicketStartDate: DateTime.fromISO('2026-08-19', { zone: 'Europe/Berlin' }),
-  dayTicketEndDate: DateTime.fromISO('2025-08-22', { zone: 'Europe/Berlin' }),
+  dayTicketEndDate: DateTime.fromISO('2026-08-22', { zone: 'Europe/Berlin' }),
   earliestBirthDate: DateTime.fromISO('1901-01-01'),
   minimumAge: 18,
   enableRoomshare: false,
@@ -826,7 +826,7 @@ const configEf = {
       unavailable: false,
     },
     fursuitadd: {
-      price: 2,
+      price: 5,
       default: false,
       options: {
         count: {

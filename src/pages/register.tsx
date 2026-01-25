@@ -1,12 +1,12 @@
-import { RegisterRouter } from '~/navigation/router'
+import { useEffect } from 'react'
+import NotOpenYet from '~/components/funnels/funnels/register/not-open-yet'
 import Layout from '~/components/layout'
 import SEO from '~/components/seo'
-import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
-import NotOpenYet from '~/components/funnels/funnels/register/not-open-yet'
 import { useAppDispatch, useAppSelector } from '~/hooks/redux'
-import { isRegistrationOpen } from '~/state/selectors/register'
-import { useEffect } from 'react'
+import { RegisterRouter } from '~/navigation/router'
 import { CheckCountdown } from '~/state/actions/register'
+import { isRegistrationOpen } from '~/state/selectors/register'
+import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 
 export const Head = () => <SEO title="Register" />
 

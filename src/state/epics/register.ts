@@ -1,38 +1,20 @@
+import { navigate } from 'gatsby'
+import { always } from 'ramda'
+import { combineEpics, type Epic, ofType } from 'redux-observable'
+import { concat, EMPTY, of } from 'rxjs'
 import {
   concatMap,
-  withLatestFrom,
-  map,
   filter,
   ignoreElements,
+  map,
+  withLatestFrom,
 } from 'rxjs/operators'
-import { combineEpics, type Epic, ofType } from 'redux-observable'
-import type { AnyAppAction, GetAction } from '~/state/actions'
-import { always } from 'ramda'
-import type { AppState } from '~/state'
-import { nextPage } from './generators/next-page'
-import { SubmitForm } from '~/state/actions/forms'
-import {
-  CheckCountdown,
-  InitiatePayment,
-  InitiateSepaPayment,
-  LoadRegistrationState,
-  SetLocale,
-} from '~/state/actions/register'
 import {
   findExistingRegistration,
   registrationCountdownCheck,
   submitRegistration,
   updateRegistration,
 } from '~/apis/attsrv'
-import { navigate } from 'gatsby'
-import {
-  getRegistrationId,
-  getRegistrationInfo,
-  isEditMode,
-} from '~/state/selectors/register'
-import type { RegistrationInfo } from '~/state/models/register'
-import { justDo } from '~/state/epics/operators/just-do'
-import { EMPTY, of, concat } from 'rxjs'
 import {
   calculateOutstandingDues,
   calculateTotalPaid,
@@ -41,11 +23,29 @@ import {
   initiateCreditCardPaymentOrUseExisting,
   initiateSepaPaymentOrUseExisting,
 } from '~/apis/paysrv'
-import { catchAppError } from './operators/catch-app-error'
-import { includes } from '~/util/includes'
-import { loadAutosave } from '../models/autosave'
 import { getDefaultLocale } from '~/localization'
+import type { AppState } from '~/state'
+import type { AnyAppAction, GetAction } from '~/state/actions'
+import { SubmitForm } from '~/state/actions/forms'
+import {
+  CheckCountdown,
+  InitiatePayment,
+  InitiateSepaPayment,
+  LoadRegistrationState,
+  SetLocale,
+} from '~/state/actions/register'
+import { justDo } from '~/state/epics/operators/just-do'
+import type { RegistrationInfo } from '~/state/models/register'
+import {
+  getRegistrationId,
+  getRegistrationInfo,
+  isEditMode,
+} from '~/state/selectors/register'
+import { includes } from '~/util/includes'
 import { Navigate } from '../actions/navigation'
+import { loadAutosave } from '../models/autosave'
+import { nextPage } from './generators/next-page'
+import { catchAppError } from './operators/catch-app-error'
 
 const loadUnsubmittedRegistration = () =>
   of(

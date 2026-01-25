@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import config from '~/config'
+import { isOpen } from '~/state/reducers/register'
 import { createLuxonFluentDateTime } from '~/util/fluent-values'
 import type { AppState } from '..'
 import { buildInvoice, type UncalculatedInvoiceItem } from '../models/invoice'
-import { isOpen } from '~/state/reducers/register'
-import { getUserInfo } from './auth'
 import { isApproved, isUnsubmitted } from '../models/register'
+import { getUserInfo } from './auth'
 
 export const isRegistrationOpen = () => (s: AppState) => s.register.isOpen
 export const isEditMode = () => (s: AppState) =>
@@ -33,9 +33,10 @@ export const getRegistrationId = () => (s: AppState) =>
 export const getStatus = () => (s: AppState) =>
   isOpen(s.register) ? s.register.registration.status : undefined
 export const getPreferredLocale = () => (s: AppState) =>
-  isOpen(s.register)
+  s.register.preferredLocale ??
+  (isOpen(s.register)
     ? s.register.registration.registrationInfo.preferredLocale
-    : undefined
+    : undefined)
 export const getTicketType = () => (s: AppState) =>
   isOpen(s.register)
     ? s.register.registration.registrationInfo.ticketType

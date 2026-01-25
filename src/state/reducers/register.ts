@@ -1,23 +1,28 @@
+import { DateTime } from 'luxon'
+import type { DeepNonNullable } from 'ts-essentials'
+import config from '~/config'
+import { sanitizeFormCache } from '~/hooks/funnels/form'
+import type { Locale } from '~/localization'
+import type { AnyAppAction, GetAction } from '~/state/actions'
+import { SubmitForm, type SubmitFormActionBundle } from '~/state/actions/forms'
+import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
 import type {
   Registration,
   RegistrationInfo,
   TicketLevel,
   TicketType,
 } from '~/state/models/register'
-import type { AnyAppAction, GetAction } from '~/state/actions'
-import type { DeepNonNullable } from 'ts-essentials'
-import { SubmitForm, type SubmitFormActionBundle } from '~/state/actions/forms'
-import { LoadRegistrationState, SetLocale } from '~/state/actions/register'
-import config from '~/config'
-import { DateTime } from 'luxon'
 import { determineDefaultAddons } from '~/state/selectors/forms'
-import { sanitizeFormCache } from '~/hooks/funnels/form'
 
-export interface ClosedRegisterState {
+interface BaseRegisterState {
+  readonly preferredLocale?: Locale
+}
+
+export interface ClosedRegisterState extends BaseRegisterState {
   readonly isOpen: false | null
 }
 
-export interface OpenRegisterState {
+export interface OpenRegisterState extends BaseRegisterState {
   readonly isOpen: true
   readonly registration: Registration
 }
@@ -186,6 +191,8 @@ export default (
   switch (action.type) {
     case LoadRegistrationState.type:
       return { ...state, ...action.payload }
+    case SetLocale.type:
+      return { ...state, preferredLocale: action.payload }
     default:
       return isOpen(state)
         ? {

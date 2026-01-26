@@ -38,7 +38,7 @@ import {
   calculateTotalPaid,
   findTransactionsForBadgeNumber,
   hasUnprocessedPayments,
-  initiateCreditCardPaymentOrUseExisting,
+  initiateCreditCardPayment,
   initiateSepaPaymentOrUseExisting,
 } from '~/apis/paysrv'
 import { catchAppError } from './operators/catch-app-error'
@@ -210,9 +210,7 @@ export default combineEpics<
       ofType(InitiatePayment.type),
       withLatestFrom(state$),
       concatMap(([, state]) =>
-        initiateCreditCardPaymentOrUseExisting(
-          getRegistrationId()(state)!
-        ).pipe(
+        initiateCreditCardPayment(getRegistrationId()(state)!).pipe(
           justDo((transaction) => {
             location.href = transaction.payment_start_url
           }),

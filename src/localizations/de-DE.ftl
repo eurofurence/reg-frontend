@@ -33,6 +33,18 @@ auth-unverified-message = Bitte klicke den Link in der Email an, bevor du dich r
 auth-unverified-retry = Neu versuchen
 
 
+# Payment landing pages
+payment-failure-title = Das hat wohl nicht funktioniert
+payment-failure-text = Du siehst diese Seite, weil die Zahlung fehlgeschlagen ist.
+payment-failure-text2 = Bitte warte etwas, bevor du es nochmal probierst.
+payment-failure-button-label = Zurück zur Anmeldung
+
+payment-success-title = Das sieht gut aus
+payment-success-text = Jetzt wird die Zahlung verarbeitet. Manchmal dauert das Sekunden, manchmal einige Tage. Du bekommst eine Email und deine Registrierung wird dann als "bezahlt" angezeigt.
+payment-success-text2 = Wenn deine Registrierung nach 3 Tagen noch immer nicht auf "bezahlt" steht, und du auch im Online-Banking keine Abbuchung siehst, dann kannst du es nochmal versuchen.
+payment-success-warning = Bis dahin bitte NICHT doppelt zahlen!
+payment-success-button-label = Zurück zur Anmeldung
+
 
 # Invoices
 invoice-edit-selection = Auswahl bearbeiten

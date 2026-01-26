@@ -33,6 +33,18 @@ auth-unverified-message = Please click the verification link in the email you re
 auth-unverified-retry = Retry
 
 
+# Payment landing pages
+payment-failure-title = That probably did not work
+payment-failure-text = You are seeing this page because the payment process failed.
+payment-failure-text2 = You should wait a bit until trying again.
+payment-failure-button-label = Back to my registration
+
+payment-success-title = That most likely worked
+payment-success-text = We'll know for sure when the payment clears. It can take a few seconds, or a few days. We'll send you a confirmation email and your registration will show as paid.
+payment-success-text2 = If your registration still shows as unpaid in 3 days and you do not see a payment in your bank account, you can try again.
+payment-success-warning = Until then, please do NOT pay again!
+payment-success-button-label = Back to my registration
+
 
 # Invoices
 invoice-edit-selection = Edit selection

@@ -183,7 +183,7 @@ invoice-sepa-disabled = SEPA transfer currently unavailable
 
 
 # Common register messages
-register-header-title = Welcome to Eurofurence 2025!
+register-header-title = Welcome to Eurofurence 2026!
 register-header-description =
   We are very excited that you have decided to join us.
   Get ready for a fun couple of days with like-minded people and enjoy all the activities and events that we have lined up for you this year.
@@ -240,12 +240,14 @@ register-ticket-level-card-standard =
                 }
 
 register-ticket-level-card-contributor =
-  As a thank you for supporting Eurofurence with a voluntary donation, you will receive
+  The contributor ticket is our new low-entry sponsor level.
+
+  In a world of exploding costs, sponsoring helps keep the base ticket affordable.
 
   + Contributor convention badge
   + Program book
   + Participation in scheduled events
-  + Free T-shirt**
+  + Small but unique collectable token of appreciation
 
   .label = Contributor
   .priceLabel = {$type ->
@@ -288,11 +290,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Early Bird Discount (if paid before March 15th)
+  .label = Early Bird Discount (if paid before March 18th)
   .price = - €15
 
 register-ticket-level-modifiers-late-fee =
-  .label = Late Fee (if paid June 15th or later)
+  .label = Late Fee (if paid May 18th or later)
   .price = + €15
 
 register-ticket-level-footnote-late-sponsors =
@@ -610,7 +612,7 @@ register-not-open-yet-content =
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Welcome to Eurofurence 2025!
+hotel-booking-header-title = Welcome to Eurofurence 2026!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,

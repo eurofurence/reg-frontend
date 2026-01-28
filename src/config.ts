@@ -19,16 +19,16 @@ const apiPath = (path: string) =>
 const configMmc = {
   version: 6, // increment to prevent loading from local storage (new year, pricing changes, default packages)
   eventName: 'Mephit Minicon',
-  registrationLaunch: DateTime.fromISO('2024-12-20T12:30:23+02:00'),
-  registrationExpirationDate: DateTime.fromISO('2025-06-01', {
+  registrationLaunch: DateTime.fromISO('2026-01-20T12:30:23+02:00'),
+  registrationExpirationDate: DateTime.fromISO('2026-06-01', {
     zone: 'Europe/Berlin',
   }),
   hoursBeforeEditAvailable: 4,
-  hotelBookingLaunch: DateTime.fromISO('2025-01-28T12:30:23+02:00'),
-  eventStartDate: DateTime.fromISO('2025-05-29', { zone: 'Europe/Berlin' }),
-  eventEndDate: DateTime.fromISO('2025-06-01', { zone: 'Europe/Berlin' }),
-  dayTicketStartDate: DateTime.fromISO('2025-05-29', { zone: 'Europe/Berlin' }),
-  dayTicketEndDate: DateTime.fromISO('2025-05-31', { zone: 'Europe/Berlin' }),
+  hotelBookingLaunch: DateTime.fromISO('2026-01-28T12:30:23+02:00'),
+  eventStartDate: DateTime.fromISO('2026-05-29', { zone: 'Europe/Berlin' }),
+  eventEndDate: DateTime.fromISO('2026-06-01', { zone: 'Europe/Berlin' }),
+  dayTicketStartDate: DateTime.fromISO('2026-05-29', { zone: 'Europe/Berlin' }),
+  dayTicketEndDate: DateTime.fromISO('2026-05-31', { zone: 'Europe/Berlin' }),
   earliestBirthDate: DateTime.fromISO('1901-01-01'),
   minimumAge: 18,
   enableRoomshare: true,
@@ -421,7 +421,7 @@ const configEf = {
     zone: 'Europe/Berlin',
   }), // currently unused
   hoursBeforeEditAvailable: 0, // feature is commented out anyway
-  hotelBookingLaunch: DateTime.fromISO('2025-01-11T20:00:00+02:00'),
+  hotelBookingLaunch: DateTime.fromISO('2026-01-11T20:00:00+02:00'),
   eventStartDate: DateTime.fromISO('2026-08-19', { zone: 'Europe/Berlin' }),
   eventEndDate: DateTime.fromISO('2026-08-23', { zone: 'Europe/Berlin' }),
   dayTicketStartDate: DateTime.fromISO('2026-08-19', { zone: 'Europe/Berlin' }),
@@ -700,7 +700,6 @@ const configEf = {
         day: 155,
       },
       requires: ['stage-pass'],
-      includes: ['tshirt'],
     },
     sponsor: {
       prices: {

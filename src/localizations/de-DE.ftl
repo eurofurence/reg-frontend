@@ -182,7 +182,7 @@ invoice-card-disabled = Kartenzahlung z.Zt. nicht verfügbar
 invoice-sepa-disabled = Bitte im Moment nicht überweisen
 
 # Common register messages
-register-header-title = Willkommen zur Eurofurence 2025!
+register-header-title = Willkommen zur Eurofurence 2026!
 register-header-description =
   Wir freuen uns auf Dich!
   Mach Dich bereit für eine tolle Zeit mit Gleichgesinnten, und genieße das reiche Angebot an Attraktionen und Events.
@@ -239,12 +239,14 @@ register-ticket-level-card-standard =
                 }
 
 register-ticket-level-card-contributor =
-  Als Dankeschön für Deine Unterstützung der Eurofurence erhältst Du
+  Der Contributor ist ein neuer Einstiegslevel für Sponsoren.
+
+  Angesichts explodierender Kosten hilfst du mit, dass das Standard-Ticket erschwinglich bleibt.
 
   + Contributor-Badge
   + Programmheft
   + Teilnahme an den regulären Events
-  + kostenloses T-Shirt**
+  + Andenken für Sammler als kleines Dankeschön
 
   .label = Contributor
   .priceLabel = {$type ->
@@ -287,11 +289,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Frühbucherrabatt (bei Zahlung vor 15. März)
+  .label = Frühbucherrabatt (bei Zahlung vor 18. März)
   .price = -15 €
 
 register-ticket-level-modifiers-late-fee =
-  .label = Spätbucheraufschlag (bei Zahlung ab 15. Juni)
+  .label = Spätbucheraufschlag (bei Zahlung ab 18. Mai)
   .price = +15 €
 
 register-ticket-level-footnote-late-sponsors =
@@ -613,7 +615,7 @@ register-not-open-yet-content =
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Willkommen zur Eurofurence 2025!
+hotel-booking-header-title = Willkommen zur Eurofurence 2026!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,

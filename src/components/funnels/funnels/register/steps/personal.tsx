@@ -1,22 +1,22 @@
-import { Localized, useLocalization } from '@fluent/react'
 import {
   Checkbox,
-  FieldSet,
-  TextField,
-  RadioSet,
-  RadioItem,
-  Select,
-  Form,
   ErrorMessage,
+  FieldSet,
+  Form,
+  RadioItem,
+  RadioSet,
+  Select,
+  TextField,
 } from '@eurofurence/reg-component-library'
-import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
+import { Localized, useLocalization } from '@fluent/react'
 import langMap from 'langmap'
+import { DateTime } from 'luxon'
 import { pluck, prop, sortBy } from 'ramda'
+import { useEffect, useMemo } from 'react'
+import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
+import config from '~/config'
 import { useFunnelForm } from '~/hooks/funnels/form'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
-import config from '~/config'
-import { useMemo, useEffect } from 'react'
-import { DateTime } from 'luxon'
 
 const reAlphaNum = /[\p{Letter}\p{Number}]/gu
 const alphaNumCount = (s: string) => s.match(reAlphaNum)?.length ?? 0
@@ -26,17 +26,33 @@ const reSpaceNum = /[\p{White_Space}]/gu
 const spaceCount = (s: string) => s.match(reSpaceNum)?.length ?? 0
 
 const Personal = (_: ReadonlyRouteComponentProps) => {
-	const { register, handleSubmit, control, watch, formState: { errors }, FunnelController, setValue } = useFunnelForm('register-personal-info')
-	const { l10n } = useLocalization()
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+    FunnelController,
+    setValue,
+  } = useFunnelForm('register-personal-info')
+  const { l10n } = useLocalization()
 
-	const pronounsSelection = watch('pronounsSelection')
-	const pronounsOther = watch('pronounsOther')
+  const pronounsSelection = watch('pronounsSelection')
+  const pronounsOther = watch('pronounsOther')
 
-	useEffect(() => {
-		if (typeof pronounsOther === 'string' && pronounsOther.length > 0 && pronounsSelection !== 'other') {
-			setValue('pronounsSelection', 'other', { shouldValidate: true })
-		}
-	}, [pronounsOther, pronounsSelection, setValue])
+  // Auto-select 'other' when user types in the field
+  useEffect(() => {
+    if (pronounsOther && pronounsSelection !== 'other') {
+      setValue('pronounsSelection', 'other', { shouldValidate: true })
+    }
+  }, [pronounsOther, setValue, pronounsSelection])
+
+  // Clear other text when a standard option is selected
+  useEffect(() => {
+    if (pronounsSelection !== 'other' && pronounsOther) {
+      setValue('pronounsOther', '', { shouldValidate: true })
+    }
+  }, [pronounsSelection, setValue, pronounsOther])
 
   const { languageOptions, languageOptionsByValue } = useMemo(() => {
     const languageOptions = sortBy(

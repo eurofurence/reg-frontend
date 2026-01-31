@@ -1,19 +1,19 @@
-declare module "*.inline.svg" {
-	import { ComponentType } from "react"
+declare module '*.inline.svg' {
+  import { ComponentType } from 'react'
 
-	const Component: ComponentType
+  const Component: ComponentType
 
-	export default Component
+  export default Component
 }
 
-declare module "*.svg" {
-	const content: string
+declare module '*.svg' {
+  const content: string
 
-	export default content
+  export default content
 }
 
-declare module "*.png" {
-	const url: string
+declare module '*.png' {
+  const url: string
 
-	export default url
+  export default url
 }

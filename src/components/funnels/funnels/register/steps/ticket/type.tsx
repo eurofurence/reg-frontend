@@ -24,28 +24,50 @@ const ConCat = styled.figure`
 `
 
 const TicketType = (_: ReadonlyRouteComponentProps) => {
-	const { register, handleSubmit } = useFunnelForm('register-ticket-type')
+  const { register, handleSubmit } = useFunnelForm('register-ticket-type')
 
-	return <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={0}>
-		<Localized id="register-ticket-type-title"><h3>Select your ticket</h3></Localized>
+  return (
+    <FullWidthRegisterFunnelLayout onNext={handleSubmit} currentStep={0}>
+      <Localized id="register-ticket-type-title">
+        <h3>Select your ticket</h3>
+      </Localized>
 
-		<form onSubmit={handleSubmit}>
-			<RadioGroup name="type">
-				<TicketTypeGrid>
-					<Localized id="register-ticket-type-full" attrs={{ label: true }}>
-						<RadioCard label="Full convention" value="full" {...register('type', { required: true })}>
-							<ConCat><StaticImage src="../../../../../../images/con-cats/ticket-types/full.png" alt=""/></ConCat>
-						</RadioCard>
-					</Localized>
-					<Localized id="register-ticket-type-day" attrs={{ label: true }}>
-						<RadioCard label="Day ticket" value="day" {...register('type', { required: true })}>
-							<ConCat><StaticImage src="../../../../../../images/con-cats/ticket-types/day.png" alt=""/></ConCat>
-						</RadioCard>
-					</Localized>
-				</TicketTypeGrid>
-			</RadioGroup>
-		</form>
-	</FullWidthRegisterFunnelLayout>
+      <form onSubmit={handleSubmit}>
+        <RadioGroup name="type">
+          <TicketTypeGrid>
+            <Localized id="register-ticket-type-full" attrs={{ label: true }}>
+              <RadioCard
+                label="Full convention"
+                value="full"
+                {...register('type', { required: true })}
+              >
+                <ConCat>
+                  <StaticImage
+                    src="../../../../../../images/con-cats/ticket-types/full.png"
+                    alt=""
+                  />
+                </ConCat>
+              </RadioCard>
+            </Localized>
+            <Localized id="register-ticket-type-day" attrs={{ label: true }}>
+              <RadioCard
+                label="Day ticket"
+                value="day"
+                {...register('type', { required: true })}
+              >
+                <ConCat>
+                  <StaticImage
+                    src="../../../../../../images/con-cats/ticket-types/day.png"
+                    alt=""
+                  />
+                </ConCat>
+              </RadioCard>
+            </Localized>
+          </TicketTypeGrid>
+        </RadioGroup>
+      </form>
+    </FullWidthRegisterFunnelLayout>
+  )
 }
 
 export default TicketType

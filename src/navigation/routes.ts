@@ -19,5 +19,9 @@ export const HOTEL_BOOKING_GUESTS = 'guests'
 export const HOTEL_BOOKING_ADDITIONAL_INFO = 'additional-info'
 export const HOTEL_BOOKING_EMAIL = 'email'
 
+// Payment landing pages
+export const PAYMENT_SUCCESS = 'payment-success'
+export const PAYMENT_FAILURE = 'payment-failure'
+
 // Error Pages
 export const FOUR_0_FOUR = '404'

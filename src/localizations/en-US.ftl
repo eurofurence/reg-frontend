@@ -33,6 +33,18 @@ auth-unverified-message = Please click the verification link in the email you re
 auth-unverified-retry = Retry
 
 
+# Payment landing pages
+payment-failure-title = That probably did not work
+payment-failure-text = You are seeing this page because the payment process failed.
+payment-failure-text2 = You should wait a bit until trying again.
+payment-failure-button-label = Back to my registration
+
+payment-success-title = That most likely worked
+payment-success-text = We'll know for sure when the payment clears. It can take a few seconds, or a few days. We'll send you a confirmation email and your registration will show as paid.
+payment-success-text2 = If your registration still shows as unpaid in 3 days and you do not see a payment in your bank account, you can try again.
+payment-success-warning = Until then, please do NOT pay again!
+payment-success-button-label = Back to my registration
+
 
 # Invoices
 invoice-edit-selection = Edit selection
@@ -95,9 +107,6 @@ invoice-item-definition-register-ticket-addons-boat-trip =
 invoice-item-definition-register-ticket-addons-boat-vip =
   .name = Boat VIP
 
-invoice-item-definition-register-ticket-addons-boat-benefactor =
-  .name = Boat Sponsor
-
 invoice-item-definition-register-ticket-addons-artshow-table-half =
   .name = Art Show (Half Table)
 
@@ -146,6 +155,9 @@ invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
 invoice-item-definition-register-ticket-addons-artshow-panel-four =
   .name = Art Show (4 Panels)
 
+invoice-item-definition-register-ticket-addons-party =
+  .name = Dead Dog Party
+
 invoice-item-definition-other =
   .name = Other fees
 
@@ -165,9 +177,13 @@ invoice-unprocessed-payments = Your payment is being processed
 
 invoice-pay-button-sepa = SEPA Transfer
 
+invoice-card-disabled = Card payments currently unavailable
+
+invoice-sepa-disabled = SEPA transfer currently unavailable
+
 
 # Common register messages
-register-header-title = Welcome to Eurofurence 2025!
+register-header-title = Welcome to Eurofurence 2026!
 register-header-description =
   We are very excited that you have decided to join us.
   Get ready for a fun couple of days with like-minded people and enjoy all the activities and events that we have lined up for you this year.
@@ -223,6 +239,22 @@ register-ticket-level-card-standard =
                     [day]  Standard Day Ticket
                 }
 
+register-ticket-level-card-contributor =
+  The contributor ticket is our new low-entry sponsor level.
+
+  In a world of exploding costs, sponsoring helps keep the base ticket affordable.
+
+  + Contributor convention badge
+  + Program book
+  + Participation in scheduled events
+  + Small but unique collectable token of appreciation
+
+  .label = Contributor
+  .priceLabel = {$type ->
+                   *[full] Contributor Ticket
+                    [day]  Contributor Day Ticket
+                }
+
 register-ticket-level-card-sponsor =
   As a thank you for supporting Eurofurence with a voluntary donation, you will receive
 
@@ -258,11 +290,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Early Bird Discount (if paid before March 15th)
+  .label = Early Bird Discount (if paid before March 18th)
   .price = - €15
 
 register-ticket-level-modifiers-late-fee =
-  .label = Late Fee (if paid June 15th or later)
+  .label = Late Fee (if paid May 18th or later)
   .price = + €15
 
 register-ticket-level-footnote-late-sponsors =
@@ -350,6 +382,10 @@ register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
   [c9]   9x
   [c10]  10x
 }
+
+register-ticket-level-addons-item-party =
+  .label = Dead Dog Party
+  .description = A party on Sunday evening.
 
 # validation errors
 
@@ -576,7 +612,7 @@ register-not-open-yet-content =
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Welcome to Eurofurence 2025!
+hotel-booking-header-title = Welcome to Eurofurence 2026!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,

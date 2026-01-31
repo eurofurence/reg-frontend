@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import { Localized } from '@fluent/react'
 import { Card } from '@eurofurence/reg-component-library'
 import FullWidthHotelBookingFunnelLayout from '~/components/funnels/funnels/hotel-booking/layout/form/full-width'
-import { GuestInfo } from '~/state/models/hotel-booking'
+import type { GuestInfo } from '~/state/models/hotel-booking'
 import { useAppSelector } from '~/hooks/redux'
 import type { ReadonlyRouteComponentProps } from '~/util/readonly-types'
 import ReactMarkdown from 'react-markdown'
@@ -37,17 +37,26 @@ const Spacer = styled.div`
 	height: 1.5em;
 `
 
-const guestsEmailText = (guests: readonly GuestInfo[]) => guests.map((guest, i) => `Guest #${i + 1}
+const guestsEmailText = (guests: readonly GuestInfo[]) =>
+  guests
+    .map(
+      (guest, i) => `Guest #${i + 1}
 ${guest.firstName} ${guest.lastName}
 ${guest.email}
 ${guest.phoneNumber}
 ${guest.street}
 ${guest.postalCode} ${guest.city}
 ${guest.country}
-`).join(`
+`
+    )
+    .join(`
 `)
 
-const emailText = (keyword: string, codeword: string, guests: readonly GuestInfo[]) => `To Whom It May Concern,
+const emailText = (
+  keyword: string,
+  codeword: string,
+  guests: readonly GuestInfo[]
+) => `To Whom It May Concern,
 
 Keyword: ${keyword}
 Codeword: ${codeword}
@@ -65,35 +74,43 @@ Kind regards,
 ${guests[0].firstName} ${guests[0].lastName}`
 
 const Email = (_: ReadonlyRouteComponentProps) => {
-	const { guests } = useAppSelector(({ hotelBooking: { guestsInfo } }) => guestsInfo)!
+  const { guests } = useAppSelector(
+    ({ hotelBooking: { guestsInfo } }) => guestsInfo
+  )!
 
-	return <FullWidthHotelBookingFunnelLayout onNext={() => {}}>
-		<Localized id="hotel-booking-email-title">
-			<h3>Copy your generated email</h3>
-		</Localized>
-		<Localized id="hotel-booking-email-description">
-			<ReactMarkdown>
-				Once booking starts, the secret code in the message below will be revealed. You need this code for the hotel to accept your booking.
-
-				If you want, you can already copy the text below in a draft message in your email client so you only need to enter the secret code once it has been revealed.
-
-				The secret code will also be sent out on our [https://twitter.com/eurofurence](Twitter) and Telegram accounts.
-			</ReactMarkdown>
-		</Localized>
-		<Card>
-			<EmailContent>
-				<dt>To</dt>
-				<dd>reservierung@estrel.com</dd>
-				<dt>Subject</dt>
-				<dd>Room Inquiry Eurofurence 2022 - &#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;</dd>
-				<Spacer/>
-				<dt>Message</dt>
-				<dd>
-					<pre>{emailText('Eurofurence 2022', 'Privateer', guests)}</pre>
-				</dd>
-			</EmailContent>
-		</Card>
-	</FullWidthHotelBookingFunnelLayout>
+  return (
+    <FullWidthHotelBookingFunnelLayout onNext={() => {}}>
+      <Localized id="hotel-booking-email-title">
+        <h3>Copy your generated email</h3>
+      </Localized>
+      <Localized id="hotel-booking-email-description">
+        <ReactMarkdown>
+          Once booking starts, the secret code in the message below will be
+          revealed. You need this code for the hotel to accept your booking. If
+          you want, you can already copy the text below in a draft message in
+          your email client so you only need to enter the secret code once it
+          has been revealed. The secret code will also be sent out on our
+          [https://twitter.com/eurofurence](Twitter) and Telegram accounts.
+        </ReactMarkdown>
+      </Localized>
+      <Card>
+        <EmailContent>
+          <dt>To</dt>
+          <dd>reservierung@estrel.com</dd>
+          <dt>Subject</dt>
+          <dd>
+            Room Inquiry Eurofurence 2022 -
+            &#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;&#x25cf;
+          </dd>
+          <Spacer />
+          <dt>Message</dt>
+          <dd>
+            <pre>{emailText('Eurofurence 2022', 'Privateer', guests)}</pre>
+          </dd>
+        </EmailContent>
+      </Card>
+    </FullWidthHotelBookingFunnelLayout>
+  )
 }
 
 export default Email

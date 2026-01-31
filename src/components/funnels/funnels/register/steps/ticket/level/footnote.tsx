@@ -2,9 +2,9 @@ import styled from '@emotion/styled'
 import { MediaQueries } from '@eurofurence/reg-component-library'
 
 export type TicketLevelFootnoteProps = {
-	readonly marker: string
-	readonly label: string
-	readonly price: string
+  readonly marker: string
+  readonly label: string
+  readonly price: string
 }
 
 const Container = styled.section`
@@ -55,12 +55,20 @@ const Price = styled.section`
 `
 
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-const TicketLevelFootnote = ({ marker, label, price }: TicketLevelFootnoteProps) => {
-	return <Container>
-		<Marker>{marker}</Marker>
-		<Label>{label}</Label>
-		<PriceContainer><Price>{price}</Price></PriceContainer>
-	</Container>
+const TicketLevelFootnote = ({
+  marker,
+  label,
+  price,
+}: TicketLevelFootnoteProps) => {
+  return (
+    <Container>
+      <Marker>{marker}</Marker>
+      <Label>{label}</Label>
+      <PriceContainer>
+        <Price>{price}</Price>
+      </PriceContainer>
+    </Container>
+  )
 }
 
 export default TicketLevelFootnote

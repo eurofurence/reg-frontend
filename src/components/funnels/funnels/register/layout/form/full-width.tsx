@@ -8,21 +8,27 @@ import { TOTAL_STEPS } from '../constants'
 import RegisterHeader from '../header'
 
 export interface FullWidthRegisterFunnelLayoutProps {
-	readonly children: ReadonlyReactNode
-	readonly currentStep: number
-	readonly onNext: () => void
-	readonly showBack?: boolean
+  readonly children: ReadonlyReactNode
+  readonly currentStep: number
+  readonly onNext: () => void
+  readonly showBack?: boolean
 }
 
-const FullWidthRegisterFunnelLayout = ({ children, currentStep, onNext, showBack }: FullWidthRegisterFunnelLayoutProps) =>
-	<FullWidthFunnelLayout
-		header={<RegisterHeader currentStep={currentStep}/>}
-		isFirstPage={currentStep === 0}
-		isLastPage={currentStep === TOTAL_STEPS - 1}
-		onNext={onNext}
-		showBack={showBack}
-	>
-		{children}
-	</FullWidthFunnelLayout>
+const FullWidthRegisterFunnelLayout = ({
+  children,
+  currentStep,
+  onNext,
+  showBack,
+}: FullWidthRegisterFunnelLayoutProps) => (
+  <FullWidthFunnelLayout
+    header={<RegisterHeader currentStep={currentStep} />}
+    isFirstPage={currentStep === 0}
+    isLastPage={currentStep === TOTAL_STEPS - 1}
+    onNext={onNext}
+    showBack={showBack}
+  >
+    {children}
+  </FullWidthFunnelLayout>
+)
 
 export default FullWidthRegisterFunnelLayout

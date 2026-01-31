@@ -40,16 +40,29 @@ const Extra = styled.div`
 `
 
 export interface InvoiceItemProps {
-	readonly amount: number
-	readonly name: string
-	readonly price: number
-	readonly extra?: string
+  readonly amount: number
+  readonly name: string
+  readonly price: number
+  readonly extra?: string
 }
 
-const InvoiceItem = ({ amount, name, price, extra }: InvoiceItemProps) => <Container>
-	<Localized id="invoice-item-label" vars={{ amount, name }}><Label>{amount} x {name}</Label></Localized>
-	<Localized id="price" vars={{ value: new FluentNumber(price, { style: 'currency', currency: 'EUR' }) }}><Price>{price} €</Price></Localized>
-	{extra === undefined ? undefined : <Extra>{extra}</Extra>}
-</Container>
+const InvoiceItem = ({ amount, name, price, extra }: InvoiceItemProps) => (
+  <Container>
+    <Localized id="invoice-item-label" vars={{ amount, name }}>
+      <Label>
+        {amount} x {name}
+      </Label>
+    </Localized>
+    <Localized
+      id="price"
+      vars={{
+        value: new FluentNumber(price, { style: 'currency', currency: 'EUR' }),
+      }}
+    >
+      <Price>{price} €</Price>
+    </Localized>
+    {extra === undefined ? undefined : <Extra>{extra}</Extra>}
+  </Container>
+)
 
 export default InvoiceItem

@@ -294,6 +294,10 @@ const attendeeDtoFromRegistrationInfo = (
         )
       : 0
   )
+  packagesMap.set(
+    'party',
+    registrationInfo.ticketLevel.addons.party.selected ? 1 : 0
+  )
 
   const packagesList = Array.from(packagesMap.entries())
     .filter(([, c]) => c > 0)
@@ -393,6 +397,10 @@ const registrationInfoFromAttendeeDto = (
     },
     fursuit: {
       selected: packagesMap.has('fursuit'),
+      options: {},
+    },
+    party: {
+      selected: packagesMap.has('party'),
       options: {},
     },
   }

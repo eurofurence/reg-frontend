@@ -15,11 +15,18 @@ const Container = styled.section`
 `
 
 interface PriceProps {
-	readonly price: number
+  readonly price: number
 }
 
-const Price = ({ price }: PriceProps) => <Localized id="price" vars={{ value: new FluentNumber(price, { style: 'currency', currency: 'EUR' }) }}>
-	<Container>{price} €</Container>
-</Localized>
+const Price = ({ price }: PriceProps) => (
+  <Localized
+    id="price"
+    vars={{
+      value: new FluentNumber(price, { style: 'currency', currency: 'EUR' }),
+    }}
+  >
+    <Container>{price} €</Container>
+  </Localized>
+)
 
 export default Price

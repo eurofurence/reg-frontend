@@ -7,25 +7,31 @@ import { useAppSelector } from '~/hooks/redux'
 import { getInvoice } from '~/state/selectors/hotel-booking'
 
 export interface WithInvoiceHotelBookingFunnelLayoutProps {
-	readonly children: ReadonlyReactNode
-	readonly isFirstPage?: boolean
-	readonly onNext: () => void
+  readonly children: ReadonlyReactNode
+  readonly isFirstPage?: boolean
+  readonly onNext: () => void
 }
 
-const WithInvoiceHotelBookingFunnelLayout = ({ children, isFirstPage, onNext }: WithInvoiceHotelBookingFunnelLayoutProps) => {
-	const invoice = useAppSelector(getInvoice)
+const WithInvoiceHotelBookingFunnelLayout = ({
+  children,
+  isFirstPage,
+  onNext,
+}: WithInvoiceHotelBookingFunnelLayoutProps) => {
+  const invoice = useAppSelector(getInvoice)
 
-	return <Localized id="hotel-booking-invoice-layout" attrs={{ invoiceTitle: true }}>
-		<WithInvoiceFunnelLayout
-			header={<HotelBookingHeader isFirstPage={isFirstPage}/>}
-			isFirstPage={isFirstPage}
-			onNext={onNext}
-			invoiceTitle="Your hotel room"
-			invoice={invoice ?? buildInvoice([])}
-		>
-			{children}
-		</WithInvoiceFunnelLayout>
-	</Localized>
+  return (
+    <Localized id="hotel-booking-invoice-layout" attrs={{ invoiceTitle: true }}>
+      <WithInvoiceFunnelLayout
+        header={<HotelBookingHeader isFirstPage={isFirstPage} />}
+        isFirstPage={isFirstPage}
+        onNext={onNext}
+        invoiceTitle="Your hotel room"
+        invoice={invoice ?? buildInvoice([])}
+      >
+        {children}
+      </WithInvoiceFunnelLayout>
+    </Localized>
+  )
 }
 
 export default WithInvoiceHotelBookingFunnelLayout

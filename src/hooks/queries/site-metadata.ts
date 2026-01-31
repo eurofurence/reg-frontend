@@ -1,12 +1,12 @@
 import { graphql, useStaticQuery } from 'gatsby'
 
 export interface SiteMetadata {
-	readonly title: string
-	readonly description: string
-	readonly author: string
-	readonly twitter: {
-		readonly creator: string
-	}
+  readonly title: string
+  readonly description: string
+  readonly author: string
+  readonly twitter: {
+    readonly creator: string
+  }
 }
 
 /*
@@ -15,7 +15,9 @@ export interface SiteMetadata {
  * TODO: Coerce dates to the right types here, instead of in the components.
  */
 export const useSiteMetadata = () => {
-	const { site: { siteMetadata } } = useStaticQuery<{ site: { siteMetadata: SiteMetadata } }>(graphql`
+  const {
+    site: { siteMetadata },
+  } = useStaticQuery<{ site: { siteMetadata: SiteMetadata } }>(graphql`
 		query {
 			site {
 				siteMetadata {
@@ -30,5 +32,5 @@ export const useSiteMetadata = () => {
 		}
 	`)
 
-	return siteMetadata
+  return siteMetadata
 }

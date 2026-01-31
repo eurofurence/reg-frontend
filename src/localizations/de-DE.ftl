@@ -33,6 +33,18 @@ auth-unverified-message = Bitte klicke den Link in der Email an, bevor du dich r
 auth-unverified-retry = Neu versuchen
 
 
+# Payment landing pages
+payment-failure-title = Das hat wohl nicht funktioniert
+payment-failure-text = Du siehst diese Seite, weil die Zahlung fehlgeschlagen ist.
+payment-failure-text2 = Bitte warte etwas, bevor du es nochmal probierst.
+payment-failure-button-label = Zurück zur Anmeldung
+
+payment-success-title = Das sieht gut aus
+payment-success-text = Jetzt wird die Zahlung verarbeitet. Manchmal dauert das Sekunden, manchmal einige Tage. Du bekommst eine Email und deine Registrierung wird dann als "bezahlt" angezeigt.
+payment-success-text2 = Wenn deine Registrierung nach 3 Tagen noch immer nicht auf "bezahlt" steht, und du auch im Online-Banking keine Abbuchung siehst, dann kannst du es nochmal versuchen.
+payment-success-warning = Bis dahin bitte NICHT doppelt zahlen!
+payment-success-button-label = Zurück zur Anmeldung
+
 
 # Invoices
 invoice-edit-selection = Auswahl bearbeiten
@@ -95,9 +107,6 @@ invoice-item-definition-register-ticket-addons-boat-trip =
 invoice-item-definition-register-ticket-addons-boat-vip =
   .name = Boot VIP
 
-invoice-item-definition-register-ticket-addons-boat-benefactor =
-  .name = Boot Sponsor
-
 invoice-item-definition-register-ticket-addons-artshow-table-half =
   .name = Art Show (halber Tisch)
 
@@ -146,6 +155,9 @@ invoice-item-definition-register-ticket-addons-artshow-panel-threeandhalf =
 invoice-item-definition-register-ticket-addons-artshow-panel-four =
   .name = Art Show (4 Panels)
 
+invoice-item-definition-register-ticket-addons-party =
+  .name = Dead Dog Party
+
 invoice-item-definition-other =
   .name = Sonstige
 
@@ -165,9 +177,12 @@ invoice-unprocessed-payments = Deine Zahlung ist in Bearbeitung.
 
 invoice-pay-button-sepa = SEPA Überweisung
 
+invoice-card-disabled = Kartenzahlung z.Zt. nicht verfügbar
+
+invoice-sepa-disabled = Bitte im Moment nicht überweisen
 
 # Common register messages
-register-header-title = Willkommen zur Eurofurence 2025!
+register-header-title = Willkommen zur Eurofurence 2026!
 register-header-description =
   Wir freuen uns auf Dich!
   Mach Dich bereit für eine tolle Zeit mit Gleichgesinnten, und genieße das reiche Angebot an Attraktionen und Events.
@@ -223,6 +238,22 @@ register-ticket-level-card-standard =
                     [day]  Standard-Tagesticket
                 }
 
+register-ticket-level-card-contributor =
+  Der Contributor ist ein neuer Einstiegslevel für Sponsoren.
+
+  Angesichts explodierender Kosten hilfst du mit, dass das Standard-Ticket erschwinglich bleibt.
+
+  + Contributor-Badge
+  + Programmheft
+  + Teilnahme an den regulären Events
+  + Andenken für Sammler als kleines Dankeschön
+
+  .label = Contributor
+  .priceLabel = {$type ->
+                   *[full] Contributor-Ticket
+                    [day]  Contributor-Tagesticket
+                }
+
 register-ticket-level-card-sponsor =
   Als Dankeschön für Deine Unterstützung der Eurofurence durch Deine Spende erhältst Du
 
@@ -258,11 +289,11 @@ register-ticket-level-card-super-sponsor =
                 }
 
 register-ticket-level-modifiers-early-bird =
-  .label = Frühbucherrabatt (bei Zahlung vor 15. März)
+  .label = Frühbucherrabatt (bei Zahlung vor 18. März)
   .price = -15 €
 
 register-ticket-level-modifiers-late-fee =
-  .label = Spätbucheraufschlag (bei Zahlung ab 15. Juni)
+  .label = Spätbucheraufschlag (bei Zahlung ab 18. Mai)
   .price = +15 €
 
 register-ticket-level-footnote-late-sponsors =
@@ -354,6 +385,10 @@ register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
   [c9]   9x
   [c10]  10x
 }
+
+register-ticket-level-addons-item-party =
+  .label = Dead Dog Party
+  .description = Party nach der Con am Sonntag abend.
 
 # validation errors
 
@@ -580,7 +615,7 @@ register-not-open-yet-content =
 
 
 # Common hotel booking messages
-hotel-booking-header-title = Willkommen zur Eurofurence 2025!
+hotel-booking-header-title = Willkommen zur Eurofurence 2026!
 
 hotel-booking-header-description =
   In order to speed up hotel booking and increase your chances of securing a room, you can enter your preferred dates,

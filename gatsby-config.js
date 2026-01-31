@@ -1,6 +1,6 @@
 const path = require('path')
 
-require("dotenv").config({
+require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
@@ -10,9 +10,9 @@ module.exports = {
     title: `Eurofurence Registration`,
     description: `Eurofurence registration site.`,
     author: `Eurofurence`,
-		twitter: {
-			creator: '@eurofurence',
-		},
+    twitter: {
+      creator: '@eurofurence',
+    },
   },
   plugins: [
     {
@@ -24,14 +24,14 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     {
-			resolve: 'gatsby-plugin-sharp',
-			options: {
-				defaults: {
-					placeholder: 'blurred',
-				},
-			},
-		},
-		'gatsby-plugin-image',
+      resolve: 'gatsby-plugin-sharp',
+      options: {
+        defaults: {
+          placeholder: 'blurred',
+        },
+      },
+    },
+    'gatsby-plugin-image',
     // { // TODO: Enable again after we have an icon.
     //   resolve: `gatsby-plugin-manifest`,
     //   options: {
@@ -48,8 +48,8 @@ module.exports = {
       resolve: 'gatsby-plugin-i18n',
       options: {
         langKeyDefault: 'en',
-        useLangKeyLayout: false
-      }
+        useLangKeyLayout: false,
+      },
     },
     {
       resolve: `gatsby-alias-imports`,
@@ -58,19 +58,19 @@ module.exports = {
           // Have to do this because we are using a component library and
           // there is an annoying interaction between peer depencies and `npm link`.
           // See: https://medium.com/@penx/managing-dependencies-in-a-node-package-so-that-they-are-compatible-with-npm-link-61befa5aaca7
-          'react': path.resolve('./node_modules/react'),
-          'react-dom': path.resolve('./node_modules/react-dom')
-        }
-      }
+          react: path.resolve('./node_modules/react'),
+          'react-dom': path.resolve('./node_modules/react-dom'),
+        },
+      },
     },
-		{
-			resolve: 'gatsby-plugin-react-svg',
-			options: {
-				rule: {
-					include: /\.inline\.svg$/
-				}
-			}
-		},
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /\.inline\.svg$/,
+        },
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

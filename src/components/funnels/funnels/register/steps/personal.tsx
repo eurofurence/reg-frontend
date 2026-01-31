@@ -12,7 +12,7 @@ import { Localized, useLocalization } from '@fluent/react'
 import langMap from 'langmap'
 import { DateTime } from 'luxon'
 import { pluck, prop, sortBy } from 'ramda'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import WithInvoiceRegisterFunnelLayout from '~/components/funnels/funnels/register/layout/form/with-invoice'
 import config from '~/config'
 import { useFunnelForm } from '~/hooks/funnels/form'
@@ -39,20 +39,35 @@ const Personal = (_: ReadonlyRouteComponentProps) => {
 
   const pronounsSelection = watch('pronounsSelection')
   const pronounsOther = watch('pronounsOther')
+  const prevSelectionRef = useRef(pronounsSelection)
+  const prevOtherRef = useRef(pronounsOther)
 
-  // Auto-select 'other' when user types in the field
+  // Sync pronounsSelection and pronounsOther based on what changed
   useEffect(() => {
-    if (pronounsOther && pronounsSelection !== 'other') {
+    const hasOtherText = pronounsOther && pronounsOther.trim().length > 0
+    const isOtherSelected = pronounsSelection === 'other'
+    const selectionChanged = prevSelectionRef.current !== pronounsSelection
+    const otherChanged = prevOtherRef.current !== pronounsOther
+
+    // User typed in other field → select 'other'
+    if (otherChanged && hasOtherText && !isOtherSelected) {
       setValue('pronounsSelection', 'other', { shouldValidate: true })
+      prevSelectionRef.current = 'other'
+      prevOtherRef.current = pronounsOther
+      return
     }
-  }, [pronounsOther, setValue, pronounsSelection])
-
-  // Clear other text when a standard option is selected
-  useEffect(() => {
-    if (pronounsSelection !== 'other' && pronounsOther) {
+    // User selected standard option → clear other field
+    if (selectionChanged && !isOtherSelected && prevOtherRef.current) {
       setValue('pronounsOther', '', { shouldValidate: true })
+      prevSelectionRef.current = pronounsSelection
+      prevOtherRef.current = ''
+      return
     }
-  }, [pronounsSelection, setValue, pronounsOther])
+
+    // Update refs to current values if no sync needed
+    prevSelectionRef.current = pronounsSelection
+    prevOtherRef.current = pronounsOther
+  }, [pronounsSelection, pronounsOther, setValue])
 
   const { languageOptions, languageOptionsByValue } = useMemo(() => {
     const languageOptions = sortBy(

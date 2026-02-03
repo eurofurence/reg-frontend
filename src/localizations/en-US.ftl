@@ -1054,6 +1054,7 @@ language-name = { $languageCode ->
   [ak]  Akan
   [ar]  Arabic
   [az]  Azerbaijani
+  [be]  Belarusian
   [bg]  Bulgarian
   [bn]  Bengali
   [br]  Breton

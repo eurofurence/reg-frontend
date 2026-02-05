@@ -177,6 +177,9 @@ const Summary = (_: ReadonlyRouteComponentProps) => {
     .map(([type]) => l10n.getString('notification-type', { type }, type))
     .join(', ')
 
+  // add missing language (too late for large dependency bump)
+  langmap['be'] = { englishName: 'Belarusian', nativeName: '(unused)' }
+
   return (
     <WithInvoiceRegisterFunnelLayout onNext={handleSubmit} currentStep={5}>
       <Localized id={`register-summary-title-${isEdit ? 'edit' : 'initial'}`}>

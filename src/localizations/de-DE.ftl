@@ -343,7 +343,7 @@ register-ticket-level-validation-errors-level-required = Bitte wähle eine Ticke
 register-ticket-level-validation-errors-addons-tshirt-options-size-required = Bitte wähle eine T-Shirt-Größe aus!
 
 register-ticket-level-addons-item-benefactor =
-  .label = Benefaktor
+  .label = Benefactor
   .description = Dein freiwilliger Extrabeitrag für eine noch außergewöhnlichere Eurofurence. Als Benefactor kannst du uns direkt unterstützen und dazu beitragen, Vielfalt und Qualität der Eurofurence zu fördern, neue Ideen und Projekte zu realisieren und das Event noch inklusiver, kreativer und aufregender zu machen.
 
 register-ticket-level-addons-item-benefactor-option-count =

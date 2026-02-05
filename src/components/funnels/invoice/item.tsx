@@ -44,15 +44,32 @@ export interface InvoiceItemProps {
   readonly name: string
   readonly price: number
   readonly extra?: string
+  readonly url?: string
+  readonly linktext?: string
 }
 
-const InvoiceItem = ({ amount, name, price, extra }: InvoiceItemProps) => (
+const InvoiceItem = ({
+  amount,
+  name,
+  price,
+  extra,
+  url,
+  linktext,
+}: InvoiceItemProps) => (
   <Container>
-    <Localized id="invoice-item-label" vars={{ amount, name }}>
+    {url ? (
+      <Label>
+        {amount} x {name} (
+        <a href={url} target="_blank">
+          {linktext}
+        </a>
+        )
+      </Label>
+    ) : (
       <Label>
         {amount} x {name}
       </Label>
-    </Localized>
+    )}
     <Localized
       id="price"
       vars={{

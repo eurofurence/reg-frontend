@@ -110,7 +110,7 @@ const Invoice = ({
             <Localized
               key={id}
               id={`invoice-item-definition-${id}`}
-              attrs={{ name: true, extra: true }}
+              attrs={{ name: true, extra: true, url: true, linktext: true }}
               vars={options}
             >
               <InvoiceItem amount={amount} name={id} price={totalPrice} />

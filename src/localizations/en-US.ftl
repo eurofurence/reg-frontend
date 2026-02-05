@@ -79,6 +79,8 @@ invoice-item-definition-register-ticket-addons-benefactor =
 
 invoice-item-definition-register-ticket-addons-fursuit =
   .name = Fursuit Badge (free)
+  .url = https://fursuit.eurofurence.org
+  .linktext = customize
 
 invoice-item-definition-register-ticket-addons-fursuitadd =
   .name = Fursuit Badge (add.)
@@ -157,6 +159,8 @@ invoice-item-definition-register-ticket-addons-artshow-panel-four =
 
 invoice-item-definition-register-ticket-addons-party =
   .name = Dead Dog Party
+  .url = https://placeholderclub.com/EF
+  .linktext = important info
 
 invoice-item-definition-other =
   .name = Other fees
@@ -385,7 +389,7 @@ register-ticket-level-addons-item-fursuitadd-option-count-value = { $value ->
 
 register-ticket-level-addons-item-party =
   .label = Dead Dog Party
-  .description = A party on Sunday evening.
+  .description = Celebrate the glowing finale of the EF with PHC and become part of one of Europe’s largest fur dances. Sunday 18:00 Club Docks. Tickets are limited!
 
 # validation errors
 

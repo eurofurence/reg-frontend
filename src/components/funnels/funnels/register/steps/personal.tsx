@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@eurofurence/reg-component-library'
 import { Localized, useLocalization } from '@fluent/react'
-import langMap from 'langmap'
+import langmap from 'langmap'
 import { DateTime } from 'luxon'
 import { pluck, prop, sortBy } from 'ramda'
 import { useEffect, useMemo, useRef } from 'react'
@@ -70,9 +70,12 @@ const Personal = (_: ReadonlyRouteComponentProps) => {
   }, [pronounsSelection, pronounsOther, setValue])
 
   const { languageOptions, languageOptionsByValue } = useMemo(() => {
+    // add missing language (too late for large dependency bump)
+    langmap['be'] = { englishName: 'Belarusian', nativeName: '(unused)' }
+
     const languageOptions = sortBy(
       prop('label'),
-      Object.entries(langMap)
+      Object.entries(langmap)
         .filter(
           ([key]) =>
             !(key as string).includes('-') && !(key as string).includes('@')

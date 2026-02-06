@@ -1047,7 +1047,7 @@ const configEf = {
     rules: 'https://help.eurofurence.org/legal/roc',
     contact: 'https://help.eurofurence.org/contact',
   },
-  disablePackageEditForStatuses: ['paid', 'checked-in', 'cancelled'],
+  disablePackageEditForStatuses: ['checked-in', 'cancelled'],
   disableCCPayments: false,
   disableSEPAPayments: false,
 } as const

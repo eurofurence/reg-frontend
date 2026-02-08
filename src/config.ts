@@ -1010,7 +1010,7 @@ const configEf = {
       default: false,
       options: {},
       hidden: false,
-      unavailable: false,
+      unavailable: true,
     },
   },
   rooms: [

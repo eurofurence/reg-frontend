@@ -458,7 +458,7 @@ const registrationInfoFromAttendeeDto = (
       firstName: attendeeDto.first_name,
       lastName: attendeeDto.last_name,
       dateOfBirth: DateTime.fromISO(attendeeDto.birthday),
-      spokenLanguages: attendeeDto.spoken_languages.split(','),
+      spokenLanguages: attendeeDto.spoken_languages ? attendeeDto.spoken_languages.split(',') : [],
       pronouns: attendeeDto.pronouns === '' ? null : attendeeDto.pronouns,
       wheelchair: flags.has('hc'),
       fullNamePermission: !flags.has('anon'),

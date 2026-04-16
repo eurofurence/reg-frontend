@@ -865,6 +865,13 @@ const configEf = {
       hidden: true,
       unavailable: false,
     },
+    'dealer-triple': {
+      price: 330,
+      default: false,
+      options: {},
+      hidden: true,
+      unavailable: false,
+    },
     'dealer-quad': {
       price: 440,
       default: false,

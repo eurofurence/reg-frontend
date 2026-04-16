@@ -97,6 +97,9 @@ invoice-item-definition-register-ticket-addons-dealer-fullplus =
 invoice-item-definition-register-ticket-addons-dealer-double =
   .name = Dealers' Den (2 Tische)
 
+invoice-item-definition-register-ticket-addons-dealer-triple =
+  .name = Dealers' Den (3 Tische)
+
 invoice-item-definition-register-ticket-addons-dealer-quad =
   .name = Dealers' Den (4 Tische)
 

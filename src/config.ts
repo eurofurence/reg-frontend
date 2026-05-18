@@ -414,7 +414,7 @@ const configMmc = {
 } as const
 
 const configEf = {
-  version: 13, // increment to prevent loading local storage (new year, pricing changes, default packages)
+  version: 14, // increment to prevent loading local storage (new year, pricing changes, default packages)
   eventName: 'Eurofurence',
   registrationLaunch: DateTime.fromISO('2026-01-01T20:00:00+02:00'), // set early enough to allow testing
   registrationExpirationDate: DateTime.fromISO('2026-08-22', {
@@ -776,7 +776,7 @@ const configEf = {
     },
     late: {
       price: 15,
-      default: false, // don't forget to increment version when changing this
+      default: true, // don't forget to increment version when changing this
       options: {},
       unavailableFor: {
         type: ['day'],

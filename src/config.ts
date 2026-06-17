@@ -414,7 +414,7 @@ const configMmc = {
 } as const
 
 const configEf = {
-  version: 14, // increment to prevent loading local storage (new year, pricing changes, default packages)
+  version: 15, // increment to prevent loading local storage (new year, pricing changes, default packages)
   eventName: 'Eurofurence',
   registrationLaunch: DateTime.fromISO('2026-01-01T20:00:00+02:00'), // set early enough to allow testing
   registrationExpirationDate: DateTime.fromISO('2026-08-22', {
@@ -1054,7 +1054,7 @@ const configEf = {
     rules: 'https://help.eurofurence.org/legal/roc',
     contact: 'https://help.eurofurence.org/contact',
   },
-  disablePackageEditForStatuses: ['checked-in', 'cancelled'],
+  disablePackageEditForStatuses: ['partially-paid', 'paid', 'checked-in', 'cancelled'],
   disableCCPayments: false,
   disableSEPAPayments: false,
 } as const

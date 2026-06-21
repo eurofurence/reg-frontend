@@ -304,7 +304,7 @@ register-ticket-level-modifiers-late-fee =
   .price = +15 €
 
 register-ticket-level-footnote-late-sponsors =
-  .label = Nach Verfügbarkeit bei Buchung weniger als 1 Monat vor der Convention!
+  .label = Nach Verfügbarkeit bei Buchung ab 28. Juni!
   .price = .
 
 register-ticket-level-expiration-notice = Registriere Dich vor dem {DATETIME($expirationDate, day: "numeric", month: "long")}

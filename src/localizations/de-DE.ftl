@@ -186,7 +186,7 @@ invoice-pay-button-sepa = SEPA Überweisung
 
 invoice-card-disabled = Kartenzahlung z.Zt. nicht verfügbar
 
-invoice-sepa-disabled = Bitte im Moment nicht überweisen
+invoice-sepa-disabled = Bitte nicht mehr überweisen
 
 # Common register messages
 register-header-title = Willkommen zur Eurofurence 2026!

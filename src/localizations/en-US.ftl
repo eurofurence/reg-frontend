@@ -186,7 +186,7 @@ invoice-pay-button-sepa = SEPA Transfer
 
 invoice-card-disabled = Card payments currently unavailable
 
-invoice-sepa-disabled = SEPA transfer currently unavailable
+invoice-sepa-disabled = Too late for SEPA transfer
 
 
 # Common register messages

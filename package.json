@@ -21,7 +21,7 @@
     "gatsby-plugin-image": "^3.3.2",
     "gatsby-plugin-manifest": "^5.3.1",
     "gatsby-plugin-offline": "^6.3.1",
-    "gatsby-plugin-sharp": "^5.3.2",
+    "gatsby-plugin-sharp": "^5.16.0",
     "gatsby-source-filesystem": "^5.3.1",
     "gatsby-transformer-sharp": "^5.3.1",
     "http-status-codes": "^2.2.0",
